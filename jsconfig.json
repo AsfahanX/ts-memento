@@ -1,0 +1,10 @@
+    // jsconfig.json
+    {
+        "compilerOptions": {
+            "checkJs": true,
+            "target": "ES2020",
+            "module": "CommonJS"
+        },
+        "include": ["./**/*"],
+        "exclude": ["node_modules"]
+    }
