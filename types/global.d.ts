@@ -1,2 +1,5 @@
+import { messages } from "./memento"
 
-    declare function libByName(name: String): String[]
+declare global {
+    const message = messages.message
+}
