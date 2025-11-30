@@ -127,6 +127,7 @@ interface FontOption {
     /** The font style, such as “bold” or “italic”. */
     style?: 'bold' | 'italic'
 }
+
 interface UIText {
     /**
      * Font settings can be applied to text objects using the font() method.
@@ -148,7 +149,7 @@ interface UILayout {
     horizontal(): this
 }
 
-interface UIButton {
+interface UIButton extends UIText {
     /**
      * The action() method can be used to set a callback function for the button.
      * This function will be called when the button is clicked.
