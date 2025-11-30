@@ -3,6 +3,6 @@
  */
 
 
-export interface Entry  {
-    field(name: string): unknown
+export interface Entry<T extends Record = Record>  {
+    field<K extends keyof T >(name: K): T[K]
 }

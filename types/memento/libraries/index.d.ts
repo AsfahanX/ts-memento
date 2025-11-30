@@ -2,9 +2,10 @@
  * @see https://scripts.mementodatabase.com/script_api/library/
  */
 
+
+import type { UserLibrary } from "../user-libraries";
 import type { Library } from "./library";
 
-export type AvailableLibraries = string
 
 /**
  * Find a library by its name.
@@ -17,4 +18,4 @@ export type AvailableLibraries = string
  * 
  * @see https://scripts.mementodatabase.com/script_api/library/#libbynamename
  */
-export function libByName(name: AvailableLibraries): Library | null
+export function libByName<T extends UserLibrary = UserLibrary, K extends keyof T>(name: K): Library<T[K]> | null
