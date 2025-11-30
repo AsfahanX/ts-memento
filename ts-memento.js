@@ -18,3 +18,10 @@ function buatContohItemPenjualan() {
         })
     })
 }
+
+function dialogKonfirmasi(callback) {
+    ui().layout([
+        ui().button('Yes').action(callback),
+        ui().button('No')
+    ])
+}
