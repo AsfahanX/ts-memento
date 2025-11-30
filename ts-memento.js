@@ -20,9 +20,11 @@ function buatContohItemPenjualan() {
 }
 
 function dialogKonfirmasi(callback) {
-    dialog().ui(ui().layout([
-        ui().button('Yes').action(callback),
-        ui().button('No')
-    ])).show();
+    dialog().view(
+        ui().layout([
+            ui().button('Yes').action(callback),
+            ui().button('No')
+        ])
+    ).show();
     
 }
