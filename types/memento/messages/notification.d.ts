@@ -53,7 +53,6 @@ export interface Notification {
      */
     alertOnce(): this
 
-    
     /**
      * Displays the configured notification.
      * @see https://scripts.mementodatabase.com/script_api/messages/#show-1
