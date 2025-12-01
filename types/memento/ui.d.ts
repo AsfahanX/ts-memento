@@ -2,6 +2,8 @@
  * @see https://scripts.mementodatabase.com/script_api/ui/
  */
 
+export type IconCode = string
+
 /**
  * The ui() method is a JavaScript API provided by Memento Database that grants access to a framework of methods and objects for creating user interfaces (UIs) within Memento widget scripts or dialog boxes in other scripts.
  * With this method, developers can create various UI elements such as text labels, buttons, images, layers, and checkboxes.
@@ -163,7 +165,7 @@ interface UIButton extends UIText {
      * @description In this example, a new entry will be created in the library when the button is clicked, and the libraries list or widgets UI will be refreshed.
      * @see https://scripts.mementodatabase.com/script_api/ui/#action
      */
-    action(callback: () => void|boolean): this
+    action(callback: () => boolean | void): this
 
     /**
      * The icon() method can be used to set an icon for the button.
@@ -173,5 +175,5 @@ interface UIButton extends UIText {
      * @description In this example, a small button with the “add” icon will be displayed.
      * @see https://scripts.mementodatabase.com/script_api/ui/#icon
      */
-    icon(): this
+    icon(icon: IconCode): this
 }

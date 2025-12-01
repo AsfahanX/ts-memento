@@ -1,8 +1,18 @@
+/**
+ * @template T
+ * @typedef {import("./types/memento/entries/entry").Entry<T>} Entry
+ */
+/**
+ * @typedef {import("./types/memento/user-libraries").ItemPenjualan} ItemPenjualan
+ */
+
+
 function mymessage(params) {
     message('github nih');
 }
 
 function buatContohItemPenjualan() {
+    /** @type {Entry<ItemPenjualan>} */
     const e = entry()
     const itemsLib = libByName('Item Penjualan')
     let items = [
@@ -28,3 +38,5 @@ function dialogKonfirmasi(callback) {
     ).show();
     
 }
+
+

@@ -18,6 +18,15 @@ import type { Dialog } from "./dialog";
 export function message(text: string): void
 
 /**
+ * Writes a line to the script’s log file.
+ * @param text 	The text to write to the log file
+ * @example
+ * log("Starting data processing...");
+ * @see https://scripts.mementodatabase.com/script_api/messages/#logtext
+ */
+export function log(text: string): void
+
+/**
  * Creates a dialog builder for constructing and displaying modal dialogs.
  * @returns a Dialog object that can be used to configure and display the dialog.
  * 
@@ -38,3 +47,18 @@ export function message(text: string): void
  * @see https://scripts.mementodatabase.com/script_api/messages/#dialog
  */
 export function dialog(): Dialog
+
+/**
+ * Creates a notification builder for constructing and displaying system notifications.
+ * @returns a Notification object that can be used to configure and display the notification.
+ * @example
+ * notification()
+ *     .id(1)
+ *     .title("New Message")
+ *     .text("You have received a new message")
+ *     .bigText("Long message content here...")
+ *     .show();
+ * log("Notification displayed");
+ * @see https://scripts.mementodatabase.com/script_api/messages/#notification
+ */
+export function notification()

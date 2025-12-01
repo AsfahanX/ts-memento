@@ -55,14 +55,14 @@ import { Entry } from "../entries/entry";
  * @see https://scripts.mementodatabase.com/script_api/library/#working-with-multiple-libraries
  * @see https://scripts.mementodatabase.com/script_api/library/#search-and-update-operations
  */
-export interface Library<T extends Record>  {
+export interface Library<T extends Record<string, unknown> = Record<string, unknown>>  {
 
     /** The name of the library */
     name:	string	
     /** The title of the library (alias for name) */
     title:	string	
     /** The unique identifier of the library (Added in MDB 5.5) */
-    id:	string	
+    id:     string	
     /** Library notes (as specified in the library structure) */
     notes:	string	
 
@@ -101,10 +101,111 @@ export interface Library<T extends Record>  {
     entries(): Entry<T>[]
 
     /**
+     * Get the most recently created entry.
+     * @returns the newest entry or null if library is empty
+     * @example
+     * // Get the latest entry and copy some of its values
+     * let latest = lib().lastEntry();
+     * if (latest) {
+     *     let newEntry = lib().create({
+     *         "Category": latest.field("Category"),
+     *         "Department": latest.field("Department"),
+     *         "CreatedDate": new Date().getTime()
+     *     });
+     * }
+     * @see https://scripts.mementodatabase.com/script_api/library/#lastentry
+     */
+    lastEntry(): Entry<T> | null
+
+    /**
+     * Get the oldest entry in the library.
+     * @returns the oldest entry or null if library is empty
+     * @example
+     * // Archive old entries
+     * let oldest = lib().firstEntry();
+     * if (oldest && oldest.creationTime.getTime() < new Date('2024-01-01').getTime()) {
+     *     oldest.set("Status", "Archived");
+     * }
+     * @see https://scripts.mementodatabase.com/script_api/library/#firstentry
+     */
+    firstEntry(): Entry<T> | null
+
+    /**
+     * Get field names defined in the library.
+     * 
+     * Returns an array of field names that are defined in the MAIN page and not within a Subheader.
+     * Available since Memento release 4.13.
+     * @since 4.13
+     * @returns field names in definition order
+     * @example
+     * // Get all field names and log them
+     * let fieldNames = lib().fields();
+     * fieldNames.forEach(fieldName => {
+     *     log(`Field name: ${fieldName}`);
+     * });
+     * @see https://scripts.mementodatabase.com/script_api/library/#fields
+     */
+    fields(): Array<keyof T>
+
+    /**
+     * Search for entries matching the given query.
+     * @param query The search query string
+     * @returns entries matching the search criteria
+     * @example
+     * // Find all high priority tasks
+     * let highPriorityTasks = lib().find("High");
+     * // Process found entries
+     * highPriorityTasks.forEach(task => {
+     *     log(`High priority task: ${task.field("Title")}`);
+     * });
+     * @see https://scripts.mementodatabase.com/script_api/library/#findquery
+     */
+    find(query: string): Entry<T>[]
+
+    /**
+     * Find an entry by its unique ID.
+     * @param id The unique identifier of the entry
+     * @returns the entry with the specified ID if found
+     * @example
+     * // Find entry by ID and update it
+     * let entry = lib().findById("entry_123");
+     * if (entry) {
+     *     entry.set("LastChecked", new Date().getTime());
+     * } else {
+     *     log("Entry not found");
+     * }
+     * @see https://scripts.mementodatabase.com/script_api/library/#findbyidid
+     */
+    findById(id: string): Entry<T> | null
+
+    /**
+     * Find an entry by its name field value.
+     * 
+     * Searches for an entry using the entry name.
+     * The library must be configured to use unique entry names for this method to work reliably.
+     * @param name The value of the Entry name field
+     * @returns the entry with the specified name if found
+     * @example
+     * // Find a project by its name
+     * let project = lib().findByKey("Website Redesign");
+     * if (project) {
+     *     // Update project status
+     *     project.set("Status", "In Progress");
+     *     
+     *     // Get linked tasks
+     *     let linkedTasks = lib().linksTo(project);
+     *     log(`Found ${linkedTasks.length} tasks linked to this project`);
+     * } 
+     * @see https://scripts.mementodatabase.com/script_api/library/#findbykeyname
+     */
+    findByKey(name: string): Entry<T> | nul
+
+    /**
      * Find entries that contain links to the specified entry.
      * 
      * Searches for entries that have a link to the specified entry in any of their Link to Entry fields.
      * @param entry The entry to search for links to
+     * @returns entries that link to the specified entry
      * @example
      * // Find all tasks linked to a specific project
      * let project = lib().findByKey("Website Redesign");
@@ -122,5 +223,18 @@ export interface Library<T extends Record>  {
      * }
      * @see https://scripts.mementodatabase.com/script_api/library/#linkstoentry
      */
-    linksTo(entry: Entry)
+    linksTo(entry: Entry): Entry<T>[]
+
+    /**
+     * Display the library in the user interface.
+     * @example
+     * // Show the library after creating a new entry
+     * let newEntry = lib().create({
+     *     "Title": "Important Task",
+     *     "Priority": "High"
+     * });
+     * lib().show(); // Display the library with the new entry
+     * @see https://scripts.mementodatabase.com/script_api/library/#show
+     */
+    show(): void
 }

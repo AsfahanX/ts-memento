@@ -1,3 +1,5 @@
+import type { JSImage } from "../fields"
+
 /**
  * The Entry object represents a single entry in a library and provides methods for accessing and modifying its field values.
  * @see https://scripts.mementodatabase.com/script_api/entry/#entry-object
@@ -5,23 +7,23 @@
 export interface Entry<T extends Record = Record>  {
 
     /** ID of the user who created the entry */
-    author: string	
+    author:             string	
     /** Date and time when the entry was created */
-    creationTime: string	
+    creationTime:       string	
     /** True if the entry is in the Recycle Bin */
-    deleted: boolean	
+    deleted:        boolean	
     /** Entry description */
-    description: string	
+    description:        string	
     /** True if the entry is in Favorites */
-    favorites: boolean	
+    favorites:          boolean	
     /** Unique entry identifier */
-    id: string	
+    id:                 string	
     /** Date and time of last modification */
-    lastModifiedTime: string	
+    lastModifiedTime:   string	
     /** Entry name */
-    name: string	
+    name:               string	
     /** Entry name (alias for name) */
-    title: string	
+    title:              string	
 
     /**
      * Get the value of a specified field.
@@ -70,6 +72,65 @@ export interface Entry<T extends Record = Record>  {
      * @see https://scripts.mementodatabase.com/script_api/entry/#fieldname
      */
     field<K extends keyof T >(name: K): T[K]
+
+    /**
+     * Returns the values of all fields in the entry as a JavaScript object in JSON format.
+     * Each field name is used as the key, and its value is mapped accordingly.
+     * @example
+     * // Get all entry values as JSON
+     * var e = entry();
+     * var json = e.values();
+     * message(JSON.stringify(json, null, 2));
+     * @see https://scripts.mementodatabase.com/script_api/entry/#values
+     */
+    values(): T
+
+    /**
+     * Get images associated with an image field.
+     * @param name Name of the image field
+     * @example
+     * // Work with images in an entry
+     * let entry = lib().lastEntry();
+     * let photos = entry.images("Photos");
+     * 
+     * // Process all images
+     * photos.forEach(photo => {
+     *     message(`Image URI: ${photo.uri}`);
+     *     message(`Caption: ${photo.caption}`);
+     *     
+     *     // Update caption if needed
+     *     if (!photo.caption) {
+     *         photo.caption = "Photo taken on " + new Date().toLocaleDateString();
+     *     }
+     * });
+     * @see https://scripts.mementodatabase.com/script_api/entry/#imagesname
+     */
+    images(name: keyof T): JSImage[]
+
+    /**
+     * Add a link to another entry in a Link to Entry field.
+     * @param name Name of the Link to Entry field
+     * @param entry Entry to link to
+     * @example
+     * // Link a task to a project
+     * let tasksLib = lib();
+     * let projectsLib = libByName("Projects");
+     * 
+     * // Get the project and task
+     * let project = projectsLib.findByKey("Website Redesign");
+     * let task = tasksLib.lastEntry();
+     * 
+     * if (project && task) {
+     *     // Create link from task to project
+     *     task.link("Project", project);
+     *     
+     *     // Update task metadata
+     *     task.set("ProjectStartDate", project.field("StartDate"));
+     *     task.set("Department", project.field("Department"));
+     * }
+     * @see https://scripts.mementodatabase.com/script_api/entry/#linkname-entry 
+     */
+    link(name: keyof T, entry: Entry)
 
     /**
      * Recalculate all calculated fields in the entry.
@@ -143,4 +204,62 @@ export interface Entry<T extends Record = Record>  {
      * @see https://scripts.mementodatabase.com/script_api/entry/#trash
      */
     trash(): void
+
+    /**
+     * Restore the entry from the Recycle Bin.
+     * @example
+     * // Restore accidentally deleted entries
+     * lib().entries().forEach(entry => {
+     *     if (entry.deleted) {
+     *         entry.untrash();
+     *         entry.set("RestoredDate", new Date().getTime());
+     *         entry.set("RestoredBy", "Script");
+     *     }
+     * });
+     * @see https://scripts.mementodatabase.com/script_api/entry/#untrash
+     */
+    untrash(): void
+
+    /**
+     * Remove a link to another entry from a Link to Entry field.
+     * @param name Name of the Link to Entry field
+     * @param entry Entry to unlink
+     * @example
+     * // Remove completed tasks from project links
+     * let project = lib().lastEntry();
+     * let linkedTasks = project.field("Tasks");
+     * 
+     * linkedTasks.forEach(task => {
+     *     if (task.field("Status") === "Completed") {
+     *         project.unlink("Tasks", task);
+     *         task.set("ProjectArchiveDate", new Date().getTime());
+     *     }
+     * });
+     * @see https://scripts.mementodatabase.com/script_api/entry/#unlinkname-entry 
+     */
+    unlink(name: keyof T, entry: Entry): void
+
+    /**
+     * Create and return an exact copy of the current entry.
+     * @returns The newly created entry that is a copy of the original
+     * @example
+     * // Remove completed tasks from project links
+     * // Duplicate the last entry in the library
+     * let original = lib().lastEntry();
+     * let copy = original.duplicate();
+     * 
+     * // Modify the duplicate without affecting the original
+     * copy.set("Title", original.field("Title") + " (Copy)");
+     * @see https://scripts.mementodatabase.com/script_api/entry/#duplicate
+     */
+    duplicate(): Entry
+}
+
+export interface DefaultEntry {
+    /** Indicates a new empty entry */
+    created:    boolean	
+    /** Indicates a duplicate of an existing entry */
+    duplicated: boolean	
+    /** Indicates creation from a template     */
+    prefilled:  boolean	
 }

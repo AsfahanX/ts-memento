@@ -1,9 +1,11 @@
+import type { Entry } from "./entries/entry"
+
 interface PesananPenjualan {
 
 }
 
 interface ItemPenjualan {
-    'Pesanan Penjualan': PesananPenjualan[]
+    'Pesanan Penjualan': Entry<PesananPenjualan>[]
     Catatan: string
 }
 
