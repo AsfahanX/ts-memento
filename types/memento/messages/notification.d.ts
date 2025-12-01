@@ -24,7 +24,7 @@ export interface Notification {
      * @param content The main notification text
      * @see https://scripts.mementodatabase.com/script_api/messages/#textcontent
      */
-    text(conten: stringt): this
+    text(content: string): this
 
     /**
      * Sets the expanded notification text.

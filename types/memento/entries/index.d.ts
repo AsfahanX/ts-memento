@@ -2,6 +2,7 @@
  * @see https://scripts.mementodatabase.com/script_api/entry/
  */
 
+import { LibraryStruct } from "../libraries/library";
 import type { DefaultEntry, Entry } from "./entry";
 
 /**
@@ -22,7 +23,7 @@ import type { DefaultEntry, Entry } from "./entry";
  * 
  * @see https://scripts.mementodatabase.com/script_api/entry/#entry
  */
-export function entry(): Entry
+export function entry<T extends LibraryStruct>(): Entry<T>
 
 /**
  * Get default field values for a not-yet-created entry.

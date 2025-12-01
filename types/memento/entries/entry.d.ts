@@ -1,10 +1,11 @@
 import type { JSImage } from "../fields"
+import { LibraryStruct } from "../libraries/library"
 
 /**
  * The Entry object represents a single entry in a library and provides methods for accessing and modifying its field values.
  * @see https://scripts.mementodatabase.com/script_api/entry/#entry-object
  */
-export interface Entry<T extends Record = Record>  {
+export interface Entry<T extends LibraryStruct = LibraryStruct>  {
 
     /** ID of the user who created the entry */
     author:             string	

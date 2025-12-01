@@ -1,8 +1,9 @@
 {
     "compilerOptions": {
+        "allowJs": true,
         "checkJs": true,
-        "module": "commonjs"
+        "module": "commonjs",
+        "baseUrl": "."
     },
     "exclude": ["node_modules"]
 }
-    

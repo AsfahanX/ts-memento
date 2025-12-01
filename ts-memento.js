@@ -1,9 +1,13 @@
+// TODO: use this directive: /// <reference types="memento" />
+// see https://www.typescriptlang.org/docs/handbook/declaration-files/library-structures.html#dependencies-on-global-libraries
+
 /**
- * @template T
- * @typedef {import("./types/memento/entries/entry").Entry<T>} Entry
+ * @template {import("types/memento/libraries/library").LibraryStruct} T
+ * @typedef {import("types/memento/entries/entry").Entry<T>} Entry
  */
 /**
- * @typedef {import("./types/memento/user-libraries").ItemPenjualan} ItemPenjualan
+ * @typedef {import("types").ItemPenjualan} ItemPenjualan
+ * @typedef {import("types").PesananPenjualan} PesananPenjualan
  */
 
 
@@ -12,7 +16,7 @@ function mymessage(params) {
 }
 
 function buatContohItemPenjualan() {
-    /** @type {Entry<ItemPenjualan>} */
+    /** @type {Entry<PesananPenjualan>} */
     const e = entry()
     const itemsLib = libByName('Item Penjualan')
     let items = [
@@ -38,5 +42,3 @@ function dialogKonfirmasi(callback) {
     ).show();
     
 }
-
-

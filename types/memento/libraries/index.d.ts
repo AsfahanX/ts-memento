@@ -3,8 +3,11 @@
  */
 
 
-import type { UserLibrary } from "../user-libraries";
-import type { Library } from "./library";
+import {UserLibraries} from "types";
+import type { Library, LibraryStruct } from "./library";
+
+// TODO: not working yet
+type AvailableLibraries = UserLibraries extends Record<string, any> ? UserLibraries : never
 
 /**
  * Get the Library object of the current event.
@@ -18,7 +21,7 @@ import type { Library } from "./library";
  * });
  * @see https://scripts.mementodatabase.com/script_api/library/#lib
  */
-export function lib(): Library
+export function lib<T extends LibraryStruct>(): Library<T>
 
 /**
  * Find a library by its name.
@@ -31,7 +34,7 @@ export function lib(): Library
  * 
  * @see https://scripts.mementodatabase.com/script_api/library/#libbynamename
  */
-export function libByName<T extends UserLibrary = UserLibrary, K extends keyof T>(name: K): Library<T[K]> | null
+export function libByName<T extends AvailableLibraries = AvailableLibraries, K extends keyof T = keyof T>(name: K): Library<T[K]> | null
 
 /**
  * Find a library by its ID.
@@ -49,4 +52,4 @@ export function libByName<T extends UserLibrary = UserLibrary, K extends keyof T
  * }
  * @see https://scripts.mementodatabase.com/script_api/library/#libbyidid
  */
-export function libById(id: string): Library | null
+export function libById<T extends LibraryStruct>(id: string): Library<T> | null

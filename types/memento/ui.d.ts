@@ -181,7 +181,7 @@ interface UIBase {
     /**
      * Sets the weight of the UI element in a layout.
      */
-    weight(weight: int): this
+    weight(weight: number): this
 
     /**
      * Sets the tag for the UI element.
@@ -353,4 +353,4 @@ interface UIChoiceBox extends UIObject {
  * @see https://scripts.mementodatabase.com/scripts/widgets/#script-initialization
  * @see https://scripts.mementodatabase.com/script_api/ui/#init-script-execution
  */
-export var _initWidget: boolean
+export const _initWidget: boolean

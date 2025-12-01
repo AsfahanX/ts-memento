@@ -4,6 +4,9 @@
 
 import { Entry } from "../entries/entry";
 
+export type LibraryStruct = Record<string, unknown>
+
+
 /**
  * The Library object provides access to library entries and operations.
  * It can be obtained through lib(), libByName(), or libById().
@@ -55,7 +58,7 @@ import { Entry } from "../entries/entry";
  * @see https://scripts.mementodatabase.com/script_api/library/#working-with-multiple-libraries
  * @see https://scripts.mementodatabase.com/script_api/library/#search-and-update-operations
  */
-export interface Library<T extends Record<string, unknown> = Record<string, unknown>>  {
+export interface Library<T extends LibraryStruct = LibraryStruct>  {
 
     /** The name of the library */
     name:	string	
@@ -198,7 +201,7 @@ export interface Library<T extends Record<string, unknown> = Record<string, unkn
      * } 
      * @see https://scripts.mementodatabase.com/script_api/library/#findbykeyname
      */
-    findByKey(name: string): Entry<T> | nul
+    findByKey(name: string): Entry<T> | null
 
     /**
      * Find entries that contain links to the specified entry.
