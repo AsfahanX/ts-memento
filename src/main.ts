@@ -12,3 +12,13 @@ function ubahKolomKeRelasi(foreignKey, column, libraryName, ownerKey) {
 function mymessage(params) {
     message('github nih');
 }
+
+function dialogKonfirmasi(callback) {
+    dialog().view(
+        ui().layout([
+            ui().button('Yes').action(callback),
+            ui().button('No')
+        ])
+    ).show();
+    
+}

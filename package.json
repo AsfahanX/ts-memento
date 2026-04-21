@@ -8,7 +8,7 @@
   "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/main.ts  --bundle --outfile=dist/ts-memento.js"
+    "build": "esbuild src/main.ts  --bundle --outfile=ts-memento.js"
   },
   "devDependencies": {
     "esbuild": "0.28.0"
