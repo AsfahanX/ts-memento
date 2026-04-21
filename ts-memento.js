@@ -1,13 +1,1 @@
-(() => {
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __commonJS = (cb, mod) => function __require() {
-    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-
-  // src/main.ts
-  var require_main = __commonJS({
-    "src/main.ts"() {
-    }
-  });
-  require_main();
-})();
+export function ubahKolomKeRelasi(i,n,t,s){lib().entries().forEach(o=>{const e=o.field(n);if(e){const a=libByName(t)?.findByKey(e);o.set(i,[a])}})}export function mymessage(i){message("github nih")}function r(i){dialog().view(ui().layout([ui().button("Yes").action(i),ui().button("No")])).show()}

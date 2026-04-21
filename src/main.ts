@@ -1,4 +1,4 @@
-function ubahKolomKeRelasi(foreignKey, column, libraryName, ownerKey) {
+export function ubahKolomKeRelasi(foreignKey, column, libraryName, ownerKey) {
     lib().entries().forEach(e => {
         const val = e.field(column)
         if (val) {
@@ -9,7 +9,7 @@ function ubahKolomKeRelasi(foreignKey, column, libraryName, ownerKey) {
     })
 }
 
-function mymessage(params) {
+export function mymessage(params) {
     message('github nih');
 }
 
