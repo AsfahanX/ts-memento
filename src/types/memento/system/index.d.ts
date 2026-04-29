@@ -3,6 +3,7 @@
  */
 
 import type { Intent, IntentAction } from "./intent"
+export * from './intent'
 
 /**
  * @see https://scripts.mementodatabase.com/script_api/system/#system-object

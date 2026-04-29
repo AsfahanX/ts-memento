@@ -5,6 +5,14 @@
 import { Entry } from "../entries/entry";
 
 export type LibraryStruct = Record<string, unknown>
+ 
+export interface CustomProperties {
+    // UserLibraries: Record<string, any>
+}
+
+export type AvailableLibraries = CustomProperties extends {UserLibraries: unknown} ? CustomProperties['UserLibraries'] : Record<string, LibraryStruct>
+
+
 
 
 /**

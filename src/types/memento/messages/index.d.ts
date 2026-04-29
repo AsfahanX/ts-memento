@@ -4,6 +4,10 @@
  */
 
 import type { Dialog } from "./dialog";
+import type { Notification } from "./notification";
+
+export * from "./dialog";
+export * from "./notification";
 
 /**
  * Displays a brief notification message to the user.
@@ -61,4 +65,4 @@ export function dialog(): Dialog
  * log("Notification displayed");
  * @see https://scripts.mementodatabase.com/script_api/messages/#notification
  */
-export function notification()
+export function notification(): Notification

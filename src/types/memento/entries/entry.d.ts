@@ -26,6 +26,8 @@ export interface Entry<T extends LibraryStruct = LibraryStruct>  {
     /** Entry name (alias for name) */
     title:              string	
 
+    attr(name: string): unknown
+
     /**
      * Get the value of a specified field.
      * @param name Name of the field to retrieve
@@ -131,7 +133,7 @@ export interface Entry<T extends LibraryStruct = LibraryStruct>  {
      * }
      * @see https://scripts.mementodatabase.com/script_api/entry/#linkname-entry 
      */
-    link(name: keyof T, entry: Entry)
+    link(name: keyof T, entry: Entry): void
 
     /**
      * Recalculate all calculated fields in the entry.
@@ -174,6 +176,8 @@ export interface Entry<T extends LibraryStruct = LibraryStruct>  {
      * @see https://scripts.mementodatabase.com/script_api/entry/#setname-value 
      */
     set<K extends keyof T>(name: K, value: T[K]): void
+
+    setAttr(name: string, value: unknown): void
 
     /**
      * Display the entry in the user interface.

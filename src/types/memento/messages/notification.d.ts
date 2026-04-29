@@ -45,7 +45,7 @@ export interface Notification {
      * @param icon Icon code or image URL
      * @see https://scripts.mementodatabase.com/script_api/messages/#largeiconicon
      */
-    largeIcon(icon): this
+    largeIcon(icon: IconCode): this
 
     /**
      * Configures the notification to alert only once.

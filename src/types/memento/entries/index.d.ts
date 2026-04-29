@@ -5,6 +5,8 @@
 import { LibraryStruct } from "../libraries/library";
 import type { DefaultEntry, Entry } from "./entry";
 
+export * from "./entry"
+
 /**
  * Get the Entry object of the current event.
  * 

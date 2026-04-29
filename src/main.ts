@@ -1,24 +1,72 @@
-function ubahKolomKeRelasi(foreignKey, column, libraryName, ownerKey) {
-    lib().entries().forEach(e => {
-        const val = e.field(column)
-        if (val) {
-            const parentLib = libByName(libraryName);
-            const parent = parentLib?.findByKey(val)
-            e.set(foreignKey, [parent]);
-        }
-    })
+import { ItemPenjualan, PesananPenjualan } from "./types";
+import { AvailableLibraries, Entry } from "./types/memento";
+
+type LibraryName = keyof AvailableLibraries;
+
+function formatRupiah(nominal: number) {
+  if (!nominal) {
+    return null;
+  }
+  return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  // return nominal.toLocaleString("id-ID", {
+  //   style: "currency",
+  //   currency: "IDR",
+  // });
+
 }
 
-function mymessage(params) {
-    message('github nih');
+function ubahKolomKeRelasi(
+  foreignKey: LibraryName,
+  column: string,
+  libraryName: LibraryName,
+  ownerKey: string,
+) {
+  lib()
+    .entries()
+    .forEach((e) => {
+      const val = e.field(column);
+      if (val) {
+        const parentLib = libByName(libraryName);
+        const parent = parentLib?.findByKey(val);
+        e.set(foreignKey, [parent]);
+      }
+    });
+} 
+
+function dialogKonfirmasi(callback: () => boolean | void) {
+  dialog()
+    .view(ui().layout([ui().button("Yes").action(callback), ui().button("No")]))
+    .show();
 }
 
-function dialogKonfirmasi(callback) {
-    dialog().view(
-        ui().layout([
-            ui().button('Yes').action(callback),
-            ui().button('No')
-        ])
-    ).show();
-    
+const MasterAkun = {
+  field: {
+    totalDebit() {
+      const entries = libByName("Jurnal Lanjutan")?.linksTo(entry());
+    },
+  },
+};
+
+const libItemPenjualan = () => libById<ItemPenjualan>(libItemPenjualan.id);
+libItemPenjualan.id = "add";
+
+function libPesananPenjualan() {
+  return libById<PesananPenjualan>(libPesananPenjualan.id);
+}
+libPesananPenjualan.id = "RE4pK2hXUllyUlNtd1VRWjJrVG0";
+ libPesananPenjualan.events = {
+    entryUpdated() {
+        
+    }
+ }
+// --------+++------
+if (true) {
+  let e = entry();
+  let brg = e.obtain("Barang");
+
+  if (brg.length > 0) {
+    let gbr = brg[0].obtain("Gambar");
+    e.set("Gambar", gbr);
+    message("Gambar barang diupdate");
+  }
 }

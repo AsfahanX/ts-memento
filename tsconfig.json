@@ -1,10 +1,15 @@
 {
     "compilerOptions": {
+        "target": "ES5",
+        "module": "commonjs", // or "none" depending on the engine
+        "lib": ["ES5", "ES6"],
+        // "strict": true,
         "allowJs": true,
-        "checkJs": true,
-        "module": "commonjs",
-        "baseUrl": "."
+        "noEmit": false,
+        "baseUrl": ".", // The root directory for resolution
+        "paths": {
+            "@/*": ["src/*"] // Maps "@" to the "src" folder
+        },
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules"]
 }

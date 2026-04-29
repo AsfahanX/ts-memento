@@ -1,13 +1,10 @@
 /**
  * @see https://scripts.mementodatabase.com/script_api/library/
  */
-
-
-import {UserLibraries} from "types";
-import type { Library, LibraryStruct } from "./library";
-
-// TODO: not working yet
-type AvailableLibraries = UserLibraries extends Record<string, any> ? UserLibraries : never
+ 
+import type { AvailableLibraries, Library, LibraryStruct } from "./library";
+ 
+export * from "./library"
 
 /**
  * Get the Library object of the current event.
