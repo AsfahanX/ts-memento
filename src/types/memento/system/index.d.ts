@@ -2,17 +2,17 @@
  * @see https://scripts.mementodatabase.com/script_api/system/
  */
 
-import type { Intent, IntentAction } from "./intent"
-export * from './intent'
+import type { Intent, IntentAction } from "./intent";
+export * from "./intent";
 
 /**
  * @see https://scripts.mementodatabase.com/script_api/system/#system-object
  */
 interface SystemObject {
-    /** Operating system name */
-    os:         string
-    /** Current user’s username */
-    username:   string
+  /** Operating system name */
+  os: string;
+  /** Current user’s username */
+  username: string;
 }
 
 /**
@@ -28,7 +28,7 @@ interface SystemObject {
  * }
  * @see https://scripts.mementodatabase.com/script_api/system/#cancel
  */
-export function cancel(): void
+export function cancel(): void;
 
 /**
  * Terminates script execution immediately.
@@ -37,7 +37,7 @@ export function cancel(): void
  * exit();
  * @see https://scripts.mementodatabase.com/script_api/system/#exit
  */
-export function exit(): void
+export function exit(): void;
 
 /**
  * Returns information about the current system environment.
@@ -47,7 +47,7 @@ export function exit(): void
  * log("Current user: " + sys.username);
  * @see https://scripts.mementodatabase.com/script_api/system/#system-1
  */
-export function system(): SystemObject
+export function system(): SystemObject;
 
 /**
  * Generates a random unique identifier string.
@@ -56,7 +56,7 @@ export function system(): SystemObject
  * log("Generated ID: " + uniqueId);
  * @see https://scripts.mementodatabase.com/script_api/system/#guid
  */
-export function guid(): string
+export function guid(): string;
 
 /**
  * Creates an Intent object for inter-application communication (Android only).
@@ -68,4 +68,4 @@ export function guid(): string
  * i.send();
  * @see https://scripts.mementodatabase.com/script_api/system/#intentaction
  */
-export function intent(action: IntentAction): Intent
+export function intent(action: IntentAction): Intent;

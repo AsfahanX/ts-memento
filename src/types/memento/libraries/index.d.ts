@@ -1,10 +1,10 @@
 /**
  * @see https://scripts.mementodatabase.com/script_api/library/
  */
- 
+
 import type { AvailableLibraries, Library, LibraryStruct } from "./library";
- 
-export * from "./library"
+
+export * from "./library";
 
 /**
  * Get the Library object of the current event.
@@ -18,24 +18,27 @@ export * from "./library"
  * });
  * @see https://scripts.mementodatabase.com/script_api/library/#lib
  */
-export function lib<T extends LibraryStruct>(): Library<T>
+export function lib<T extends LibraryStruct>(): Library<T>;
 
 /**
  * Find a library by its name.
- * 
+ *
  * Requires appropriate security permissions to access the library.
  * Returns null if library not found or permissions are insufficient.
- * 
+ *
  * @param name The name of the library to find
  * @returns the library with the specified name if found
- * 
+ *
  * @see https://scripts.mementodatabase.com/script_api/library/#libbynamename
  */
-export function libByName<T extends AvailableLibraries = AvailableLibraries, K extends keyof T = keyof T>(name: K): Library<T[K]> | null
+export function libByName<
+  T extends AvailableLibraries = AvailableLibraries,
+  K extends keyof T = keyof T,
+>(name: K): Library<T[K]> | null;
 
 /**
  * Find a library by its ID.
- * 
+ *
  * Requires appropriate security permissions to access the library.
  * More reliable than libByName() as IDs don’t change when libraries are renamed.
  * @param id The ID of the library to find
@@ -49,4 +52,4 @@ export function libByName<T extends AvailableLibraries = AvailableLibraries, K e
  * }
  * @see https://scripts.mementodatabase.com/script_api/library/#libbyidid
  */
-export function libById<T extends LibraryStruct>(id: string): Library<T> | null
+export function libById<T extends LibraryStruct>(id: string): Library<T> | null;

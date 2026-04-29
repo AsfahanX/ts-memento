@@ -11,15 +11,15 @@ export * from "./notification";
 
 /**
  * Displays a brief notification message to the user.
- * 
+ *
  * @param text The text content of the notification to display
- * 
+ *
  * @example
  * message("Operation completed successfully");
- * 
+ *
  * @see https://scripts.mementodatabase.com/script_api/messages/#messagetext
  */
-export function message(text: string): void
+export function message(text: string): void;
 
 /**
  * Writes a line to the script’s log file.
@@ -28,12 +28,12 @@ export function message(text: string): void
  * log("Starting data processing...");
  * @see https://scripts.mementodatabase.com/script_api/messages/#logtext
  */
-export function log(text: string): void
+export function log(text: string): void;
 
 /**
  * Creates a dialog builder for constructing and displaying modal dialogs.
  * @returns a Dialog object that can be used to configure and display the dialog.
- * 
+ *
  * @example
  * const myDialog = dialog()
  *    .title("Confirm Action")
@@ -47,10 +47,10 @@ export function log(text: string): void
  *        return true;
  *    })
  *    .show();
- * 
+ *
  * @see https://scripts.mementodatabase.com/script_api/messages/#dialog
  */
-export function dialog(): Dialog
+export function dialog(): Dialog;
 
 /**
  * Creates a notification builder for constructing and displaying system notifications.
@@ -65,4 +65,4 @@ export function dialog(): Dialog
  * log("Notification displayed");
  * @see https://scripts.mementodatabase.com/script_api/messages/#notification
  */
-export function notification(): Notification
+export function notification(): Notification;

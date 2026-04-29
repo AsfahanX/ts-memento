@@ -12,7 +12,6 @@ function formatRupiah(nominal: number) {
   //   style: "currency",
   //   currency: "IDR",
   // });
-
 }
 
 function ubahKolomKeRelasi(
@@ -31,7 +30,7 @@ function ubahKolomKeRelasi(
         e.set(foreignKey, [parent]);
       }
     });
-} 
+}
 
 function dialogKonfirmasi(callback: () => boolean | void) {
   dialog()
@@ -54,11 +53,9 @@ function libPesananPenjualan() {
   return libById<PesananPenjualan>(libPesananPenjualan.id);
 }
 libPesananPenjualan.id = "RE4pK2hXUllyUlNtd1VRWjJrVG0";
- libPesananPenjualan.events = {
-    entryUpdated() {
-        
-    }
- }
+libPesananPenjualan.events = {
+  entryUpdated() {},
+};
 // --------+++------
 if (true) {
   let e = entry();
