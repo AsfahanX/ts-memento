@@ -57,13 +57,13 @@ libPesananPenjualan.events = {
   entryUpdated() {},
 };
 // --------+++------
-if (true) {
-  let e = entry();
-  let brg = e.obtain("Barang");
+// if (true) {
+//   let e = entry();
+//   let brg = e.obtain("Barang");
 
-  if (brg.length > 0) {
-    let gbr = brg[0].obtain("Gambar");
-    e.set("Gambar", gbr);
-    message("Gambar barang diupdate");
-  }
-}
+//   if (brg.length > 0) {
+//     let gbr = brg[0].obtain("Gambar");
+//     e.set("Gambar", gbr);
+//     message("Gambar barang diupdate");
+//   }
+// }
