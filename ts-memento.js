@@ -1,1 +1,1 @@
-function formatRupiah(r){return r?"Rp "+r.toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."):null}
+function formatRupiah(r){return r?"Rp "+r.toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."):null}function ubahKolomKeRelasi(r,a,t,b){lib().entries().forEach(e=>{const i=e.field(a);if(i){const n=libByName(t)?.findByKey(i);e.set(r,[n])}})}

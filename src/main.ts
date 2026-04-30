@@ -13,23 +13,23 @@ function formatRupiah(nominal: number) {
   // });
 }
 
-// function ubahKolomKeRelasi(
-//   foreignKey: LibraryName,
-//   column: string,
-//   libraryName: LibraryName,
-//   ownerKey: string,
-// ) {
-//   lib()
-//     .entries()
-//     .forEach((e) => {
-//       const val = e.field(column);
-//       if (val) {
-//         const parentLib = libByName(libraryName);
-//         const parent = parentLib?.findByKey(val);
-//         e.set(foreignKey, [parent]);
-//       }
-//     });
-// }
+function ubahKolomKeRelasi(
+  foreignKey: LibraryName,
+  column: string,
+  libraryName: LibraryName,
+  ownerKey: string,
+) {
+  lib()
+    .entries()
+    .forEach((e) => {
+      const val = e.field(column);
+      if (val) {
+        const parentLib = libByName(libraryName);
+        const parent = parentLib?.findByKey(val);
+        e.set(foreignKey, [parent]);
+      }
+    });
+}
 
 // function dialogKonfirmasi(callback: () => boolean | void) {
 //   dialog()
