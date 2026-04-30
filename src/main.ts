@@ -38,26 +38,26 @@ function dialogKonfirmasi(callback: () => boolean | void) {
     .show();
 }
 
-const MasterAkun = {
-  field: {
-    totalDebit() {
-      const entries = libByName("Jurnal Lanjutan")?.linksTo(entry());
-    },
-  },
-};
+// const MasterAkun = {
+//   field: {
+//     totalDebit() {
+//       const entries = libByName("Jurnal Lanjutan")?.linksTo(entry());
+//     },
+//   },
+// };
 
-function libItemPenjualan() {
-  libById<ItemPenjualan>(libItemPenjualan.id);
-}
-libItemPenjualan.id = "add";
+// function libItemPenjualan() {
+//   libById<ItemPenjualan>(libItemPenjualan.id);
+// }
+// libItemPenjualan.id = "add";
 
-function libPesananPenjualan() {
-  return libById<PesananPenjualan>(libPesananPenjualan.id);
-}
-libPesananPenjualan.id = "RE4pK2hXUllyUlNtd1VRWjJrVG0";
-libPesananPenjualan.events = {
-  entryUpdated() {},
-};
+// function libPesananPenjualan() {
+//   return libById<PesananPenjualan>(libPesananPenjualan.id);
+// }
+// libPesananPenjualan.id = "RE4pK2hXUllyUlNtd1VRWjJrVG0";
+// libPesananPenjualan.events = {
+//   entryUpdated() {},
+// };
 // --------+++------
 // if (true) {
 //   let e = entry();
