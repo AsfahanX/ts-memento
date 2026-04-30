@@ -46,7 +46,9 @@ const MasterAkun = {
   },
 };
 
-const libItemPenjualan = () => libById<ItemPenjualan>(libItemPenjualan.id);
+function libItemPenjualan() {
+  libById<ItemPenjualan>(libItemPenjualan.id);
+}
 libItemPenjualan.id = "add";
 
 function libPesananPenjualan() {
