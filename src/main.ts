@@ -13,7 +13,7 @@ function formatRupiah(nominal: number) {
   // });
 }
 
-const _ = {
+var _ = {
   formatRupiah,
 };
 
