@@ -13,9 +13,8 @@ function formatRupiah(nominal: number) {
   // });
 }
 
-var _ = {
-  formatRupiah,
-};
+function _() {}
+_.formatRupiah = formatRupiah;
 
 // function coba1() {
 //   return "satu";
