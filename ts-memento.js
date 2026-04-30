@@ -1,1 +1,1 @@
-function formatRupiah(i){return i?"Rp "+i.toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."):null}function ubahKolomKeRelasi(i,n,r,o){lib().entries().forEach(a=>{const e=a.field(n);if(e){const t=libByName(r)?.findByKey(e);a.set(i,[t])}})}function dialogKonfirmasi(i){dialog().view(ui().layout([ui().button("Yes").action(i),ui().button("No")])).show()}
+function formatRupiah(r){return r?"Rp "+r.toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."):null}
