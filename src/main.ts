@@ -13,6 +13,10 @@ function formatRupiah(nominal: number) {
   // });
 }
 
+const _ = {
+  formatRupiah,
+};
+
 // function coba1() {
 //   return "satu";
 // }

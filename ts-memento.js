@@ -4,3 +4,6 @@ function formatRupiah(nominal) {
   }
   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
+const _ = {
+  formatRupiah
+};
