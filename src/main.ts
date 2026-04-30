@@ -13,12 +13,12 @@ function formatRupiah(nominal: number) {
   // });
 }
 
-function coba1() {
-  return "satu";
-}
-function coba2() {
-  return "dua";
-}
+// function coba1() {
+//   return "satu";
+// }
+// function coba2() {
+//   return "dua";
+// }
 
 // function ubahKolomKeRelasi(
 //   foreignKey: LibraryName,
