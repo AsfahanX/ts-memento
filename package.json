@@ -9,12 +9,10 @@
   "scripts": {
     "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/main.ts --outfile=ts-memento.js",
-    "minify": "terser ts-memento.js -c -m --output ts-memento.js"
+    "build": "esbuild src/main.ts --minify --outfile=ts-memento.js"
   },
   "devDependencies": {
     "esbuild": "0.28.0",
-    "prettier": "3.8.3",
-    "terser": "^5.46.2"
+    "prettier": "3.8.3"
   }
 }

@@ -1,9 +1,1 @@
-function formatRupiah(nominal) {
-  if (!nominal) {
-    return null;
-  }
-  return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-}
-function _() {
-}
-_.formatRupiah = formatRupiah;
+function _(){}_.formatRupiah=function(r){return r?"Rp "+r.toString().replace(/\B(?=(\d{3})+(?!\d))/g,"."):null},_.coba1=function(){return"satu"};
