@@ -1,11 +1,20 @@
 var _ = (() => {
-  var e = (r, i) => () => (i || r((i = { exports: {} }).exports, i), i.exports);
-  var t = e((a) => {
-    a.formatRupiah = function (r) {
+  var e = (r, i) => () => (r && (i = r((r = 0))), i);
+  var n = (r, i) => () => (i || r((i = { exports: {} }).exports, i), i.exports);
+  function l() {
+    return libById(l.id);
+  }
+  var a = e(() => {
+    l.id = "UnAlRnV3bHBPUlFXS1VyME9vRUY";
+  });
+  var u = n((t) => {
+    a();
+    t.formatRupiah = function (r) {
       return r
         ? "Rp " + r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         : null;
     };
+    t.libJurnalItem = l;
   });
-  return t();
+  return u();
 })();
