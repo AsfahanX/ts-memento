@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "ES6",
     "module": "commonjs", // or "none" depending on the engine
-    "lib": ["ES5", "ES6"],
+    "lib": ["ES6"],
     // "strict": true,
     "allowJs": true,
     "noEmit": false,

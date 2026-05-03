@@ -1,4 +1,4 @@
 # Ignore artifacts:
 build
 coverage
-# ts-memento.js
+ts-memento.min.js

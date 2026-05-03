@@ -1,3 +1,6 @@
+// import libJurnal from "./lib/lib-jurnal";
+// import libJurnalItem from "./lib/lib-jurnal-item";
+// import * from "./lib/lib-jurnal"
 import libJurnal from "./lib/lib-jurnal";
 import libJurnalItem from "./lib/lib-jurnal-item";
 import { AvailableLibraries } from "./types/memento";
