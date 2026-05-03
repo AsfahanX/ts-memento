@@ -1,20 +1,11 @@
-(() => {
+var _ = (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __esm = (fn, res) =>
-    function __init() {
-      return (fn && (res = (0, fn[__getOwnPropNames(fn)[0]])((fn = 0))), res);
-    };
-  var __commonJS = (cb, mod) =>
-    function __require() {
-      return (
-        mod ||
-          (0, cb[__getOwnPropNames(cb)[0]])(
-            (mod = { exports: {} }).exports,
-            mod,
-          ),
-        mod.exports
-      );
-    };
+  var __esm = (fn, res) => function __init() {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  };
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
 
   // src/lib/lib-jurnal-item.ts
   function libJurnalItem() {
@@ -23,7 +14,7 @@
   var init_lib_jurnal_item = __esm({
     "src/lib/lib-jurnal-item.ts"() {
       libJurnalItem.id = "UnAlRnV3bHBPUlFXS1VyME9vRUY";
-    },
+    }
   });
 
   // src/lib/lib-jurnal.ts
@@ -37,12 +28,10 @@
       libJurnal.events = {
         entryDeleted() {
           var _a;
-          (_a = libJurnalItem()) == null
-            ? void 0
-            : _a.linksTo(entry()).forEach((e) => e.trash());
-        },
+          (_a = libJurnalItem()) == null ? void 0 : _a.linksTo(entry()).forEach((e) => e.trash());
+        }
       };
-    },
+    }
   });
 
   // src/main.ts
@@ -53,7 +42,7 @@
       function _() {
         return {};
       }
-      _.formatRupiah = function (nominal) {
+      _.formatRupiah = function(nominal) {
         if (!nominal) {
           return null;
         }
@@ -61,7 +50,7 @@
       };
       _.libJurnal = libJurnal;
       _.libJurnalItem = libJurnalItem;
-    },
+    }
   });
-  require_main();
+  return require_main();
 })();
