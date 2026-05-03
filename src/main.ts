@@ -4,7 +4,7 @@ import { AvailableLibraries } from "./types/memento";
 
 type LibraryName = keyof AvailableLibraries;
 
-export function formatRupiah(nominal: number) {
+this.formatRupiah = function (nominal: number) {
   if (!nominal) {
     return null;
   }
@@ -13,7 +13,7 @@ export function formatRupiah(nominal: number) {
   //   style: "currency",
   //   currency: "IDR",
   // });
-}
+};
 
 // function _() {}
 // _.formatRupiah = function (nominal: number) {
