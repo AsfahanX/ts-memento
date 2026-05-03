@@ -3,8 +3,10 @@ import libJurnalItem from "./lib/lib-jurnal-item";
 import { AvailableLibraries } from "./types/memento";
 
 type LibraryName = keyof AvailableLibraries;
-
-this.formatRupiah = function (nominal: number) {
+function _() {
+  return {};
+}
+_.formatRupiah = function (nominal: number) {
   if (!nominal) {
     return null;
   }
@@ -30,8 +32,8 @@ this.formatRupiah = function (nominal: number) {
 //   return "satu";
 // };
 
-this.libJurnal = libJurnal;
-this.libJurnalItem = libJurnalItem;
+_.libJurnal = libJurnal;
+_.libJurnalItem = libJurnalItem;
 
 // function coba1() {
 //   return "satu";
