@@ -4,8 +4,7 @@ import { AvailableLibraries } from "./types/memento";
 
 type LibraryName = keyof AvailableLibraries;
 
-function _() {}
-_.formatRupiah = function (nominal: number) {
+export function formatRupiah(nominal: number) {
   if (!nominal) {
     return null;
   }
@@ -14,13 +13,25 @@ _.formatRupiah = function (nominal: number) {
   //   style: "currency",
   //   currency: "IDR",
   // });
-};
-_.coba1 = function coba1() {
-  return "satu";
-};
+}
 
-_.libJurnal = libJurnal;
-_.libJurnalItem = libJurnalItem;
+// function _() {}
+// _.formatRupiah = function (nominal: number) {
+//   if (!nominal) {
+//     return null;
+//   }
+//   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+//   // return nominal.toLocaleString("id-ID", {
+//   //   style: "currency",
+//   //   currency: "IDR",
+//   // });
+// };
+// _.coba1 = function coba1() {
+//   return "satu";
+// };
+
+// _.libJurnal = libJurnal;
+// _.libJurnalItem = libJurnalItem;
 
 // function coba1() {
 //   return "satu";
