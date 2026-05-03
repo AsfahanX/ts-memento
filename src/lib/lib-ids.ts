@@ -1,22 +1,16 @@
 var _ = (() => {
-  var o = Object.defineProperty;
-  var b = (r, i) => () => (r && (i = r((r = 0))), i);
-  var f = (r, i) => () => (i || r((i = { exports: {} }).exports, i), i.exports),
-    d = (r, i) => {
-      for (var u in i) o(r, u, { get: i[u], enumerable: !0 });
-    };
+  var a = (r, i) => () => (r && (i = r((r = 0))), i);
+  var b = (r, i) => () => (i || r((i = { exports: {} }).exports, i), i.exports);
   function l() {
     return libById(l.id);
   }
-  var n = b(() => {
+  var n = a(() => {
     l.id = "UnAlRnV3bHBPUlFXS1VyME9vRUY";
   });
-  var a = {};
-  d(a, { default: () => t });
   function t() {
     return libById(t.id);
   }
-  var m = b(() => {
+  var u = a(() => {
     n();
     t.id = "SmpxUWFTSUEhPj5XckZUTSp6Y0M";
     t.events = {
@@ -27,16 +21,16 @@ var _ = (() => {
       },
     };
   });
-  var p = f((e) => {
-    m();
+  var m = b((e) => {
+    u();
     n();
     e.formatRupiah = function (r) {
       return r
         ? "Rp " + r.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         : null;
     };
-    e.libJurnal = a;
+    e.libJurnal = t;
     e.libJurnalItem = l;
   });
-  return p();
+  return m();
 })();
