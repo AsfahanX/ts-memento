@@ -39,15 +39,6 @@ var _ = (() => {
     "src/main.ts"() {
       init_lib_jurnal();
       init_lib_jurnal_item();
-      function _() {
-        return {};
-      }
-      _.formatRupiah = function(nominal) {
-        if (!nominal) {
-          return null;
-        }
-        return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      };
       _.libJurnal = libJurnal;
       _.libJurnalItem = libJurnalItem;
     }

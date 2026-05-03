@@ -6,10 +6,10 @@ import libJurnalItem from "./lib/lib-jurnal-item";
 import { AvailableLibraries } from "./types/memento";
 
 type LibraryName = keyof AvailableLibraries;
-function _() {
-  return {};
-}
-_.formatRupiah = function (nominal: number) {
+// function _() {
+//   return {};
+// }
+function formatRupiah(nominal: number) {
   if (!nominal) {
     return null;
   }
@@ -18,7 +18,7 @@ _.formatRupiah = function (nominal: number) {
   //   style: "currency",
   //   currency: "IDR",
   // });
-};
+}
 
 // function _() {}
 // _.formatRupiah = function (nominal: number) {
