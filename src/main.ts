@@ -9,7 +9,7 @@ type LibraryName = keyof AvailableLibraries;
 // function _() {
 //   return {};
 // }
-function formatRupiah(nominal: number) {
+this.formatRupiah = function (nominal: number) {
   if (!nominal) {
     return null;
   }
@@ -18,7 +18,7 @@ function formatRupiah(nominal: number) {
   //   style: "currency",
   //   currency: "IDR",
   // });
-}
+};
 
 // function _() {}
 // _.formatRupiah = function (nominal: number) {
@@ -35,8 +35,8 @@ function formatRupiah(nominal: number) {
 //   return "satu";
 // };
 
-_.libJurnal = libJurnal;
-_.libJurnalItem = libJurnalItem;
+this.libJurnal = libJurnal;
+this.libJurnalItem = libJurnalItem;
 
 // function coba1() {
 //   return "satu";

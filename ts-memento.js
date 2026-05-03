@@ -36,11 +36,17 @@ var _ = (() => {
 
   // src/main.ts
   var require_main = __commonJS({
-    "src/main.ts"() {
+    "src/main.ts"(exports) {
       init_lib_jurnal();
       init_lib_jurnal_item();
-      _.libJurnal = libJurnal;
-      _.libJurnalItem = libJurnalItem;
+      exports.formatRupiah = function(nominal) {
+        if (!nominal) {
+          return null;
+        }
+        return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      };
+      exports.libJurnal = libJurnal;
+      exports.libJurnalItem = libJurnalItem;
     }
   });
   return require_main();
