@@ -30,7 +30,7 @@ this.formatRupiah = function (nominal: number) {
 //   return "satu";
 // };
 
-// _.libJurnal = libJurnal;
+this.libJurnal = libJurnal;
 this.libJurnalItem = libJurnalItem;
 
 // function coba1() {
