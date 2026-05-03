@@ -9,7 +9,7 @@
   "scripts": {
     "format": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild src/main.ts --minify --outfile=ts-memento.js"
+    "build": "esbuild src/main.ts --bundle --minify --global-name=_ --format=iife --outfile=ts-memento.js"
   },
   "devDependencies": {
     "esbuild": "0.28.0",

@@ -1,3 +1,5 @@
+import * as libJurnal from "./lib/lib-jurnal";
+import libJurnalItem from "./lib/lib-jurnal-item";
 import { AvailableLibraries } from "./types/memento";
 
 type LibraryName = keyof AvailableLibraries;
@@ -16,6 +18,9 @@ _.formatRupiah = function (nominal: number) {
 _.coba1 = function coba1() {
   return "satu";
 };
+
+_.libJurnal = libJurnal;
+_.libJurnalItem = libJurnalItem;
 
 // function coba1() {
 //   return "satu";
