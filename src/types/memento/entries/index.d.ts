@@ -25,7 +25,7 @@ export * from "./entry";
  * 
  * @see https://scripts.mementodatabase.com/script_api/entry/#entry
  */
-export function entry<T extends LibraryStruct>(): Entry<T>;
+export function entry<T>(): Entry<T>;
 
 /**
  * Get default field values for a not-yet-created entry.
@@ -40,7 +40,7 @@ export function entry<T extends LibraryStruct>(): Entry<T>;
  * defaults.set("CreatedDate", new Date().getTime());
  * @see https://scripts.mementodatabase.com/script_api/entry/#entrydefault
  */
-export function entryDefault(): Entry & DefaultEntry;
+export function entryDefault<T>(): Entry<T> & DefaultEntry;
 
 /**
  * Customize default field values during entry creation or update events.
@@ -59,4 +59,4 @@ export function entryDefault(): Entry & DefaultEntry;
  * }
  * @see https://scripts.mementodatabase.com/script_api/entry/#builddefaultentry
  */
-export function buildDefaultEntry(): Entry & DefaultEntry;
+export function buildDefaultEntry<T>(): Entry<T> & DefaultEntry;

@@ -5,7 +5,7 @@ import { LibraryStruct } from "../libraries/library";
  * The Entry object represents a single entry in a library and provides methods for accessing and modifying its field values.
  * @see https://scripts.mementodatabase.com/script_api/entry/#entry-object
  */
-export interface Entry<T extends LibraryStruct = LibraryStruct> {
+export interface Entry<T> {
   /** ID of the user who created the entry */
   author: string;
   /** Date and time when the entry was created */
@@ -132,7 +132,7 @@ export interface Entry<T extends LibraryStruct = LibraryStruct> {
    * }
    * @see https://scripts.mementodatabase.com/script_api/entry/#linkname-entry
    */
-  link(name: keyof T, entry: Entry): void;
+  link<T>(name: keyof T, entry: Entry<T>): void;
 
   /**
    * Recalculate all calculated fields in the entry.
@@ -241,7 +241,7 @@ export interface Entry<T extends LibraryStruct = LibraryStruct> {
    * });
    * @see https://scripts.mementodatabase.com/script_api/entry/#unlinkname-entry
    */
-  unlink(name: keyof T, entry: Entry): void;
+  unlink<P>(name: keyof T, entry: Entry<P>): void;
 
   /**
    * Create and return an exact copy of the current entry.
@@ -256,7 +256,7 @@ export interface Entry<T extends LibraryStruct = LibraryStruct> {
    * copy.set("Title", original.field("Title") + " (Copy)");
    * @see https://scripts.mementodatabase.com/script_api/entry/#duplicate
    */
-  duplicate(): Entry;
+  duplicate(): Entry<T>;
 }
 
 export interface DefaultEntry {

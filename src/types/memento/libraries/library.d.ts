@@ -67,7 +67,7 @@ export type AvailableLibraries = CustomProperties extends {
  * @see https://scripts.mementodatabase.com/script_api/library/#working-with-multiple-libraries
  * @see https://scripts.mementodatabase.com/script_api/library/#search-and-update-operations
  */
-export interface Library<T extends LibraryStruct = LibraryStruct> {
+export interface Library<T> {
   /** The name of the library */
   name: string;
   /** The title of the library (alias for name) */
@@ -94,7 +94,7 @@ export interface Library<T extends LibraryStruct = LibraryStruct> {
    *
    * @see https://scripts.mementodatabase.com/script_api/library/#createvalues
    */
-  create(values: T): Entry<T>;
+  create(values: Partial<T>): Entry<T>;
 
   /**
    * Get all entries in the library.
@@ -234,7 +234,7 @@ export interface Library<T extends LibraryStruct = LibraryStruct> {
    * }
    * @see https://scripts.mementodatabase.com/script_api/library/#linkstoentry
    */
-  linksTo(entry: Entry): Entry<T>[];
+  linksTo<P>(entry: Entry<P>): Entry<T>[];
 
   /**
    * Display the library in the user interface.

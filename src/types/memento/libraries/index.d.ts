@@ -32,9 +32,8 @@ export function lib<T extends LibraryStruct>(): Library<T>;
  * @see https://scripts.mementodatabase.com/script_api/library/#libbynamename
  */
 export function libByName<
-  T extends AvailableLibraries = AvailableLibraries,
-  K extends keyof T = keyof T,
->(name: K): Library<T[K]> | null;
+  T
+>(name: string): Library<T> | null;
 
 /**
  * Find a library by its ID.
@@ -52,4 +51,4 @@ export function libByName<
  * }
  * @see https://scripts.mementodatabase.com/script_api/library/#libbyidid
  */
-export function libById<T extends LibraryStruct>(id: string): Library<T> | null;
+export function libById<T>(id: string): Library<T> | null;

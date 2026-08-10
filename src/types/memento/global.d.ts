@@ -1,3 +1,4 @@
+import * as actions from "./actions";
 import * as entries from "./entries";
 import * as libraries from "./libraries";
 import * as messages from "./messages";
@@ -17,6 +18,9 @@ declare global {
   var log: typeof messages.log;
   var dialog: typeof messages.dialog;
   var notification: typeof messages.notification;
+
+  var arg: typeof actions.arg;
+  var selectedEntries: typeof actions.selectedEntries;
 
   var ui: typeof mementoUi.ui;
   var _initWidget: typeof mementoUi._initWidget;

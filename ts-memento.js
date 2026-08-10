@@ -40,7 +40,7 @@ var _ = (() => {
       init_lib_jurnal();
       init_lib_jurnal_item();
       exports.formatRupiah = function(nominal) {
-        if (!nominal) {
+        if (typeof nominal !== "number" || nominal <= 0) {
           return null;
         }
         return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

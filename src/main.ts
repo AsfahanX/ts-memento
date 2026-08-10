@@ -10,15 +10,17 @@ type LibraryName = keyof AvailableLibraries;
 //   return {};
 // }
 this.formatRupiah = function (nominal: number) {
-  if (!nominal) {
+  if(typeof nominal !== "number" || nominal <= 0) {
     return null;
-  }
+  } 
   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   // return nominal.toLocaleString("id-ID", {
   //   style: "currency",
   //   currency: "IDR",
   // });
 };
+
+
 
 // function _() {}
 // _.formatRupiah = function (nominal: number) {
