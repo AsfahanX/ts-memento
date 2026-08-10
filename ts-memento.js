@@ -34,10 +34,49 @@ var _ = (() => {
     }
   });
 
+  // src/lib/lib-item-jurnal-barang.ts
+  function libItemJurnalBarang() {
+    return libItemJurnalBarang.id ? libById(libItemJurnalBarang.id) : libByName(libItemJurnalBarang.name);
+  }
+  var init_lib_item_jurnal_barang = __esm({
+    "src/lib/lib-item-jurnal-barang.ts"() {
+      libItemJurnalBarang.name = "Item Jurnal Barang";
+      libItemJurnalBarang.id = "I2lTWGc0UFFxcTUxdi1kOUc6Rk0";
+      libItemJurnalBarang.events = {
+        entry: {
+          updated() {
+          }
+        }
+      };
+    }
+  });
+
+  // src/lib/lib-jurnal-barang.ts
+  function libJurnalBarang() {
+    return libJurnalBarang.id ? libById(libJurnalBarang.id) : libByName(libJurnalBarang.name);
+  }
+  var init_lib_jurnal_barang = __esm({
+    "src/lib/lib-jurnal-barang.ts"() {
+      init_lib_item_jurnal_barang();
+      libJurnalBarang.name = "Pesanan Pembelian";
+      libJurnalBarang.id = "UHoqKEhMPDJkNyoteTllK3dFWlk";
+      libJurnalBarang.events = {
+        entry: {
+          deleted() {
+            var _a;
+            const e = entry();
+            (_a = libItemJurnalBarang()) == null ? void 0 : _a.linksTo(e).forEach((i) => i.trash());
+          }
+        }
+      };
+    }
+  });
+
   // src/main.ts
   var require_main = __commonJS({
     "src/main.ts"(exports) {
       init_lib_jurnal();
+      init_lib_jurnal_barang();
       init_lib_jurnal_item();
       exports.formatRupiah = function(nominal) {
         if (typeof nominal !== "number" || nominal <= 0) {
@@ -47,6 +86,7 @@ var _ = (() => {
       };
       exports.libJurnal = libJurnal;
       exports.libJurnalItem = libJurnalItem;
+      exports.libJurnalBarang = libJurnalBarang;
     }
   });
   return require_main();

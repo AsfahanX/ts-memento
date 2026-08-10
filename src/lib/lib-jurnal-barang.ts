@@ -1,4 +1,5 @@
 import type * as Field from '@/types/memento/fields'
+import libItemJurnalBarang from './lib-item-jurnal-barang';
 
 export default function libJurnalBarang() {
     return libJurnalBarang.id ? libById<LibJurnalBarang>(libJurnalBarang.id) : libByName<LibJurnalBarang>(libJurnalBarang.name);
@@ -15,8 +16,10 @@ export type LibJurnalBarang = {
 
 libJurnalBarang.events = {
     entry: {
-        updated() {
-
+        deleted() {
+            const e = entry<LibJurnalBarang>()
+            libItemJurnalBarang()?.linksTo(e)
+                .forEach(i => i.trash())
         }
     }
 }

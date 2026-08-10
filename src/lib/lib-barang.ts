@@ -6,20 +6,18 @@ export default function libBarang() {
     return libByName<LibBarang>(libBarang.name);
 }
 
-libBarang.name = "Gudang";
-libBarang.id = "XSNaUEFQbWdzWHBnJXVdNXZUTlE";
+libBarang.name = "Master Barang";
+libBarang.id = "QFQxY0BKVWQ0elJkKTY5SSU6cUM";
 
 export type LibBarang = {
-    Nama: Field.Text;
+    'Nama': Field.Text;
+    'Nama Tampilah': Field.Text;
     'Gambar utama': Field.Image;
 }
 
 libBarang.events = {
     entry: {
         updated() {
-
         }
     }
 }
-
-

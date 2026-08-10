@@ -1,18 +1,16 @@
-// import libJurnal from "./lib/lib-jurnal";
-// import libJurnalItem from "./lib/lib-jurnal-item";
-// import * from "./lib/lib-jurnal"
 import libJurnal from "./lib/lib-jurnal";
+import libJurnalBarang from "./lib/lib-jurnal-barang";
 import libJurnalItem from "./lib/lib-jurnal-item";
-import { AvailableLibraries } from "./types/memento";
 
-type LibraryName = keyof AvailableLibraries;
-// function _() {
-//   return {};
-// }
+this.libJurnal = libJurnal;
+this.libJurnalItem = libJurnalItem;
+this.libJurnalBarang = libJurnalBarang;
+
+
 this.formatRupiah = function (nominal: number) {
-  if(typeof nominal !== "number" || nominal <= 0) {
+  if (typeof nominal !== "number" || nominal <= 0) {
     return null;
-  } 
+  }
   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   // return nominal.toLocaleString("id-ID", {
   //   style: "currency",
@@ -37,8 +35,6 @@ this.formatRupiah = function (nominal: number) {
 //   return "satu";
 // };
 
-this.libJurnal = libJurnal;
-this.libJurnalItem = libJurnalItem;
 
 // function coba1() {
 //   return "satu";
