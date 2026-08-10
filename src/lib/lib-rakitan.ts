@@ -8,8 +8,8 @@ export default function libRakitan() {
     return libRakitan.id ? libById<LibRakitan>(libRakitan.id) : libByName<LibRakitan>(libRakitan.name);
 }
 
-libRakitan.name = "Pesanan Pembelian";
-libRakitan.id = null;
+libRakitan.name = "Perakitan";
+libRakitan.id = 'JTlxbXJ3OEsjYXp2UEJzdWhNKm0';
 
 export type LibRakitan = {
     Jenis: Field.SingleChoice<'Penyesuaian persediaan' | 'Pembelian' | 'Penjualan'>;
@@ -36,8 +36,8 @@ libRakitan.actions = {
             let choiceGudangSumber = ui().choiceBox(1, choices ?? [])
 
             function buatJurnal() {
-                let gudangTujuan = gudangs?.at(choiceGudangTujuan.selected)
-                let gudangSumber = gudangs?.at(choiceGudangSumber.selected)
+                let gudangTujuan = gudangs?.[choiceGudangTujuan.selected]
+                let gudangSumber = gudangs?.[choiceGudangSumber.selected]
 
                 let e = entry<LibRakitan>()
                 let items = libItemRakitan()
@@ -45,16 +45,21 @@ libRakitan.actions = {
                 let jurnal = libJurnalBarang()?.create({
                     Keterangan: e.name
                 })
+                if (!jurnal) {
+                    log('Gagal membuat jurnal barang')
+                    message('Gagal membuat jurnal barang')
+                    return false;
+                }
                 items?.forEach(item => {
                     libItemJurnalBarang()?.create({
                         'Jurnal barang': [jurnal],
-                        'Gudang': [gudangTujuan],
+                        'Gudang': gudangTujuan ? [gudangTujuan] : undefined,
                         'Barang': item
                             .field('Barang'),
                         'Perubahan kuantitas': item
                             .field('Kuantitas'),
                         'Gambar barang': item
-                            .field('Barang').at(0)
+                            .field('Barang')[0]
                             .field('Gambar utama'),
                         'Perakitan': [e]
                     })
@@ -62,13 +67,13 @@ libRakitan.actions = {
                 items?.forEach(item => {
                     libItemJurnalBarang()?.create({
                         'Jurnal barang': [jurnal],
-                        'Gudang': [gudangSumber],
+                        'Gudang': gudangSumber ? [gudangSumber] : undefined,
                         'Barang': item
                             .field('Barang'),
                         'Perubahan kuantitas':
                             0 - item.field('Kuantitas'),
                         'Gambar barang': item
-                            .field('Barang').at(0)
+                            .field('Barang')[0]
                             .field('Gambar utama')
                     })
                 })

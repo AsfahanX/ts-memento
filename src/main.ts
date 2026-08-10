@@ -1,11 +1,12 @@
 import libJurnal from "./lib/lib-jurnal";
 import libJurnalBarang from "./lib/lib-jurnal-barang";
 import libJurnalItem from "./lib/lib-jurnal-item";
+import libRakitan from "./lib/lib-rakitan";
 
 this.libJurnal = libJurnal;
 this.libJurnalItem = libJurnalItem;
 this.libJurnalBarang = libJurnalBarang;
-
+this.libRakitan = libRakitan
 
 this.formatRupiah = function (nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
