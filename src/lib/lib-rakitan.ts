@@ -3,6 +3,7 @@ import libGudang from './lib-gudang';
 import libItemRakitan from './lib-item-rakitan';
 import libJurnalBarang from './lib-jurnal-barang';
 import libItemJurnalBarang from './lib-item-jurnal-barang';
+import type { Entry } from '@/types/memento';
 
 export default function libRakitan() {
     return libRakitan.id ? libById<LibRakitan>(libRakitan.id) : libByName<LibRakitan>(libRakitan.name);
@@ -27,7 +28,7 @@ libRakitan.events = {
 
 libRakitan.actions = {
     entry: {
-        buatJurnalBarang() {
+        buatJurnalBarang(e: Entry<LibRakitan>) {
 
             let gudangs = libGudang()?.entries()
             let choices = gudangs?.map(v => v.name)
@@ -39,7 +40,7 @@ libRakitan.actions = {
                 let gudangTujuan = gudangs?.[choiceGudangTujuan.selected]
                 let gudangSumber = gudangs?.[choiceGudangSumber.selected]
 
-                let e = entry<LibRakitan>()
+                // let e = entry<LibRakitan>()
                 let items = libItemRakitan()
                     ?.linksTo(e)
                 let jurnal = libJurnalBarang()?.create({

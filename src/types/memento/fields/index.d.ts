@@ -42,6 +42,6 @@ export type Calculation<T extends Integer | Date | DateTime | string> = T
 export type Javascript<T> = T;
 export type SingleChoice<T> = T;
 export type MultipleChoice<T> = T;
-export type LinkToEntry<T> = Entry<T>[];
+export type LinkToEntry<T = unknown> = Entry<T>[];
 // export type Image = JSImage;
 // export type Image = JSImage;

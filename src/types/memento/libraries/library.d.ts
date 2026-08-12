@@ -94,7 +94,7 @@ export interface Library<T> {
    *
    * @see https://scripts.mementodatabase.com/script_api/library/#createvalues
    */
-  create(values: Partial<T>): Entry<T>;
+  create(values: T): Entry<T>;
 
   /**
    * Get all entries in the library.
