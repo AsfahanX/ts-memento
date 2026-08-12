@@ -3,7 +3,7 @@ import libJurnalBarang from "./lib/lib-jurnal-barang";
 import libJurnalItem from "./lib/lib-jurnal-item";
 import libRakitan from "./lib/lib-rakitan";
 
-this.libJurnal = libJurnal;
+// this.libJurnal = libJurnal;
 this.libJurnalItem = libJurnalItem;
 this.libJurnalBarang = libJurnalBarang;
 this.libRakitan = libRakitan
