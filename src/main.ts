@@ -1,23 +1,25 @@
 import libJurnal from "./lib/lib-jurnal";
 import libJurnalBarang from "./lib/lib-jurnal-barang";
 import libJurnalItem from "./lib/lib-jurnal-item";
-import libRakitan from "./lib/lib-rakitan";
+// import libRakitan from "./lib/lib-rakitan";
+export { default as libRakitan } from "./lib/lib-rakitan";
 
 // this.libJurnal = libJurnal;
 // this.libJurnalItem = libJurnalItem;
 // this.libJurnalBarang = libJurnalBarang;
 // this.libRakitan = libRakitan
 
-// this.formatRupiah = function (nominal: number) {
-//   if (typeof nominal !== "number" || nominal <= 0) {
-//     return null;
-//   }
-//   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-//   // return nominal.toLocaleString("id-ID", {
-//   //   style: "currency",
-//   //   currency: "IDR",
-//   // });
-// };
+
+export function formatRupiah(nominal: number) {
+  if (typeof nominal !== "number" || nominal <= 0) {
+    return null;
+  }
+  return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  // return nominal.toLocaleString("id-ID", {
+  //   style: "currency",
+  //   currency: "IDR",
+  // });
+};
 
 export function hello() {
   message("hello")
