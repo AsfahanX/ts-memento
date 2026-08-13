@@ -2,6 +2,7 @@ import libJurnal from "./lib/lib-jurnal";
 import libJurnalBarang from "./lib/lib-jurnal-barang";
 import libJurnalItem from "./lib/lib-jurnal-item";
 // import libRakitan from "./lib/lib-rakitan";
+export { default as libJurnalBarang } from "./lib/lib-jurnal-barang";
 export { default as libRakitan } from "./lib/lib-rakitan";
 
 // this.libJurnal = libJurnal;

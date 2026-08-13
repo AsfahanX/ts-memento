@@ -22,8 +22,38 @@ var _ = (() => {
   __export(main_exports, {
     formatRupiah: () => formatRupiah,
     hello: () => hello,
+    libJurnalBarang: () => libJurnalBarang,
     libRakitan: () => libRakitan
   });
+
+  // src/lib/lib-item-jurnal-barang.ts
+  function libItemJurnalBarang() {
+    return libItemJurnalBarang.id ? libById(libItemJurnalBarang.id) : libByName(libItemJurnalBarang.name);
+  }
+  libItemJurnalBarang.name = "Item Jurnal Barang";
+  libItemJurnalBarang.id = "I2lTWGc0UFFxcTUxdi1kOUc6Rk0";
+  libItemJurnalBarang.events = {
+    entry: {
+      updated() {
+      }
+    }
+  };
+
+  // src/lib/lib-jurnal-barang.ts
+  function libJurnalBarang() {
+    return libJurnalBarang.id ? libById(libJurnalBarang.id) : libByName(libJurnalBarang.name);
+  }
+  libJurnalBarang.name = "Pesanan Pembelian";
+  libJurnalBarang.id = "UHoqKEhMPDJkNyoteTllK3dFWlk";
+  libJurnalBarang.events = {
+    entry: {
+      deleted(e) {
+        var _a;
+        if (!e) e = entry();
+        (_a = libItemJurnalBarang()) == null ? void 0 : _a.linksTo(e).forEach((i) => i.trash());
+      }
+    }
+  };
 
   // src/lib/lib-gudang.ts
   function libGudang() {
@@ -49,35 +79,6 @@ var _ = (() => {
   libItemRakitan.events = {
     entry: {
       updated() {
-      }
-    }
-  };
-
-  // src/lib/lib-item-jurnal-barang.ts
-  function libItemJurnalBarang() {
-    return libItemJurnalBarang.id ? libById(libItemJurnalBarang.id) : libByName(libItemJurnalBarang.name);
-  }
-  libItemJurnalBarang.name = "Item Jurnal Barang";
-  libItemJurnalBarang.id = "I2lTWGc0UFFxcTUxdi1kOUc6Rk0";
-  libItemJurnalBarang.events = {
-    entry: {
-      updated() {
-      }
-    }
-  };
-
-  // src/lib/lib-jurnal-barang.ts
-  function libJurnalBarang() {
-    return libJurnalBarang.id ? libById(libJurnalBarang.id) : libByName(libJurnalBarang.name);
-  }
-  libJurnalBarang.name = "Pesanan Pembelian";
-  libJurnalBarang.id = "UHoqKEhMPDJkNyoteTllK3dFWlk";
-  libJurnalBarang.events = {
-    entry: {
-      deleted() {
-        var _a;
-        const e = entry();
-        (_a = libItemJurnalBarang()) == null ? void 0 : _a.linksTo(e).forEach((i) => i.trash());
       }
     }
   };
