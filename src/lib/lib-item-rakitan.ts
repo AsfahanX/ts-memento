@@ -1,5 +1,5 @@
 import type * as Field from '@/types/memento/fields'
-import { LibRakitan } from './lib-rakitan';
+import { Schema } from './lib-rakitan';
 import { LibBarang } from './lib-barang';
 
 export default function libItemRakitan() {
@@ -10,7 +10,7 @@ libItemRakitan.name = "Item Rakitan";
 libItemRakitan.id = "JVBtMUppVGxvUCFYbFNlOyhOQGY";
 
 export type LibItemRakitan = {
-    'Perakitan': Field.LinkToEntry<LibRakitan>;
+    'Perakitan': Field.LinkToEntry<Schema>;
     'Barang': Field.LinkToEntry<LibBarang>;
     Kuantitas: Field.Integer;
     // 'Jurnal barang': Field.LinkToEntry<LibJurnalBarang>;

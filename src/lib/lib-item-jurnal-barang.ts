@@ -1,7 +1,7 @@
 import type * as Field from '@/types/memento/fields'
 import type { Schema } from './lib-jurnal-barang';
 import type { LibGudang } from './lib-gudang';
-import type { LibRakitan } from './lib-rakitan';
+import type { Schema } from './lib-rakitan';
 import type { LibBarang } from './lib-barang';
 
 export default function libItemJurnalBarang() {
@@ -17,7 +17,7 @@ type LibItemJurnalBarang = {
     'Barang': Field.LinkToEntry<LibBarang>;
     'Perubahan kuantitas': Field.Integer
     'Gambar barang': Field.Image
-    'Perakitan'?: Field.LinkToEntry<LibRakitan>;
+    'Perakitan'?: Field.LinkToEntry<Schema>;
 }
 
 libItemJurnalBarang.events = {

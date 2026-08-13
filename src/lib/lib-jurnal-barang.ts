@@ -1,6 +1,6 @@
 import type * as Field from '@/types/memento/fields'
 import libItemJurnalBarang from './lib-item-jurnal-barang';
-import type { LibRakitan } from './lib-rakitan';
+import type { Schema as LibRakitanSchema } from './lib-rakitan';
 import type { Entry } from '@/types/memento';
 
 export default function libJurnalBarang() {
@@ -14,14 +14,14 @@ export type Schema = {
     Jenis?: Field.SingleChoice<'Penyesuaian persediaan' | 'Pembelian' | 'Penjualan'>;
     Tanggal?: Field.Date
     Keterangan?: Field.Text;
-    Rakitan?: Field.LinkToEntry<LibRakitan>;
+    Rakitan?: Field.LinkToEntry<LibRakitanSchema>;
 }
 
 libJurnalBarang.events = {
     entry: {
         deleted(e?: Entry<Schema>) {
             // e ??= entry()
-            if (!e) e = entry()
+            if (!e) { e = entry() }
             libItemJurnalBarang()?.linksTo(e)
                 .forEach(i => i.trash())
         }
