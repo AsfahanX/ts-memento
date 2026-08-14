@@ -1,17 +1,11 @@
 import type * as Field from '@/types/memento/fields'
-import { Schema } from './lib-rakitan';
-import { LibBarang } from './lib-barang';
 
-export default function libItemRakitan() {
-    return libItemRakitan.id ? libById<LibItemRakitan>(libItemRakitan.id) : libByName<LibItemRakitan>(libItemRakitan.name);
-}
+import { Barang } from './lib-barang';
+import { LibHelper } from '@/types';
 
-libItemRakitan.name = "Item Rakitan";
-libItemRakitan.id = "JVBtMUppVGxvUCFYbFNlOyhOQGY";
-
-export type LibItemRakitan = {
-    'Perakitan': Field.LinkToEntry<Schema>;
-    'Barang': Field.LinkToEntry<LibBarang>;
+export type ItemRakitan = {
+    'Perakitan': Field.LinkToEntry<ItemRakitan>;
+    'Barang': Field.LinkToEntry<Barang>;
     Kuantitas: Field.Integer;
     // 'Jurnal barang': Field.LinkToEntry<LibJurnalBarang>;
     //     'Gudang': Field.LinkToEntry<LibGudang>;
@@ -19,10 +13,13 @@ export type LibItemRakitan = {
     //     'Gambar barang': Field.Image
 }
 
-libItemRakitan.events = {
-    entry: {
-        updated() {
+export default {
+    name: "Item Rakitan",
+    id: "JVBtMUppVGxvUCFYbFNlOyhOQGY",
 
-        }
+    lib() {
+        return libById(this.id) ?? (() => { throw new Error(`Library with id ${this.id} not found`); })()
     }
-}
+
+} satisfies LibHelper<ItemRakitan>
+

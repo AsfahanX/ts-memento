@@ -1,29 +1,24 @@
-import type * as Field from '@/types/memento/fields'
-import type { Schema } from './lib-jurnal-barang';
-import type { LibGudang } from './lib-gudang';
-import type { Schema } from './lib-rakitan';
-import type { LibBarang } from './lib-barang';
+import type { LibHelper } from '@/types';
+import type * as Field from '@/types/memento/fields';
+import type { Barang } from './lib-barang';
+import type { Gudang } from './lib-gudang';
+import type { JurnalBarang } from './lib-jurnal-barang';
 
-export default function libItemJurnalBarang() {
-    return libItemJurnalBarang.id ? libById<LibItemJurnalBarang>(libItemJurnalBarang.id) : libByName<LibItemJurnalBarang>(libItemJurnalBarang.name);
-}
-
-libItemJurnalBarang.name = "Item Jurnal Barang";
-libItemJurnalBarang.id = "I2lTWGc0UFFxcTUxdi1kOUc6Rk0";
-
-type LibItemJurnalBarang = {
-    'Jurnal barang': Field.LinkToEntry<Schema>;
-    'Gudang'?: Field.LinkToEntry<LibGudang>;
-    'Barang': Field.LinkToEntry<LibBarang>;
+export type ItemJurnalBarang = {
+    'Jurnal barang': Field.LinkToEntry<JurnalBarang>;
+    'Gudang'?: Field.LinkToEntry<Gudang>;
+    'Barang': Field.LinkToEntry<Barang>;
     'Perubahan kuantitas': Field.Integer
     'Gambar barang': Field.Image
-    'Perakitan'?: Field.LinkToEntry<Schema>;
+    'Perakitan'?: Field.LinkToEntry<JurnalBarang>;
 }
 
-libItemJurnalBarang.events = {
-    entry: {
-        updated() {
+export default {
+    name: "Item Jurnal Barang",
+    id: "I2lTWGc0UFFxcTUxdi1kOUc6Rk0",
 
-        }
+    lib() {
+        return libById(this.id) ?? (() => { throw new Error(`Library with id ${this.id} not found`); })()
     }
-}
+
+} satisfies LibHelper<ItemJurnalBarang>
