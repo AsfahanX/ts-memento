@@ -1,24 +1,28 @@
-import type { LibHelper } from '@/types';
-import type * as Field from '@/types/memento/fields';
-import type { Barang } from './lib-barang';
-import type { Gudang } from './lib-gudang';
-import type { JurnalBarang } from './lib-jurnal-barang';
+import type { LibHelper } from "@/types";
+import type * as Field from "@/types/memento/fields";
+import type { Barang } from "./lib-barang";
+import type { Gudang } from "./lib-gudang";
+import type { JurnalBarang } from "./lib-jurnal-barang";
 
 export type ItemJurnalBarang = {
-    'Jurnal barang': Field.LinkToEntry<JurnalBarang>;
-    'Gudang'?: Field.LinkToEntry<Gudang>;
-    'Barang': Field.LinkToEntry<Barang>;
-    'Perubahan kuantitas': Field.Integer
-    'Gambar barang': Field.Image
-    'Perakitan'?: Field.LinkToEntry<JurnalBarang>;
-}
+  "Jurnal barang": Field.LinkToEntry<JurnalBarang>;
+  Gudang?: Field.LinkToEntry<Gudang>;
+  Barang: Field.LinkToEntry<Barang>;
+  "Perubahan kuantitas": Field.Integer;
+  "Gambar barang": Field.Image;
+  Perakitan?: Field.LinkToEntry<JurnalBarang>;
+};
 
 export default {
-    name: "Item Jurnal Barang",
-    id: "I2lTWGc0UFFxcTUxdi1kOUc6Rk0",
+  name: "Item Jurnal Barang",
+  id: "I2lTWGc0UFFxcTUxdi1kOUc6Rk0",
 
-    lib() {
-        return libById(this.id) ?? (() => { throw new Error(`Library with id ${this.id} not found`); })()
-    }
-
-} satisfies LibHelper<ItemJurnalBarang>
+  lib() {
+    return (
+      libById(this.id) ??
+      (() => {
+        throw new Error(`Library with id ${this.id} not found`);
+      })()
+    );
+  },
+} satisfies LibHelper<ItemJurnalBarang>;

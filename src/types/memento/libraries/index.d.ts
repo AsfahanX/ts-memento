@@ -31,9 +31,7 @@ export function lib<T extends LibraryStruct>(): Library<T>;
  *
  * @see https://scripts.mementodatabase.com/script_api/library/#libbynamename
  */
-export function libByName<
-  T
->(name: string): Library<T> | null;
+export function libByName<T>(name: string): Library<T> | null;
 
 /**
  * Find a library by its ID.

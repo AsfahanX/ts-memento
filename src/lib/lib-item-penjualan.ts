@@ -1,8 +1,7 @@
 import libJurnalItem from "./lib-jurnal-item";
 
 export default function libItemPenjualan() {
-  if(libItemPenjualan.id)
-    return libById(libItemPenjualan.id);
+  if (libItemPenjualan.id) return libById(libItemPenjualan.id);
   return libByName(libItemPenjualan.name);
 }
 

@@ -2,29 +2,29 @@ import { Entry, Library } from "@/types/memento";
 
 type Handler<T> = (e: Entry<T>, ...rest: any) => void;
 type Handlers<T> = {
-  [name: string]: Handler<T>
-}
+  [name: string]: Handler<T>;
+};
 export type LibHelper<T> = {
-  name?: string
-  id: string
-  lib(): Library<T>
+  name?: string;
+  id: string;
+  lib(): Library<T>;
 
   events?: {
     entry?: {
-      created?: Handler<T>
-      updated?: Handler<T>
-      deleted?: Handler<T>
-    }
-  },
+      created?: Handler<T>;
+      updated?: Handler<T>;
+      deleted?: Handler<T>;
+    };
+  };
 
   actions?: {
-    entry?: Handlers<T>,
-    library?: Handlers<T>,
-    bulk?: Handlers<T>,
-  }
+    entry?: Handlers<T>;
+    library?: Handlers<T>;
+    bulk?: Handlers<T>;
+  };
 
   // [key: string]: any
-}
+};
 
 declare module "./memento" {
   interface CustomProperties {

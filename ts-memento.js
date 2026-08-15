@@ -176,19 +176,19 @@ var _ = (() => {
                   var _a3;
                   (_a3 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a3.create({
                     "Jurnal barang": [jurnal],
-                    "Gudang": gudangTujuan ? [gudangTujuan] : void 0,
-                    "Barang": item.field("Barang"),
+                    Gudang: gudangTujuan ? [gudangTujuan] : void 0,
+                    Barang: item.field("Barang"),
                     "Perubahan kuantitas": item.field("Kuantitas"),
                     "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
-                    "Perakitan": [e]
+                    Perakitan: [e]
                   });
                 });
                 items == null ? void 0 : items.forEach((item) => {
                   var _a3;
                   (_a3 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a3.create({
                     "Jurnal barang": [jurnal],
-                    "Gudang": gudangSumber ? [gudangSumber] : void 0,
-                    "Barang": item.field("Barang"),
+                    Gudang: gudangSumber ? [gudangSumber] : void 0,
+                    Barang: item.field("Barang"),
                     "Perubahan kuantitas": 0 - item.field("Kuantitas"),
                     "Gambar barang": item.field("Barang")[0].field("Gambar utama")
                   });
@@ -196,12 +196,14 @@ var _ = (() => {
                 jurnal.show();
                 return true;
               }
-              dialog().title("Pilih ").view(ui().layout([
-                ui().text("Gudang tujuan: "),
-                choiceGudangTujuan,
-                ui().text("Gudang sumber: "),
-                choiceGudangSumber
-              ])).positiveButton("Yes", buatJurnal).negativeButton("No", () => false).show();
+              dialog().title("Pilih ").view(
+                ui().layout([
+                  ui().text("Gudang tujuan: "),
+                  choiceGudangTujuan,
+                  ui().text("Gudang sumber: "),
+                  choiceGudangSumber
+                ])
+              ).positiveButton("Yes", buatJurnal).negativeButton("No", () => false).show();
             }
           }
         }
