@@ -1,3 +1,4 @@
+export * from "@/lib"
 
 export function formatRupiah(nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
