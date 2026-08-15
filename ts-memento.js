@@ -1,15 +1,10 @@
 var _ = (() => {
-  var __defProp = Object.defineProperty;
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-  };
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
   };
 
   // src/lib/lib-penjualan.ts
@@ -215,16 +210,6 @@ var _ = (() => {
   });
 
   // src/lib/index.ts
-  var lib_exports = {};
-  __export(lib_exports, {
-    libBarang: () => lib_barang_default,
-    libGudang: () => lib_gudang_default,
-    libItemJurnalBarang: () => lib_item_jurnal_barang_default,
-    libItemRakitan: () => lib_item_rakitan_default,
-    libJurnalBarang: () => lib_jurnal_barang_default,
-    libPenjualan: () => lib_penjualan_default,
-    libRakitan: () => lib_rakitan_default
-  });
   var init_lib = __esm({
     "src/lib/index.ts"() {
       init_lib_penjualan();
@@ -241,7 +226,14 @@ var _ = (() => {
   var require_main = __commonJS({
     "src/main.ts"(exports) {
       init_lib();
-      Object.assign(exports, lib_exports, {
+      Object.assign(exports, {
+        libPenjualan: lib_penjualan_default,
+        libBarang: lib_barang_default,
+        libGudang: lib_gudang_default,
+        libJurnalBarang: lib_jurnal_barang_default,
+        libItemJurnalBarang: lib_item_jurnal_barang_default,
+        libRakitan: lib_rakitan_default,
+        libItemRakitan: lib_item_rakitan_default,
         formatRupiah(nominal) {
           if (typeof nominal !== "number" || nominal <= 0) {
             return null;

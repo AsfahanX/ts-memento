@@ -1,4 +1,13 @@
-import * as libs from "@/lib"
+// import * as libs from "@/lib"
+import {
+  libPenjualan,
+  libBarang,
+  libGudang,
+  libJurnalBarang,
+  libItemJurnalBarang,
+  libRakitan,
+  libItemRakitan,
+} from "@/lib"
 
 // this.libRakitan = libRakitan;
 
@@ -14,7 +23,14 @@ import * as libs from "@/lib"
 //   message("hello")
 // }
 
-Object.assign(this, libs, {
+Object.assign(this, {
+  libPenjualan,
+  libBarang,
+  libGudang,
+  libJurnalBarang,
+  libItemJurnalBarang,
+  libRakitan,
+  libItemRakitan,
 
   formatRupiah(nominal: number) {
     if (typeof nominal !== "number" || nominal <= 0) {
