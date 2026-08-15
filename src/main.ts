@@ -1,5 +1,5 @@
 
-this.formatRupiah = function (nominal: number) {
+export function formatRupiah(nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
     return null;
   }
@@ -8,6 +8,6 @@ this.formatRupiah = function (nominal: number) {
 
 };
 
-this.hello = function () {
+export function hello() {
   message("hello")
 } 
