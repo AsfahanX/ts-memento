@@ -1,4 +1,4 @@
-export * from "@/lib"
+// export * from "@/lib"
 
 export function formatRupiah(nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
@@ -6,7 +6,6 @@ export function formatRupiah(nominal: number) {
   }
 
   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
 };
 
 export function hello() {
