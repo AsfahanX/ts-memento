@@ -1,36 +1,22 @@
 var _ = (() => {
-  var __defProp = Object.defineProperty;
-  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-  var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
-      for (let key of __getOwnPropNames(from))
-        if (!__hasOwnProp.call(to, key) && key !== except)
-          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-    }
-    return to;
-  };
-  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
   // src/main.ts
-  var main_exports = {};
-  __export(main_exports, {
-    formatRupiah: () => formatRupiah,
-    hello: () => hello
-  });
-  function formatRupiah(nominal) {
-    if (typeof nominal !== "number" || nominal <= 0) {
-      return null;
+  var require_main = __commonJS({
+    "src/main.ts"(exports) {
+      exports.formatRupiah = function(nominal) {
+        if (typeof nominal !== "number" || nominal <= 0) {
+          return null;
+        }
+        return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      };
+      exports.hello = function() {
+        message("hello");
+      };
     }
-    return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
-  function hello() {
-    message("hello");
-  }
-  return __toCommonJS(main_exports);
+  });
+  return require_main();
 })();

@@ -1,4 +1,6 @@
+// import { libRakitan } from "./lib";
 
+// this.libRakitan = libRakitan;
 
 this.formatRupiah = function (nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
