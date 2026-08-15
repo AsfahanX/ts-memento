@@ -1,4 +1,3 @@
-// export * from "@/lib"
 
 this.formatRupiah = function (nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
@@ -9,6 +8,6 @@ this.formatRupiah = function (nominal: number) {
 
 };
 
-// export function hello() {
-//   message("hello")
-// } 
+this.hello = function () {
+  message("hello")
+} 

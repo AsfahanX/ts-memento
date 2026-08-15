@@ -13,6 +13,9 @@ var _ = (() => {
         }
         return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       };
+      exports.hello = function() {
+        message("hello");
+      };
     }
   });
   return require_main();
