@@ -1,4 +1,5 @@
 var _ = (() => {
+  var __defProp = Object.defineProperty;
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
@@ -6,16 +7,50 @@ var _ = (() => {
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
 
   // src/lib/lib-penjualan.ts
+  var lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
+      lib_penjualan_default = {
+        name: "Pesanan Penjualan",
+        id: "WCN6aFtvRkxPUig1PitlPHdJNiE",
+        lib() {
+          var _a;
+          return (_a = libById(this.id)) != null ? _a : (() => {
+            throw new Error(`Library with id ${this.id} not found`);
+          })();
+        },
+        events: {
+          entry: {}
+        },
+        actions: {
+          library: {
+            // TODO: check if all record has jurnalBarang
+          }
+        }
+      };
     }
   });
 
   // src/lib/lib-barang.ts
+  var lib_barang_default;
   var init_lib_barang = __esm({
     "src/lib/lib-barang.ts"() {
+      lib_barang_default = {
+        name: "Master Barang",
+        id: "QFQxY0BKVWQ0elJkKTY5SSU6cUM",
+        lib() {
+          var _a;
+          return (_a = libById(this.id)) != null ? _a : (() => {
+            throw new Error(`Library with id ${this.id} not found`);
+          })();
+        }
+      };
     }
   });
 
@@ -180,6 +215,16 @@ var _ = (() => {
   });
 
   // src/lib/index.ts
+  var lib_exports = {};
+  __export(lib_exports, {
+    libBarang: () => lib_barang_default,
+    libGudang: () => lib_gudang_default,
+    libItemJurnalBarang: () => lib_item_jurnal_barang_default,
+    libItemRakitan: () => lib_item_rakitan_default,
+    libJurnalBarang: () => lib_jurnal_barang_default,
+    libPenjualan: () => lib_penjualan_default,
+    libRakitan: () => lib_rakitan_default
+  });
   var init_lib = __esm({
     "src/lib/index.ts"() {
       init_lib_penjualan();
@@ -196,8 +241,7 @@ var _ = (() => {
   var require_main = __commonJS({
     "src/main.ts"(exports) {
       init_lib();
-      Object.assign(exports, {
-        libRakitan: lib_rakitan_default,
+      Object.assign(exports, lib_exports, {
         formatRupiah(nominal) {
           if (typeof nominal !== "number" || nominal <= 0) {
             return null;
