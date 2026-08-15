@@ -1,4 +1,4 @@
-import { libRakitan } from "./lib";
+import * as libs from "@/lib"
 
 // this.libRakitan = libRakitan;
 
@@ -14,8 +14,8 @@ import { libRakitan } from "./lib";
 //   message("hello")
 // }
 
-Object.assign(this, {
-  libRakitan,
+Object.assign(this, libs, {
+
   formatRupiah(nominal: number) {
     if (typeof nominal !== "number" || nominal <= 0) {
       return null;
@@ -23,6 +23,7 @@ Object.assign(this, {
 
     return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   },
+
   hello() {
     message("hello")
   }
