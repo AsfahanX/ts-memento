@@ -9,6 +9,6 @@ this.formatRupiah = function (nominal: number) {
 
 };
 
-export function hello() {
-  message("hello")
-} 
+// export function hello() {
+//   message("hello")
+// } 
