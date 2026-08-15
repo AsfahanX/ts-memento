@@ -1,6 +1,6 @@
 // export * from "@/lib"
 
-export function formatRupiah(nominal: number) {
+this.formatRupiah = function (nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
     return null;
   }
