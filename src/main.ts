@@ -1,105 +1,14 @@
-// import libJurnal from "./lib/lib-jurnal";
-// import libJurnalBarang from "./lib/lib-jurnal-barang";
-// import libJurnalItem from "./lib/lib-jurnal-item";
-// import libRakitan from "./lib/lib-rakitan";
-// export { default as libJurnalBarang } from "./lib/lib-jurnal-barang";
-// export { default as libRakitan } from "./lib/lib-rakitan";
 export * from "@/lib"
-// this.libJurnal = libJurnal;
-// this.libJurnalItem = libJurnalItem;
-// this.libJurnalBarang = libJurnalBarang;
-// this.libRakitan = libRakitan
-
 
 export function formatRupiah(nominal: number) {
   if (typeof nominal !== "number" || nominal <= 0) {
     return null;
   }
+
   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  // return nominal.toLocaleString("id-ID", {
-  //   style: "currency",
-  //   currency: "IDR",
-  // });
+
 };
 
 export function hello() {
   message("hello")
-}
-// function _() {}
-// _.formatRupiah = function (nominal: number) {
-//   if (!nominal) {
-//     return null;
-//   }
-//   return "Rp " + nominal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-//   // return nominal.toLocaleString("id-ID", {
-//   //   style: "currency",
-//   //   currency: "IDR",
-//   // });
-// };
-// _.coba1 = function coba1() {
-//   return "satu";
-// };
-
-
-// function coba1() {
-//   return "satu";
-// }
-// function coba2() {
-//   return "dua";
-// }
-
-// function ubahKolomKeRelasi(
-//   foreignKey: LibraryName,
-//   column: string,
-//   libraryName: LibraryName,
-//   ownerKey: string,
-// ) {
-//   lib()
-//     .entries()
-//     .forEach((e) => {
-//       const val = e.field(column);
-//       if (val) {
-//         const parentLib = libByName(libraryName);
-//         const parent = parentLib?.findByKey(val);
-//         e.set(foreignKey, [parent]);
-//       }
-//     });
-// }
-
-// function dialogKonfirmasi(callback: () => boolean | void) {
-//   dialog()
-//     .view(ui().layout([ui().button("Yes").action(callback), ui().button("No")]))
-//     .show();
-// }
-
-// const MasterAkun = {
-//   field: {
-//     totalDebit() {
-//       const entries = libByName("Jurnal Lanjutan")?.linksTo(entry());
-//     },
-//   },
-// };
-
-// function libItemPenjualan() {
-//   libById<ItemPenjualan>(libItemPenjualan.id);
-// }
-// libItemPenjualan.id = "add";
-
-// function libPesananPenjualan() {
-//   return libById<PesananPenjualan>(libPesananPenjualan.id);
-// }
-// libPesananPenjualan.id = "RE4pK2hXUllyUlNtd1VRWjJrVG0";
-// libPesananPenjualan.events = {
-//   entryUpdated() {},
-// };
-// --------+++------
-// if (true) {
-//   let e = entry();
-//   let brg = e.obtain("Barang");
-
-//   if (brg.length > 0) {
-//     let gbr = brg[0].obtain("Gambar");
-//     e.set("Gambar", gbr);
-//     message("Gambar barang diupdate");
-//   }
-// }
+} 
