@@ -1,5 +1,6 @@
 /**
  * @see https://scripts.mementodatabase.com/script_api/ui/
+ * @see https://www.streamlinehq.com/icons/nova-line
  */
 
 export type IconCode = string;
@@ -247,6 +248,7 @@ interface UIButton extends UIText {
    * ui().button().icon('nova:add-circle-1.png');
    * @description In this example, a small button with the “add” icon will be displayed.
    * @see https://scripts.mementodatabase.com/script_api/ui/#icon
+   * @see https://www.streamlinehq.com/icons/nova-line
    */
   icon(icon: IconCode): this;
 }

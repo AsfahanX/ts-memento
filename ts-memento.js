@@ -180,6 +180,8 @@ var _ = (() => {
                     Barang: item.field("Barang"),
                     "Perubahan kuantitas": item.field("Kuantitas"),
                     "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
+                    Jenis: "Masuk",
+                    Kuantitas: item.field("Kuantitas"),
                     Perakitan: [e]
                   });
                 });
@@ -190,7 +192,9 @@ var _ = (() => {
                     Gudang: gudangSumber ? [gudangSumber] : void 0,
                     Barang: item.field("Barang"),
                     "Perubahan kuantitas": 0 - item.field("Kuantitas"),
-                    "Gambar barang": item.field("Barang")[0].field("Gambar utama")
+                    "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
+                    Jenis: "Keluar",
+                    Kuantitas: item.field("Kuantitas")
                   });
                 });
                 jurnal.show();

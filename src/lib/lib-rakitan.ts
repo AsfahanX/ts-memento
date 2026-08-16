@@ -64,6 +64,8 @@ export default {
               Barang: item.field("Barang"),
               "Perubahan kuantitas": item.field("Kuantitas"),
               "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
+              Jenis: "Masuk",
+              Kuantitas: item.field("Kuantitas"),
               Perakitan: [e],
             });
           });
@@ -74,6 +76,8 @@ export default {
               Barang: item.field("Barang"),
               "Perubahan kuantitas": 0 - item.field("Kuantitas"),
               "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
+              Jenis: "Keluar",
+              Kuantitas: item.field("Kuantitas"),
             });
           });
           jurnal.show();

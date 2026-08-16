@@ -10,6 +10,9 @@ export type JurnalBarang = {
   Tanggal?: Field.Date;
   Keterangan?: Field.Text;
   Rakitan?: Field.LinkToEntry<Rakitan>;
+
+  "Gudang Asal"?: Field.LinkToEntry<"Gudang">;
+  "Gudang Tujuan"?: Field.LinkToEntry<"Gudang">;
 };
 
 export default {

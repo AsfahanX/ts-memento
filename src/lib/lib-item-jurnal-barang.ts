@@ -11,6 +11,10 @@ export type ItemJurnalBarang = {
   "Perubahan kuantitas": Field.Integer;
   "Gambar barang": Field.Image;
   Perakitan?: Field.LinkToEntry<JurnalBarang>;
+
+  Jenis: Field.SingleChoice<"Masuk" | "Keluar">;
+  Kuantitas: Field.Integer;
+  "_Perubahan kuantitas"?: Field.Calculation<Field.Integer>;
 };
 
 export default {
