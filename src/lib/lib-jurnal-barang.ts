@@ -2,6 +2,8 @@ import type { LibHelper } from "@/types";
 import type * as Field from "@/types/memento/fields";
 import libItemJurnalBarang from "./lib-item-jurnal-barang";
 import type { Rakitan } from "./lib-rakitan";
+import type { Gudang } from "./lib-gudang";
+import type { Penjualan } from "./lib-penjualan";
 
 export type JurnalBarang = {
   Jenis?: Field.SingleChoice<
@@ -10,22 +12,25 @@ export type JurnalBarang = {
   Tanggal?: Field.Date;
   Keterangan?: Field.Text;
   Rakitan?: Field.LinkToEntry<Rakitan>;
+  Penjualan?: Field.LinkToEntry<Penjualan>;
 
-  "Gudang Asal"?: Field.LinkToEntry<"Gudang">;
-  "Gudang Tujuan"?: Field.LinkToEntry<"Gudang">;
+  "Gudang Asal"?: Field.LinkToEntry<Gudang>;
+  "Gudang Tujuan"?: Field.LinkToEntry<Gudang>;
 };
 
 export default {
   name: "Pesanan Pembelian",
   id: "UHoqKEhMPDJkNyoteTllK3dFWlk",
+  _lib: undefined,
 
   lib() {
-    return (
+    this._lib ??=
       libById(this.id) ??
       (() => {
         throw new Error(`Library with id ${this.id} not found`);
-      })()
-    );
+      })();
+
+    return this._lib;
   },
 
   events: {

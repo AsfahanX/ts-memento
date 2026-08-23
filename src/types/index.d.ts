@@ -7,6 +7,8 @@ type Handlers<T> = {
 export type LibHelper<T> = {
   name?: string;
   id: string;
+  _lib?: Library<T>;
+
   lib(): Library<T>;
 
   events?: {
@@ -23,7 +25,7 @@ export type LibHelper<T> = {
     bulk?: Handlers<T>;
   };
 
-  // [key: string]: any
+  [key: string]: any;
 };
 
 declare module "./memento" {
