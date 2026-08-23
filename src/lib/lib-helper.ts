@@ -4,44 +4,26 @@ type Handler<T> = (e: Entry<T>, ...rest: any) => void;
 type Handlers<T> = {
   [name: string]: Handler<T>;
 };
+export type LibHelper<T> = {
+  name?: string;
+  id: string;
+  _lib?: Library<T>;
 
-type LibHelperEvent<T> = {
-  entry?: {
-    created?: Handler<T>;
-    updated?: Handler<T>;
-    deleted?: Handler<T>;
+  lib(): Library<T>;
+
+  events?: {
+    entry?: {
+      created?: Handler<T>;
+      updated?: Handler<T>;
+      deleted?: Handler<T>;
+    };
   };
+
+  actions?: {
+    entry?: Handlers<T>;
+    library?: Handlers<T>;
+    bulk?: Handlers<T>;
+  };
+
+  [key: string]: any;
 };
-
-type LibHelperActions<T> = {
-  entry?: Handlers<T>;
-  library?: Handlers<T>;
-};
-
-export abstract class LibHelperNew<T> {
-  #lib: Library<T> | null = null;
-
-  protected abstract id: string;
-  //   protected abstract name: string;
-
-  public events?: LibHelperEvent<T>;
-  public actions?: LibHelperActions<T>;
-
-  get lib() {
-    return (
-      this.#lib ??
-      libById(this.id) ??
-      (() => {
-        throw new Error(`Library with id ${this.id} not found`);
-      })()
-    );
-  }
-
-  //   /**
-  //    *
-  //    */
-  //   constructor(
-  //     public events?: LibHelperEvent<T>,
-  //     public actions?: LibHelperActions<T>,
-  //   ) {}
-}

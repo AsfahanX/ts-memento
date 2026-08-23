@@ -1,9 +1,9 @@
-import type { LibHelper } from "@/types";
+import type { LibHelper } from "./lib-helper";
 import type * as Field from "@/types/memento/fields";
 import type { Gudang } from "./lib-gudang";
 import libJurnalBarang from "./lib-jurnal-barang";
 // import LibHelper from "@/lib-helper";
-import { LibHelperNew } from "./lib-helper";
+// import { LibHelperNew } from "./lib-helper";
 import { Entry } from "@/types/memento";
 
 export type Penjualan = {
@@ -18,7 +18,7 @@ export type Penjualan = {
   "Gudang sumber": Field.LinkToEntry<Gudang>;
 };
 
-export default {
+const libPenjualan = {
   name: "Pesanan Penjualan",
   id: "WCN6aFtvRkxPUig1PitlPHdJNiE",
 
@@ -29,10 +29,6 @@ export default {
         throw new Error(`Library with id ${this.id} not found`);
       })()
     );
-  },
-
-  events: {
-    entry: {},
   },
 
   actions: {
@@ -49,39 +45,8 @@ export default {
   },
 
   periksaJurnal() {
-    return "";
+    message("Memeriksa jurnal . . .");
   },
 } satisfies LibHelper<Penjualan>;
 
-export class LibPenjualan extends LibHelperNew<Penjualan> {
-  // protected actions?:
-  //   | {
-  //       entry?:
-  //         | { [name: string]: (e: Entry<Penjualan>, ...rest: any) => void }
-  //         | undefined;
-  //       library?:
-  //         | { [name: string]: (e: Entry<Penjualan>, ...rest: any) => void }
-  //         | undefined;
-  //     }
-  //   | undefined;
-  id = "WCN6aFtvRkxPUig1PitlPHdJNiE";
-  /**
-   *
-   */
-  constructor() {
-    super();
-    const self = this;
-
-    this.events = { entry: { created(e) {} } };
-    this.actions = {
-      library: {
-        periksaJurnal() {
-          message("memeriksa jurnal . . .");
-        },
-      },
-    };
-  }
-  // events = {entry: {}};
-
-  revalidateJurnal() {}
-}
+export default libPenjualan;

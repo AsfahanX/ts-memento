@@ -7,7 +7,6 @@ import {
   libRakitan,
   libItemRakitan,
 } from "@/lib";
-import { LibPenjualan } from "./lib/lib-penjualan";
 
 Object.assign(this, {
   libPenjualan,
@@ -30,13 +29,13 @@ Object.assign(this, {
     message("hello");
   },
 
-  helper: new (class {
-    constructor(private _libPenjualan?: LibPenjualan) {}
+  // helper: new (class {
+  //   constructor(private _libPenjualan?: LibPenjualan) {}
 
-    public get libPenjualan() {
-      return this._libPenjualan ?? new LibPenjualan();
-    }
-  })(),
+  //   public get libPenjualan() {
+  //     return this._libPenjualan ?? new LibPenjualan();
+  //   }
+  // })(),
 });
 
 // const helper = new class {
