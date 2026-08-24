@@ -1,5 +1,24 @@
 var _ = (() => {
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
@@ -53,11 +72,30 @@ var _ = (() => {
     }
   });
 
+  // src/lib/lib-item-penjualan.ts
+  var lib_item_penjualan_default;
+  var init_lib_item_penjualan = __esm({
+    "src/lib/lib-item-penjualan.ts"() {
+      lib_item_penjualan_default = {
+        name: "Item Penjualan",
+        id: "RE4pK2hXUllyUlNtd1VRWjJrVG0",
+        lib() {
+          var _a;
+          return (_a = libById(this.id)) != null ? _a : (() => {
+            throw new Error(`Library with id ${this.id} not found`);
+          })();
+        }
+      };
+    }
+  });
+
   // src/lib/lib-penjualan.ts
   var libPenjualan, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_jurnal_barang();
+      init_lib_item_penjualan();
+      init_lib_item_jurnal_barang();
       libPenjualan = {
         name: "Pesanan Penjualan",
         id: "WCN6aFtvRkxPUig1PitlPHdJNiE",
@@ -81,6 +119,37 @@ var _ = (() => {
         },
         periksaJurnal() {
           message("Memeriksa jurnal . . .");
+        },
+        buatJurnal(e) {
+          var _a;
+          e != null ? e : e = entry();
+          let jurnal = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
+          if (jurnal)
+            throw new Error(`Jurnal sudah ada untuk penjualan dengan id: ${e.id}`);
+          jurnal = lib_jurnal_barang_default.lib().create({
+            Jenis: "Penjualan",
+            Tanggal: e.field("Tanggal"),
+            Keterangan: e.name
+          });
+          const items = lib_item_penjualan_default.lib().linksTo(e).map((item, i) => {
+            var _a2;
+            const barang = (_a2 = item.field("Barang")) == null ? void 0 : _a2[0];
+            if (!barang) return void 0;
+            return {
+              "Jurnal barang": [jurnal],
+              Barang: [barang],
+              "Gambar barang": barang.field("Gambar utama"),
+              Kuantitas: item.field("Kuantitas")
+              // Gudang: gudangTujuan ? [gudangTujuan] : undefined,
+              // "Perubahan kuantitas": item.field("Kuantitas"),
+              // Jenis: "Masuk",
+            };
+          }).filter((v) => !!v);
+          items.forEach(
+            (i) => lib_item_jurnal_barang_default.lib().create(__spreadProps(__spreadValues({}, i), {
+              Jenis: "Keluar"
+            }))
+          );
         }
       };
       lib_penjualan_default = libPenjualan;
@@ -164,17 +233,16 @@ var _ = (() => {
         actions: {
           entry: {
             buatJurnalBarang(e) {
-              var _a;
               e != null ? e : e = entry();
-              let gudangs = (_a = lib_gudang_default.lib()) == null ? void 0 : _a.entries();
+              let gudangs = lib_gudang_default.lib().entries();
               let choices = gudangs == null ? void 0 : gudangs.map((v) => v.name);
               let choiceGudangTujuan = ui().choiceBox(10, choices != null ? choices : []);
               let choiceGudangSumber = ui().choiceBox(1, choices != null ? choices : []);
               function buatJurnal() {
-                var _a2, _b;
+                var _a, _b;
                 let gudangTujuan = gudangs == null ? void 0 : gudangs[choiceGudangTujuan.selected];
                 let gudangSumber = gudangs == null ? void 0 : gudangs[choiceGudangSumber.selected];
-                let items = (_a2 = lib_item_rakitan_default.lib()) == null ? void 0 : _a2.linksTo(e);
+                let items = (_a = lib_item_rakitan_default.lib()) == null ? void 0 : _a.linksTo(e);
                 let jurnal = (_b = lib_jurnal_barang_default.lib()) == null ? void 0 : _b.create({
                   Keterangan: e.name
                 });
@@ -184,12 +252,12 @@ var _ = (() => {
                   return false;
                 }
                 items == null ? void 0 : items.forEach((item) => {
-                  var _a3;
-                  (_a3 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a3.create({
+                  var _a2;
+                  (_a2 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a2.create({
                     "Jurnal barang": [jurnal],
                     Gudang: gudangTujuan ? [gudangTujuan] : void 0,
                     Barang: item.field("Barang"),
-                    "Perubahan kuantitas": item.field("Kuantitas"),
+                    // "Perubahan kuantitas": item.field("Kuantitas"),
                     "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
                     Jenis: "Masuk",
                     Kuantitas: item.field("Kuantitas"),
@@ -197,12 +265,12 @@ var _ = (() => {
                   });
                 });
                 items == null ? void 0 : items.forEach((item) => {
-                  var _a3;
-                  (_a3 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a3.create({
+                  var _a2;
+                  (_a2 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a2.create({
                     "Jurnal barang": [jurnal],
                     Gudang: gudangSumber ? [gudangSumber] : void 0,
                     Barang: item.field("Barang"),
-                    "Perubahan kuantitas": 0 - item.field("Kuantitas"),
+                    // "Perubahan kuantitas": 0 - item.field("Kuantitas"),
                     "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
                     Jenis: "Keluar",
                     Kuantitas: item.field("Kuantitas")

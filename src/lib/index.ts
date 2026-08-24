@@ -1,4 +1,5 @@
 export { default as libPenjualan } from "./lib-penjualan";
+import { default as libItemPenjualan } from "./lib-item-penjualan";
 
 export { default as libBarang } from "./lib-barang";
 export { default as libGudang } from "./lib-gudang";

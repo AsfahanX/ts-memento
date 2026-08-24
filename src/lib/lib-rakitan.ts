@@ -1,4 +1,4 @@
-import type { LibHelper } from "@/types";
+import type { LibHelper } from "./lib-helper";
 import type * as Field from "@/types/memento/fields";
 import libGudang from "./lib-gudang";
 import libItemJurnalBarang from "./lib-item-jurnal-barang";
@@ -37,7 +37,7 @@ export default {
       buatJurnalBarang(e) {
         e ??= entry();
 
-        let gudangs = libGudang.lib()?.entries();
+        let gudangs = libGudang.lib().entries();
         let choices = gudangs?.map((v) => v.name);
 
         let choiceGudangTujuan = ui().choiceBox(10, choices ?? []);
@@ -62,7 +62,7 @@ export default {
               "Jurnal barang": [jurnal],
               Gudang: gudangTujuan ? [gudangTujuan] : undefined,
               Barang: item.field("Barang"),
-              "Perubahan kuantitas": item.field("Kuantitas"),
+              // "Perubahan kuantitas": item.field("Kuantitas"),
               "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
               Jenis: "Masuk",
               Kuantitas: item.field("Kuantitas"),
@@ -74,7 +74,7 @@ export default {
               "Jurnal barang": [jurnal],
               Gudang: gudangSumber ? [gudangSumber] : undefined,
               Barang: item.field("Barang"),
-              "Perubahan kuantitas": 0 - item.field("Kuantitas"),
+              // "Perubahan kuantitas": 0 - item.field("Kuantitas"),
               "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
               Jenis: "Keluar",
               Kuantitas: item.field("Kuantitas"),

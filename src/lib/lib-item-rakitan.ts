@@ -1,7 +1,7 @@
 import type * as Field from "@/types/memento/fields";
 
 import { Barang } from "./lib-barang";
-import { LibHelper } from "@/types";
+import type { LibHelper } from "./lib-helper";
 
 export type ItemRakitan = {
   Perakitan: Field.LinkToEntry<ItemRakitan>;

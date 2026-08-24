@@ -1,9 +1,9 @@
-import type { LibHelper } from "@/types";
+import type { LibHelper } from "./lib-helper";
 import type * as Field from "@/types/memento/fields";
 
 export type Barang = {
   Nama: Field.Text;
-  "Nama Tampilah": Field.Text;
+  "Nama tampilan": Field.Text;
   "Gambar utama": Field.Image;
 };
 

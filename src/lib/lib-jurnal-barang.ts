@@ -1,4 +1,4 @@
-import type { LibHelper } from "@/types";
+import type { LibHelper } from "./lib-helper";
 import type * as Field from "@/types/memento/fields";
 import libItemJurnalBarang from "./lib-item-jurnal-barang";
 import type { Rakitan } from "./lib-rakitan";
