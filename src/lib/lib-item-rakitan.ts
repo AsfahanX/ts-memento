@@ -23,9 +23,9 @@ export default createLibhelper(
   createLibAccessor<ItemRakitan>("JVBtMUppVGxvUCFYbFNlOyhOQGY"),
   {
     events: {
-      entryUpdated(e = undefined) {
+      entryUpdated(e) {
         e ??= entry();
-        let gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
+        const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
         if (gbr) {
           e.set("Gambar utama", [gbr]);
         } else {

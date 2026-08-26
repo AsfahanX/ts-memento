@@ -1,3 +1,13 @@
+/**
+ * reserved keyword:
+ *   - class
+ *
+ * problematic:
+ *   - function Array.at()  -  eg. ['oke', 'siap'].at(0)
+ *   - const
+ *   -
+ */
+
 import {
   libPenjualan,
   libBarang,
