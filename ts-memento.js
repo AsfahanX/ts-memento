@@ -199,7 +199,7 @@ var _ = (() => {
             entryUpdated(e = void 0) {
               var _a, _b, _c;
               e != null ? e : e = entry();
-              const gbr = (_c = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama")) == null ? void 0 : _c[0];
+              let gbr = (_c = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama")) == null ? void 0 : _c[0];
               if (gbr) {
                 e.set("Gambar utama", [gbr]);
               } else {

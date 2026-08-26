@@ -25,7 +25,7 @@ export default createLibhelper(
     events: {
       entryUpdated(e = undefined) {
         e ??= entry();
-        const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
+        let gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
         if (gbr) {
           e.set("Gambar utama", [gbr]);
         } else {
