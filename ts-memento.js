@@ -1,24 +1,5 @@
 var _ = (() => {
-  var __defProp = Object.defineProperty;
-  var __defProps = Object.defineProperties;
-  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-  var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __propIsEnum = Object.prototype.propertyIsEnumerable;
-  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a, b) => {
-    for (var prop in b || (b = {}))
-      if (__hasOwnProp.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b)) {
-        if (__propIsEnum.call(b, prop))
-          __defNormalProp(a, prop, b[prop]);
-      }
-    return a;
-  };
-  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
@@ -95,7 +76,6 @@ var _ = (() => {
     "src/lib/lib-penjualan.ts"() {
       init_lib_jurnal_barang();
       init_lib_item_penjualan();
-      init_lib_item_jurnal_barang();
       libPenjualan = {
         name: "Pesanan Penjualan",
         id: "WCN6aFtvRkxPUig1PitlPHdJNiE",
@@ -145,11 +125,6 @@ var _ = (() => {
               // Jenis: "Masuk",
             };
           }).filter((v) => !!v);
-          items.forEach(
-            (i) => lib_item_jurnal_barang_default.lib().create(__spreadProps(__spreadValues({}, i), {
-              Jenis: "Keluar"
-            }))
-          );
         }
       };
       lib_penjualan_default = libPenjualan;
@@ -190,20 +165,50 @@ var _ = (() => {
     }
   });
 
+  // src/lib/lib-helper.ts
+  var createLibAccessor, createLibhelper;
+  var init_lib_helper = __esm({
+    "src/lib/lib-helper.ts"() {
+      createLibAccessor = (id) => {
+        let _lib;
+        return {
+          get lib() {
+            var _a;
+            _lib != null ? _lib : _lib = (_a = libById(id)) != null ? _a : (() => {
+              throw new Error(`Library with id ${id} not found`);
+            })();
+            return _lib;
+          }
+        };
+      };
+      createLibhelper = (accessor, state) => {
+        return Object.assign({}, accessor, state);
+      };
+    }
+  });
+
   // src/lib/lib-item-rakitan.ts
   var lib_item_rakitan_default;
   var init_lib_item_rakitan = __esm({
     "src/lib/lib-item-rakitan.ts"() {
-      lib_item_rakitan_default = {
-        name: "Item Rakitan",
-        id: "JVBtMUppVGxvUCFYbFNlOyhOQGY",
-        lib() {
-          var _a;
-          return (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
+      init_lib_helper();
+      lib_item_rakitan_default = createLibhelper(
+        createLibAccessor("JVBtMUppVGxvUCFYbFNlOyhOQGY"),
+        {
+          events: {
+            entryUpdated(e) {
+              var _a, _b;
+              e != null ? e : e = entry();
+              const gbr = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0].images("Gambar utama")) == null ? void 0 : _b[0];
+              if (gbr) {
+                e.set("Gambar utama", [gbr]);
+              } else {
+                e.set("Gambar utama", null);
+              }
+            }
+          }
         }
-      };
+      );
     }
   });
 

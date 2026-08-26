@@ -134,6 +134,7 @@ export type Javascript<T> = T;
 export type SingleChoice<T> = T;
 export type MultipleChoice<T> = T;
 export type LinkToEntry<T = unknown> = Entry<T>[];
+export type Lookup<L, F extends keyof L> = L[F];
 export type Barcode = string;
 // export type Image = JSImage;
 // export type Image = JSImage;

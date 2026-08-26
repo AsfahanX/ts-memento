@@ -88,12 +88,12 @@ const libPenjualan = {
     //     Jenis: "Masuk",
     //   }),
     // );
-    items.forEach((i) =>
-      libItemJurnalBarang.lib().create({
-        ...i,
-        Jenis: "Keluar",
-      }),
-    );
+    // items.forEach((i) =>
+    //   libItemJurnalBarang.lib().create({
+    //     ...i,
+    //     Jenis: "Keluar",
+    //   }),
+    // );
   },
 } satisfies LibHelper<Penjualan>;
 

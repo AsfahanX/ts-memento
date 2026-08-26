@@ -18,6 +18,8 @@ export type ItemJurnalBarang = {
 
   "Nilai stok"?: Field.Currency;
   "Serial number"?: Field.Barcode;
+
+  "_Nama barang": Field.Lookup<Barang, "Nama">;
 };
 
 export default {
