@@ -5,6 +5,8 @@
  * problematic:
  *   - function Array.at()  -  eg. ['oke', 'siap'].at(0)
  *   -
+ *
+ * @see https://mozilla.github.io/rhino/compat/engines.html
  */
 
 import {
