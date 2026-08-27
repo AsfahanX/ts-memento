@@ -103,16 +103,17 @@ export default createLibhelper(
   {
     buatJurnal(e?: Entry<Penjualan>) {
       e ??= entry();
-      let jurnal = libJurnalBarang.lib.linksTo(e)?.[0];
+      let jurnal = libJurnalBarang.lib().linksTo(e)?.[0];
       if (jurnal)
         throw new Error(`Jurnal sudah ada untuk penjualan dengan id: ${e.id}`);
 
-      jurnal = libJurnalBarang.lib.create({
+      jurnal = libJurnalBarang.lib().create({
         Jenis: "Penjualan",
         Tanggal: e.field("Tanggal"),
         Keterangan: e.name,
       });
-      const items = libItemPenjualan.lib
+      const items = libItemPenjualan
+        .lib()
         .linksTo(e)
         .map((item, i) => {
           const barang = item.field("Barang")?.[0];
@@ -131,13 +132,13 @@ export default createLibhelper(
         .filter((v) => !!v);
 
       items.forEach((i) =>
-        libItemJurnalBarang.lib.create({
+        libItemJurnalBarang.lib().create({
           ...i,
           Jenis: "Masuk",
         }),
       );
       items.forEach((i) =>
-        libItemJurnalBarang.lib.create({
+        libItemJurnalBarang.lib().create({
           ...i,
           Jenis: "Keluar",
         }),

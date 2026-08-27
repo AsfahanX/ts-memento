@@ -152,15 +152,15 @@ var _ = (() => {
           buatJurnal(e) {
             var _a;
             e != null ? e : e = entry();
-            let jurnal = (_a = lib_jurnal_barang_default.lib.linksTo(e)) == null ? void 0 : _a[0];
+            let jurnal = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
             if (jurnal)
               throw new Error(`Jurnal sudah ada untuk penjualan dengan id: ${e.id}`);
-            jurnal = lib_jurnal_barang_default.lib.create({
+            jurnal = lib_jurnal_barang_default.lib().create({
               Jenis: "Penjualan",
               Tanggal: e.field("Tanggal"),
               Keterangan: e.name
             });
-            const items = lib_item_penjualan_default.lib.linksTo(e).map((item, i) => {
+            const items = lib_item_penjualan_default.lib().linksTo(e).map((item, i) => {
               var _a2;
               const barang = (_a2 = item.field("Barang")) == null ? void 0 : _a2[0];
               if (!barang) return void 0;
@@ -175,12 +175,12 @@ var _ = (() => {
               };
             }).filter((v) => !!v);
             items.forEach(
-              (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+              (i) => lib_item_jurnal_barang_default.lib().create(__spreadProps(__spreadValues({}, i), {
                 Jenis: "Masuk"
               }))
             );
             items.forEach(
-              (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+              (i) => lib_item_jurnal_barang_default.lib().create(__spreadProps(__spreadValues({}, i), {
                 Jenis: "Keluar"
               }))
             );
@@ -255,14 +255,14 @@ var _ = (() => {
             entry: {
               buatJurnalBarang(e) {
                 e != null ? e : e = entry();
-                let gudangs = lib_gudang_default.lib.entries();
+                let gudangs = lib_gudang_default.lib().entries();
                 let choices = gudangs == null ? void 0 : gudangs.map((v) => v.name);
                 let choiceGudangTujuan = ui().choiceBox(10, choices != null ? choices : []);
                 let choiceGudangSumber = ui().choiceBox(1, choices != null ? choices : []);
                 function buatJurnal() {
                   let gudangTujuan = gudangs == null ? void 0 : gudangs[choiceGudangTujuan.selected];
                   let gudangSumber = gudangs == null ? void 0 : gudangs[choiceGudangSumber.selected];
-                  let jurnal = lib_jurnal_barang_default.lib.create({
+                  let jurnal = lib_jurnal_barang_default.lib().create({
                     Keterangan: e.name
                   });
                   if (!jurnal) {
@@ -270,7 +270,7 @@ var _ = (() => {
                     message("Gagal membuat jurnal barang");
                     return false;
                   }
-                  let items = lib_item_rakitan_default.lib.linksTo(e).map((item, i) => {
+                  let items = lib_item_rakitan_default.lib().linksTo(e).map((item, i) => {
                     var _a, _b, _c;
                     const barang = (_a = item.field("Barang")) == null ? void 0 : _a[0];
                     if (!barang) return void 0;
@@ -283,13 +283,13 @@ var _ = (() => {
                     };
                   }).filter((v) => !!v);
                   items.forEach(
-                    (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+                    (i) => lib_item_jurnal_barang_default.lib().create(__spreadProps(__spreadValues({}, i), {
                       Jenis: "Masuk",
                       Gudang: gudangTujuan ? [gudangTujuan] : void 0
                     }))
                   );
                   items.forEach(
-                    (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+                    (i) => lib_item_jurnal_barang_default.lib().create(__spreadProps(__spreadValues({}, i), {
                       Jenis: "Keluar",
                       Gudang: gudangSumber ? [gudangSumber] : void 0
                     }))

@@ -21,7 +21,7 @@ export default createLibhelper(
         buatJurnalBarang(e: Entry<Rakitan>) {
           e ??= entry();
 
-          let gudangs = libGudang.lib.entries();
+          let gudangs = libGudang.lib().entries();
           let choices = gudangs?.map((v) => v.name);
 
           let choiceGudangTujuan = ui().choiceBox(10, choices ?? []);
@@ -31,7 +31,7 @@ export default createLibhelper(
             let gudangTujuan = gudangs?.[choiceGudangTujuan.selected];
             let gudangSumber = gudangs?.[choiceGudangSumber.selected];
 
-            let jurnal = libJurnalBarang.lib.create({
+            let jurnal = libJurnalBarang.lib().create({
               Keterangan: e.name,
             });
             if (!jurnal) {
@@ -40,7 +40,8 @@ export default createLibhelper(
               return false;
             }
 
-            let items = libItemRakitan.lib
+            let items = libItemRakitan
+              .lib()
               .linksTo(e)
               .map((item, i) => {
                 const barang = item.field("Barang")?.[0];
@@ -59,21 +60,21 @@ export default createLibhelper(
               .filter((v) => !!v);
 
             items.forEach((i) =>
-              libItemJurnalBarang.lib.create({
+              libItemJurnalBarang.lib().create({
                 ...i,
                 Jenis: "Masuk",
                 Gudang: gudangTujuan ? [gudangTujuan] : undefined,
               }),
             );
             items.forEach((i) =>
-              libItemJurnalBarang.lib.create({
+              libItemJurnalBarang.lib().create({
                 ...i,
                 Jenis: "Keluar",
                 Gudang: gudangSumber ? [gudangSumber] : undefined,
               }),
             );
             // items?.forEach((item) => {
-            //   libItemJurnalBarang.lib.create({
+            //   libItemJurnalBarang.lib().create({
             //     "Jurnal barang": [jurnal],
             //     Gudang: gudangTujuan ? [gudangTujuan] : undefined,
             //     Barang: item.field("Barang"),
@@ -87,7 +88,7 @@ export default createLibhelper(
             //   });
             // });
             // items?.forEach((item) => {
-            //   libItemJurnalBarang.lib.create({
+            //   libItemJurnalBarang.lib().create({
             //     "Jurnal barang": [jurnal],
             //     Gudang: gudangSumber ? [gudangSumber] : undefined,
             //     Barang: item.field("Barang"),
