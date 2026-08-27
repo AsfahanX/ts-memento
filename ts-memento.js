@@ -33,7 +33,7 @@ var _ = (() => {
       createLibAccessor = (id) => {
         let _lib;
         return {
-          get lib() {
+          lib: () => {
             var _a;
             _lib != null ? _lib : _lib = (_a = libById(id)) != null ? _a : (() => {
               throw new Error(`Library with id ${id} not found`);

@@ -1,12 +1,12 @@
 import type { Entry, Library } from "@/types/memento";
 
 type LibAccessor<T> = {
-  get lib(): Library<T>;
+  lib(): Library<T>;
 };
 export const createLibAccessor = <T>(id: string): LibAccessor<T> => {
   let _lib: Library<T>;
   return {
-    get lib() {
+    lib: () => {
       _lib ??=
         libById(id) ??
         (() => {
