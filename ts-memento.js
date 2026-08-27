@@ -1,169 +1,30 @@
 var _ = (() => {
+  var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
-
-  // src/lib/lib-item-jurnal-barang.ts
-  var lib_item_jurnal_barang_default;
-  var init_lib_item_jurnal_barang = __esm({
-    "src/lib/lib-item-jurnal-barang.ts"() {
-      lib_item_jurnal_barang_default = {
-        name: "Item Jurnal Barang",
-        id: "I2lTWGc0UFFxcTUxdi1kOUc6Rk0",
-        lib() {
-          var _a;
-          return (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
-        }
-      };
-    }
-  });
-
-  // src/lib/lib-jurnal-barang.ts
-  var lib_jurnal_barang_default;
-  var init_lib_jurnal_barang = __esm({
-    "src/lib/lib-jurnal-barang.ts"() {
-      init_lib_item_jurnal_barang();
-      lib_jurnal_barang_default = {
-        name: "Pesanan Pembelian",
-        id: "UHoqKEhMPDJkNyoteTllK3dFWlk",
-        _lib: void 0,
-        lib() {
-          var _a, _b;
-          (_b = this._lib) != null ? _b : this._lib = (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
-          return this._lib;
-        },
-        events: {
-          entry: {
-            deleted(e) {
-              var _a;
-              e != null ? e : e = entry();
-              (_a = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a.linksTo(e).forEach((i) => i.trash());
-            }
-          }
-        }
-      };
-    }
-  });
-
-  // src/lib/lib-item-penjualan.ts
-  var lib_item_penjualan_default;
-  var init_lib_item_penjualan = __esm({
-    "src/lib/lib-item-penjualan.ts"() {
-      lib_item_penjualan_default = {
-        name: "Item Penjualan",
-        id: "RE4pK2hXUllyUlNtd1VRWjJrVG0",
-        lib() {
-          var _a;
-          return (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
-        }
-      };
-    }
-  });
-
-  // src/lib/lib-penjualan.ts
-  var libPenjualan, lib_penjualan_default;
-  var init_lib_penjualan = __esm({
-    "src/lib/lib-penjualan.ts"() {
-      init_lib_jurnal_barang();
-      init_lib_item_penjualan();
-      libPenjualan = {
-        name: "Pesanan Penjualan",
-        id: "WCN6aFtvRkxPUig1PitlPHdJNiE",
-        lib() {
-          var _a;
-          return (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
-        },
-        actions: {
-          entry: {
-            periksaJurnal(e) {
-              e != null ? e : e = entry();
-              lib_jurnal_barang_default.lib().linksTo(e);
-            }
-          },
-          library: {
-            periksaJurnal() {
-            }
-          }
-        },
-        periksaJurnal() {
-          message("Memeriksa jurnal . . .");
-        },
-        buatJurnal(e) {
-          var _a;
-          e != null ? e : e = entry();
-          let jurnal = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
-          if (jurnal)
-            throw new Error(`Jurnal sudah ada untuk penjualan dengan id: ${e.id}`);
-          jurnal = lib_jurnal_barang_default.lib().create({
-            Jenis: "Penjualan",
-            Tanggal: e.field("Tanggal"),
-            Keterangan: e.name
-          });
-          const items = lib_item_penjualan_default.lib().linksTo(e).map((item, i) => {
-            var _a2;
-            const barang = (_a2 = item.field("Barang")) == null ? void 0 : _a2[0];
-            if (!barang) return void 0;
-            return {
-              "Jurnal barang": [jurnal],
-              Barang: [barang],
-              "Gambar barang": barang.field("Gambar utama"),
-              Kuantitas: item.field("Kuantitas")
-              // Gudang: gudangTujuan ? [gudangTujuan] : undefined,
-              // "Perubahan kuantitas": item.field("Kuantitas"),
-              // Jenis: "Masuk",
-            };
-          }).filter((v) => !!v);
-        }
-      };
-      lib_penjualan_default = libPenjualan;
-    }
-  });
-
-  // src/lib/lib-barang.ts
-  var lib_barang_default;
-  var init_lib_barang = __esm({
-    "src/lib/lib-barang.ts"() {
-      lib_barang_default = {
-        name: "Master Barang",
-        id: "QFQxY0BKVWQ0elJkKTY5SSU6cUM",
-        lib() {
-          var _a;
-          return (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
-        }
-      };
-    }
-  });
-
-  // src/lib/lib-gudang.ts
-  var lib_gudang_default;
-  var init_lib_gudang = __esm({
-    "src/lib/lib-gudang.ts"() {
-      lib_gudang_default = {
-        name: "Gudang",
-        id: "XSNaUEFQbWdzWHBnJXVdNXZUTlE",
-        lib() {
-          var _a;
-          return (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
-        }
-      };
-    }
-  });
 
   // src/lib/lib-helper.ts
   var createLibAccessor, createLibhelper;
@@ -184,6 +45,172 @@ var _ = (() => {
       createLibhelper = (accessor, state) => {
         return Object.assign({}, accessor, state);
       };
+    }
+  });
+
+  // src/lib/lib-item-jurnal-barang.ts
+  var helper, getEventHandlers, getActionHandlers, lib_item_jurnal_barang_default;
+  var init_lib_item_jurnal_barang = __esm({
+    "src/lib/lib-item-jurnal-barang.ts"() {
+      init_lib_helper();
+      helper = {
+        updateGambar(e) {
+          var _a, _b, _c;
+          e != null ? e : e = entry();
+          const gbr = (_c = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama")) == null ? void 0 : _c[0];
+          if (gbr) {
+            e.set("Gambar utama", [gbr]);
+          } else {
+            e.set("Gambar utama", null);
+          }
+        },
+        coba() {
+          const en = entry();
+        }
+      };
+      getEventHandlers = (helper2) => ({
+        entry: {
+          updated(e) {
+            helper2.updateGambar(e);
+          }
+        }
+      });
+      getActionHandlers = (helper2) => ({
+        entry: {
+          recalculate() {
+          }
+        }
+      });
+      lib_item_jurnal_barang_default = createLibhelper(
+        createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0"),
+        {
+          helper,
+          events: getEventHandlers(helper),
+          actions: getActionHandlers(helper)
+        }
+      );
+    }
+  });
+
+  // src/lib/lib-jurnal-barang.ts
+  var lib_jurnal_barang_default;
+  var init_lib_jurnal_barang = __esm({
+    "src/lib/lib-jurnal-barang.ts"() {
+      init_lib_helper();
+      init_lib_item_jurnal_barang();
+      lib_jurnal_barang_default = createLibhelper(
+        createLibAccessor("UHoqKEhMPDJkNyoteTllK3dFWlk"),
+        {
+          events: {
+            entryDeleted(e) {
+              var _a;
+              e != null ? e : e = entry();
+              (_a = lib_item_jurnal_barang_default.lib) == null ? void 0 : _a.linksTo(e).forEach((i) => i.trash());
+            }
+          }
+        }
+      );
+    }
+  });
+
+  // src/lib/lib-item-penjualan.ts
+  var lib_item_penjualan_default;
+  var init_lib_item_penjualan = __esm({
+    "src/lib/lib-item-penjualan.ts"() {
+      init_lib_helper();
+      lib_item_penjualan_default = createLibhelper(
+        createLibAccessor("RE4pK2hXUllyUlNtd1VRWjJrVG0"),
+        {
+          events: {
+            entryUpdated(e) {
+              var _a, _b, _c;
+              e != null ? e : e = entry();
+              const gbr = (_c = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama")) == null ? void 0 : _c[0];
+              if (gbr) {
+                e.set("Gambar utama", [gbr]);
+              } else {
+                e.set("Gambar utama", null);
+              }
+            }
+          }
+        }
+      );
+    }
+  });
+
+  // src/lib/lib-penjualan.ts
+  var lib_penjualan_default;
+  var init_lib_penjualan = __esm({
+    "src/lib/lib-penjualan.ts"() {
+      init_lib_helper();
+      init_lib_jurnal_barang();
+      init_lib_item_jurnal_barang();
+      init_lib_item_penjualan();
+      lib_penjualan_default = createLibhelper(
+        createLibAccessor("WCN6aFtvRkxPUig1PitlPHdJNiE"),
+        {
+          buatJurnal(e) {
+            var _a;
+            e != null ? e : e = entry();
+            let jurnal = (_a = lib_jurnal_barang_default.lib.linksTo(e)) == null ? void 0 : _a[0];
+            if (jurnal)
+              throw new Error(`Jurnal sudah ada untuk penjualan dengan id: ${e.id}`);
+            jurnal = lib_jurnal_barang_default.lib.create({
+              Jenis: "Penjualan",
+              Tanggal: e.field("Tanggal"),
+              Keterangan: e.name
+            });
+            const items = lib_item_penjualan_default.lib.linksTo(e).map((item, i) => {
+              var _a2;
+              const barang = (_a2 = item.field("Barang")) == null ? void 0 : _a2[0];
+              if (!barang) return void 0;
+              return {
+                "Jurnal barang": [jurnal],
+                Barang: [barang],
+                "Gambar barang": barang.field("Gambar utama"),
+                Kuantitas: item.field("Kuantitas")
+                // Gudang: gudangTujuan ? [gudangTujuan] : undefined,
+                // "Perubahan kuantitas": item.field("Kuantitas"),
+                // Jenis: "Masuk",
+              };
+            }).filter((v) => !!v);
+            items.forEach(
+              (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+                Jenis: "Masuk"
+              }))
+            );
+            items.forEach(
+              (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+                Jenis: "Keluar"
+              }))
+            );
+          }
+        }
+      );
+    }
+  });
+
+  // src/lib/lib-barang.ts
+  var lib_barang_default;
+  var init_lib_barang = __esm({
+    "src/lib/lib-barang.ts"() {
+      init_lib_helper();
+      lib_barang_default = createLibhelper(
+        createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM"),
+        {}
+      );
+    }
+  });
+
+  // src/lib/lib-gudang.ts
+  var lib_gudang_default;
+  var init_lib_gudang = __esm({
+    "src/lib/lib-gudang.ts"() {
+      init_lib_helper();
+      lib_gudang_default = createLibhelper(
+        createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE"),
+        {}
+      );
     }
   });
 
@@ -217,85 +244,72 @@ var _ = (() => {
   var init_lib_rakitan = __esm({
     "src/lib/lib-rakitan.ts"() {
       init_lib_gudang();
+      init_lib_helper();
       init_lib_item_jurnal_barang();
       init_lib_item_rakitan();
       init_lib_jurnal_barang();
-      lib_rakitan_default = {
-        name: "Perakitan",
-        id: "JTlxbXJ3OEsjYXp2UEJzdWhNKm0",
-        lib() {
-          var _a;
-          return (_a = libById(this.id)) != null ? _a : (() => {
-            throw new Error(`Library with id ${this.id} not found`);
-          })();
-        },
-        events: {
-          entry: {
-            updated(e) {
-            }
-          }
-        },
-        actions: {
-          entry: {
-            buatJurnalBarang(e) {
-              e != null ? e : e = entry();
-              let gudangs = lib_gudang_default.lib().entries();
-              let choices = gudangs == null ? void 0 : gudangs.map((v) => v.name);
-              let choiceGudangTujuan = ui().choiceBox(10, choices != null ? choices : []);
-              let choiceGudangSumber = ui().choiceBox(1, choices != null ? choices : []);
-              function buatJurnal() {
-                var _a, _b;
-                let gudangTujuan = gudangs == null ? void 0 : gudangs[choiceGudangTujuan.selected];
-                let gudangSumber = gudangs == null ? void 0 : gudangs[choiceGudangSumber.selected];
-                let items = (_a = lib_item_rakitan_default.lib()) == null ? void 0 : _a.linksTo(e);
-                let jurnal = (_b = lib_jurnal_barang_default.lib()) == null ? void 0 : _b.create({
-                  Keterangan: e.name
-                });
-                if (!jurnal) {
-                  log("Gagal membuat jurnal barang");
-                  message("Gagal membuat jurnal barang");
-                  return false;
+      lib_rakitan_default = createLibhelper(
+        createLibAccessor("JTlxbXJ3OEsjYXp2UEJzdWhNKm0"),
+        {
+          actions: {
+            entry: {
+              buatJurnalBarang(e) {
+                e != null ? e : e = entry();
+                let gudangs = lib_gudang_default.lib.entries();
+                let choices = gudangs == null ? void 0 : gudangs.map((v) => v.name);
+                let choiceGudangTujuan = ui().choiceBox(10, choices != null ? choices : []);
+                let choiceGudangSumber = ui().choiceBox(1, choices != null ? choices : []);
+                function buatJurnal() {
+                  let gudangTujuan = gudangs == null ? void 0 : gudangs[choiceGudangTujuan.selected];
+                  let gudangSumber = gudangs == null ? void 0 : gudangs[choiceGudangSumber.selected];
+                  let jurnal = lib_jurnal_barang_default.lib.create({
+                    Keterangan: e.name
+                  });
+                  if (!jurnal) {
+                    log("Gagal membuat jurnal barang");
+                    message("Gagal membuat jurnal barang");
+                    return false;
+                  }
+                  let items = lib_item_rakitan_default.lib.linksTo(e).map((item, i) => {
+                    var _a, _b, _c;
+                    const barang = (_a = item.field("Barang")) == null ? void 0 : _a[0];
+                    if (!barang) return void 0;
+                    return {
+                      "Jurnal barang": [jurnal],
+                      Barang: item.field("Barang"),
+                      Kuantitas: item.field("Kuantitas"),
+                      "Gambar utama": (_c = (_b = item.field("Barang")) == null ? void 0 : _b[0]) == null ? void 0 : _c.field("Gambar utama"),
+                      Perakitan: [e]
+                    };
+                  }).filter((v) => !!v);
+                  items.forEach(
+                    (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+                      Jenis: "Masuk",
+                      Gudang: gudangTujuan ? [gudangTujuan] : void 0
+                    }))
+                  );
+                  items.forEach(
+                    (i) => lib_item_jurnal_barang_default.lib.create(__spreadProps(__spreadValues({}, i), {
+                      Jenis: "Keluar",
+                      Gudang: gudangSumber ? [gudangSumber] : void 0
+                    }))
+                  );
+                  jurnal.show();
+                  return true;
                 }
-                items == null ? void 0 : items.forEach((item) => {
-                  var _a2;
-                  (_a2 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a2.create({
-                    "Jurnal barang": [jurnal],
-                    Gudang: gudangTujuan ? [gudangTujuan] : void 0,
-                    Barang: item.field("Barang"),
-                    // "Perubahan kuantitas": item.field("Kuantitas"),
-                    "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
-                    Jenis: "Masuk",
-                    Kuantitas: item.field("Kuantitas"),
-                    Perakitan: [e]
-                  });
-                });
-                items == null ? void 0 : items.forEach((item) => {
-                  var _a2;
-                  (_a2 = lib_item_jurnal_barang_default.lib()) == null ? void 0 : _a2.create({
-                    "Jurnal barang": [jurnal],
-                    Gudang: gudangSumber ? [gudangSumber] : void 0,
-                    Barang: item.field("Barang"),
-                    // "Perubahan kuantitas": 0 - item.field("Kuantitas"),
-                    "Gambar barang": item.field("Barang")[0].field("Gambar utama"),
-                    Jenis: "Keluar",
-                    Kuantitas: item.field("Kuantitas")
-                  });
-                });
-                jurnal.show();
-                return true;
+                dialog().title("Pilih ").view(
+                  ui().layout([
+                    ui().text("Gudang tujuan: "),
+                    choiceGudangTujuan,
+                    ui().text("Gudang sumber: "),
+                    choiceGudangSumber
+                  ])
+                ).positiveButton("Yes", buatJurnal).negativeButton("No", () => false).show();
               }
-              dialog().title("Pilih ").view(
-                ui().layout([
-                  ui().text("Gudang tujuan: "),
-                  choiceGudangTujuan,
-                  ui().text("Gudang sumber: "),
-                  choiceGudangSumber
-                ])
-              ).positiveButton("Yes", buatJurnal).negativeButton("No", () => false).show();
             }
           }
         }
-      };
+      );
     }
   });
 
@@ -333,12 +347,6 @@ var _ = (() => {
         hello() {
           message("hello");
         }
-        // helper: new (class {
-        //   constructor(private _libPenjualan?: LibPenjualan) {}
-        //   public get libPenjualan() {
-        //     return this._libPenjualan ?? new LibPenjualan();
-        //   }
-        // })(),
       });
     }
   });

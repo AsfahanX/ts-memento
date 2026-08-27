@@ -1,24 +1,12 @@
-// import libJurnalItem from "./lib-jurnal-item";
-import type * as Field from "@/types/memento/fields";
-import type { LibHelper } from "./lib-helper";
-import type { Penjualan } from "./lib-penjualan";
+import type { Field } from "@/types/memento";
 import type { Barang } from "./lib-barang";
+import {
+  createLibAccessor,
+  createLibhelper,
+  type libEvents,
+} from "./lib-helper";
+import type { Penjualan } from "./lib-penjualan";
 
-// export default function libItemPenjualan() {
-//   if (libItemPenjualan.id) return libById(libItemPenjualan.id);
-//   return libByName(libItemPenjualan.name);
-// }
-
-// libItemPenjualan.name = "Item penjualan";
-// libItemPenjualan.id = "SmpxUWFTSUEhPj5XckZUTSp6Y0M";
-
-// libItemPenjualan.events = {
-//   entryDeleted() {
-//     libJurnalItem()
-//       ?.linksTo(entry())
-//       .forEach((e) => e.trash());
-//   },
-// };
 export type ItemPenjualan = {
   "Pesanan Penjualan": Field.LinkToEntry<Penjualan>;
   Barang: Field.LinkToEntry<Barang>;
@@ -26,18 +14,22 @@ export type ItemPenjualan = {
   "Harga Satuan": Field.Currency;
   Diskon: Field.Currency;
   Subtotal: Field.Calculation<Field.Integer>;
+  "Gambar utama"?: Field.Image;
 };
 
-export default {
-  name: "Item Penjualan",
-  id: "RE4pK2hXUllyUlNtd1VRWjJrVG0",
-
-  lib() {
-    return (
-      libById(this.id) ??
-      (() => {
-        throw new Error(`Library with id ${this.id} not found`);
-      })()
-    );
+export default createLibhelper(
+  createLibAccessor<ItemPenjualan>("RE4pK2hXUllyUlNtd1VRWjJrVG0"),
+  {
+    events: {
+      entryUpdated(e) {
+        e ??= entry();
+        const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
+        if (gbr) {
+          e.set("Gambar utama", [gbr]);
+        } else {
+          e.set("Gambar utama", null);
+        }
+      },
+    } satisfies libEvents<ItemPenjualan>,
   },
-} satisfies LibHelper<ItemPenjualan>;
+);

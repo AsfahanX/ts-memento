@@ -24,13 +24,27 @@ export const createLibhelper = <T extends LibAccessor<any>, S extends object>(
   return Object.assign({}, accessor, state);
 };
 
+export type EventHandlers<T> = {
+  entry: Partial<{
+    created: Handler<T>;
+    updated: Handler<T>;
+    deleted: Handler<T>;
+  }>;
+};
+
 export type libEvents<T> = {
   // events?: {
   entryCreated?: Handler<T>;
-  // entryUpdated?: Handler<T>;
-  entryUpdated(e?: Entry<T>, ...rest: any): void;
+  entryUpdated?: Handler<T>;
+  // entryUpdated(e?: Entry<T>, ...rest: any): void;
   entryDeleted?: Handler<T>;
   // };
+};
+
+export type ActionHandlers<T> = {
+  entry?: Handlers<T>;
+  library?: Handlers<T>;
+  bulk?: Handlers<T>;
 };
 
 type Handler<T> = (e?: Entry<T>, ...rest: any) => void;

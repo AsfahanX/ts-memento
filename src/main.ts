@@ -4,7 +4,6 @@
  *
  * problematic:
  *   - function Array.at()  -  eg. ['oke', 'siap'].at(0)
- *   - const
  *   -
  */
 
@@ -17,6 +16,8 @@ import {
   libRakitan,
   libItemRakitan,
 } from "@/lib";
+
+// libItemJurnalBarang.actions.
 
 Object.assign(this, {
   libPenjualan,
@@ -38,31 +39,4 @@ Object.assign(this, {
   hello() {
     message("hello");
   },
-
-  // helper: new (class {
-  //   constructor(private _libPenjualan?: LibPenjualan) {}
-
-  //   public get libPenjualan() {
-  //     return this._libPenjualan ?? new LibPenjualan();
-  //   }
-  // })(),
 });
-
-// const helper = new class {
-//   // #libPenjualan: LibPenjualan | null = null
-
-//   // public get libPenjualan() {
-//   //   return this.#libPenjualan ?? new LibPenjualan
-//   // }
-//   /**
-//    *
-//    */
-//   constructor(
-//     private _libPenjualan?: LibPenjualan
-//   ) {}
-
-//   public get libPenjualan() {
-//     return this._libPenjualan ?? new LibPenjualan
-//   }
-
-// }

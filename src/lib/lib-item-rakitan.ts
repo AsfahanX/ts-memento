@@ -1,13 +1,10 @@
-import type * as Field from "@/types/memento/fields";
-
+import type { Field } from "@/types/memento";
 import { Barang } from "./lib-barang";
 import {
   createLibAccessor,
   createLibhelper,
   type libEvents,
-  type LibHelper,
 } from "./lib-helper";
-import type { Entry, Library } from "@/types/memento";
 
 export type ItemRakitan = {
   Perakitan: Field.LinkToEntry<ItemRakitan>;
@@ -35,19 +32,3 @@ export default createLibhelper(
     } satisfies libEvents<ItemRakitan>,
   },
 );
-
-// export default {
-//   name: "Item Rakitan",
-//   id: "JVBtMUppVGxvUCFYbFNlOyhOQGY",
-//   _lib: null,
-
-//   lib() {
-//     this._lib;
-//     return (
-//       libById(this.id) ??
-//       (() => {
-//         throw new Error(`Library with id ${this.id} not found`);
-//       })()
-//     );
-//   },
-// } satisfies LibHelper<ItemRakitan>;

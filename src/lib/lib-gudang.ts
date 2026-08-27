@@ -1,20 +1,11 @@
-import type { LibHelper } from "./lib-helper";
-import type * as Field from "@/types/memento/fields";
+import type { Field } from "@/types/memento";
+import { createLibAccessor, createLibhelper } from "./lib-helper";
 
 export type Gudang = {
   Nama: Field.Text;
 };
 
-export default {
-  name: "Gudang",
-  id: "XSNaUEFQbWdzWHBnJXVdNXZUTlE",
-
-  lib() {
-    return (
-      libById(this.id) ??
-      (() => {
-        throw new Error(`Library with id ${this.id} not found`);
-      })()
-    );
-  },
-} satisfies LibHelper<Gudang>;
+export default createLibhelper(
+  createLibAccessor<Gudang>("XSNaUEFQbWdzWHBnJXVdNXZUTlE"),
+  {},
+);

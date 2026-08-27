@@ -174,7 +174,7 @@ export interface Entry<T> {
    * entry.set("RelatedItems",  [entry1, entry2]);
    * @see https://scripts.mementodatabase.com/script_api/entry/#setname-value
    */
-  set<K extends keyof T>(name: K, value: T[K]): void;
+  set<K extends keyof T>(name: K, value: T[K] | null): void;
 
   setAttr(name: string, value: unknown): void;
 

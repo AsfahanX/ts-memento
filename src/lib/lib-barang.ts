@@ -1,5 +1,5 @@
-import type { LibHelper } from "./lib-helper";
-import type * as Field from "@/types/memento/fields";
+import type { Field } from "@/types/memento";
+import { createLibAccessor, createLibhelper } from "./lib-helper";
 
 export type Barang = {
   Nama: Field.Text;
@@ -7,16 +7,7 @@ export type Barang = {
   "Gambar utama": Field.Image;
 };
 
-export default {
-  name: "Master Barang",
-  id: "QFQxY0BKVWQ0elJkKTY5SSU6cUM",
-
-  lib() {
-    return (
-      libById(this.id) ??
-      (() => {
-        throw new Error(`Library with id ${this.id} not found`);
-      })()
-    );
-  },
-} satisfies LibHelper<Barang>;
+export default createLibhelper(
+  createLibAccessor<Barang>("QFQxY0BKVWQ0elJkKTY5SSU6cUM"),
+  {},
+);
