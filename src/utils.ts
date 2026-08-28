@@ -15,7 +15,7 @@ export function recalculateEntries<T>(
   cb?: (e: Entry<T>) => void,
 ) {
   l ??= lib();
-  let libName = l.name;
+  let libName = l.title;
   let items = l.entries();
   let total = items.length;
 

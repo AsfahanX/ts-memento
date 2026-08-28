@@ -68,7 +68,10 @@ export type AvailableLibraries = CustomProperties extends {
  * @see https://scripts.mementodatabase.com/script_api/library/#search-and-update-operations
  */
 export interface Library<T> {
-  /** The name of the library */
+  /**
+   * The name of the library
+   * @deprecated
+   */
   name: string;
   /** The title of the library (alias for name) */
   title: string;

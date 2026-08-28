@@ -54,7 +54,7 @@ var _ = (() => {
   }
   function recalculateEntries(l, cb) {
     l != null ? l : l = lib();
-    let libName = l.name;
+    let libName = l.title;
     let items = l.entries();
     let total = items.length;
     message("Recalculating " + libName);
