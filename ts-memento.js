@@ -52,22 +52,27 @@ var _ = (() => {
   function showNotif(id, title, text) {
     notification().id(id).title(title).text("You have received a new message ").bigText(text).alertOnce().show();
   }
-  function recalculateEntries(l, cb) {
-    l != null ? l : l = lib();
-    let libName = l.title;
-    let items = l.entries();
-    let total = items.length;
-    message("Recalculating " + libName);
-    for (let i = 0; i < total; i++) {
-      items[i].recalc();
-      cb == null ? void 0 : cb(items[i]);
-      showNotif(libName, "Recalculating " + libName, i + 1 + " of " + total);
-    }
-    showNotif(
-      libName,
-      "Finisehd Recalculating " + libName,
-      total + " of " + total
+  function recalculateEntries(library, callback) {
+    library != null ? library : library = lib();
+    withProgress(
+      library.entries(),
+      (e, i) => {
+        e.recalc();
+        callback == null ? void 0 : callback(e, i);
+      },
+      library.title
     );
+  }
+  function withProgress(items, callback, title) {
+    title != null ? title : title = "Calculating";
+    const id = title;
+    const total = items.length;
+    message(title);
+    for (let i = 0; i < items.length; i++) {
+      callback == null ? void 0 : callback(items[i], i);
+      showNotif(id, title, `${i + 1} of ${total}`);
+    }
+    showNotif(id, "Finisehd " + title, `${total} of ${total}`);
   }
   var init_utils = __esm({
     "src/utils.ts"() {
@@ -75,7 +80,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-item-jurnal-barang.ts
-  var helper, getEventHandlers, getActionHandlers, lib_item_jurnal_barang_default;
+  var helper, events, actions, lib_item_jurnal_barang_default;
   var init_lib_item_jurnal_barang = __esm({
     "src/lib/lib-item-jurnal-barang.ts"() {
       init_lib_helper();
@@ -95,14 +100,14 @@ var _ = (() => {
           const en = entry();
         }
       };
-      getEventHandlers = (helper2) => ({
+      events = {
         entry: {
           updated(e) {
-            helper2.updateGambar(e);
+            helper.updateGambar(e);
           }
         }
-      });
-      getActionHandlers = (helper2) => ({
+      };
+      actions = {
         entry: {
           recalculate() {
           }
@@ -110,17 +115,17 @@ var _ = (() => {
         library: {
           recalculate() {
             recalculateEntries(lib(), (e) => {
-              helper2.updateGambar(e);
+              helper.updateGambar(e);
             });
           }
         }
-      });
+      };
       lib_item_jurnal_barang_default = createLibhelper(
         createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0"),
         {
           helper,
-          events: getEventHandlers(helper),
-          actions: getActionHandlers(helper)
+          events,
+          actions
         }
       );
     }
@@ -364,6 +369,7 @@ var _ = (() => {
   var require_main = __commonJS({
     "src/main.ts"(exports) {
       init_lib();
+      init_utils();
       Object.assign(exports, {
         libPenjualan: lib_penjualan_default,
         libBarang: lib_barang_default,
@@ -389,7 +395,8 @@ var _ = (() => {
             currentObj = Object.getPrototypeOf(currentObj);
           }
           return Array.from(properties).join("\r\n");
-        }
+        },
+        withProgress
       });
     }
   });

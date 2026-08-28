@@ -18,10 +18,9 @@ import {
   libRakitan,
   libItemRakitan,
 } from "@/lib";
+import { withProgress } from "./utils";
 
-// libItemJurnalBarang.actions.
-
-Object.assign(this, {
+Object.assign(this as unknown as object, {
   libPenjualan,
   libBarang,
   libGudang,
@@ -42,7 +41,7 @@ Object.assign(this, {
     message("hello");
   },
 
-  getAllProperties(instance) {
+  getAllProperties(instance: unknown) {
     const properties = new Set();
     let currentObj = instance;
 
@@ -55,4 +54,5 @@ Object.assign(this, {
 
     return Array.from(properties).join("\r\n");
   },
+  withProgress,
 });

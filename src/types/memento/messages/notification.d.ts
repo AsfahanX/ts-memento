@@ -10,7 +10,7 @@ export interface Notification {
    * @param value Unique ID for the notification
    * @see https://scripts.mementodatabase.com/script_api/messages/#idvalue
    */
-  id(value: number): this;
+  id(value: number | string): this;
 
   /**
    * Sets the notification title.

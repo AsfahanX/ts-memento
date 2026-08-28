@@ -11,23 +11,34 @@ function showNotif(id: string, title: string, text: string) {
 }
 
 export function recalculateEntries<T>(
-  l?: Library<T>,
-  cb?: (e: Entry<T>) => void,
+  library?: Library<T>,
+  callback?: (entry: Entry<T>, index: number) => void,
 ) {
-  l ??= lib();
-  let libName = l.title;
-  let items = l.entries();
-  let total = items.length;
+  library ??= lib();
 
-  message("Recalculating " + libName);
-  for (let i = 0; i < total; i++) {
-    items[i].recalc();
-    cb?.(items[i]);
-    showNotif(libName, "Recalculating " + libName, i + 1 + " of " + total);
-  }
-  showNotif(
-    libName,
-    "Finisehd Recalculating " + libName,
-    total + " of " + total,
+  withProgress(
+    library.entries(),
+    (e, i) => {
+      e.recalc();
+      callback?.(e, i);
+    },
+    library.title,
   );
+}
+
+export function withProgress<T>(
+  items: T[],
+  callback: (item: T, index: number) => void,
+  title?: string,
+) {
+  title ??= "Calculating";
+  const id = title;
+  const total = items.length;
+
+  message(title);
+  for (let i = 0; i < items.length; i++) {
+    callback?.(items[i], i);
+    showNotif(id, title, `${i + 1} of ${total}`);
+  }
+  showNotif(id, "Finisehd " + title, `${total} of ${total}`);
 }

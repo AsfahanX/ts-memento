@@ -6,7 +6,6 @@ import {
   createLibhelper,
   type EventHandlers,
   type ActionHandlers,
-  type libEvents,
 } from "./lib-helper";
 import type { JurnalBarang } from "./lib-jurnal-barang";
 import { recalculateEntries } from "@/utils";
@@ -15,7 +14,6 @@ export type ItemJurnalBarang = {
   "Jurnal barang": Field.LinkToEntry<JurnalBarang>;
   Gudang?: Field.LinkToEntry<Gudang>;
   Barang: Field.LinkToEntry<Barang>;
-  // "Perubahan kuantitas": Field.Integer;
   "Gambar utama"?: Field.Image;
   Perakitan?: Field.LinkToEntry<JurnalBarang>;
 
@@ -44,36 +42,32 @@ const helper = {
   },
 };
 
-const events = {} satisfies EventHandlers<ItemJurnalBarang>;
+const events = {
+  entry: {
+    updated(e) {
+      helper.updateGambar(e);
+    },
+  },
+} satisfies EventHandlers<ItemJurnalBarang>;
 
-const getEventHandlers = <T extends typeof helper>(helper: T) =>
-  ({
-    entry: {
-      updated(e) {
+const actions = {
+  entry: {
+    recalculate() {},
+  },
+  library: {
+    recalculate() {
+      recalculateEntries(lib<ItemJurnalBarang>(), (e) => {
         helper.updateGambar(e);
-      },
+      });
     },
-  }) satisfies EventHandlers<ItemJurnalBarang>;
-
-const getActionHandlers = <T extends typeof helper>(helper: T) =>
-  ({
-    entry: {
-      recalculate() {},
-    },
-    library: {
-      recalculate() {
-        recalculateEntries<ItemJurnalBarang>(lib(), (e) => {
-          helper.updateGambar(e);
-        });
-      },
-    },
-  }) satisfies ActionHandlers<ItemJurnalBarang>;
+  },
+} satisfies ActionHandlers<ItemJurnalBarang>;
 
 export default createLibhelper(
   createLibAccessor<ItemJurnalBarang>("I2lTWGc0UFFxcTUxdi1kOUc6Rk0"),
   {
     helper,
-    events: getEventHandlers(helper),
-    actions: getActionHandlers(helper),
+    events,
+    actions,
   },
 );
