@@ -380,6 +380,15 @@ var _ = (() => {
         },
         hello() {
           message("hello");
+        },
+        getAllProperties(instance) {
+          const properties = /* @__PURE__ */ new Set();
+          let currentObj = instance;
+          while (currentObj && currentObj !== Object.prototype) {
+            Reflect.ownKeys(currentObj).forEach((key) => properties.add(key));
+            currentObj = Object.getPrototypeOf(currentObj);
+          }
+          return Array.from(properties).join("\r\n");
         }
       });
     }

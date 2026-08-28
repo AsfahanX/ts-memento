@@ -41,4 +41,18 @@ Object.assign(this, {
   hello() {
     message("hello");
   },
+
+  getAllProperties(instance) {
+    const properties = new Set();
+    let currentObj = instance;
+
+    // Walk up the chain until hitting the end (null)
+    while (currentObj && currentObj !== Object.prototype) {
+      // Get all string keys and symbol keys for the current level
+      Reflect.ownKeys(currentObj).forEach((key) => properties.add(key));
+      currentObj = Object.getPrototypeOf(currentObj);
+    }
+
+    return Array.from(properties).join("\r\n");
+  },
 });
