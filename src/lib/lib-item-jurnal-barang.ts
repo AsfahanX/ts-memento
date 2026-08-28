@@ -9,6 +9,7 @@ import {
   type libEvents,
 } from "./lib-helper";
 import type { JurnalBarang } from "./lib-jurnal-barang";
+import { recalculateEntries } from "@/utils";
 
 export type ItemJurnalBarang = {
   "Jurnal barang": Field.LinkToEntry<JurnalBarang>;
@@ -43,6 +44,8 @@ const helper = {
   },
 };
 
+const events = {} satisfies EventHandlers<ItemJurnalBarang>;
+
 const getEventHandlers = <T extends typeof helper>(helper: T) =>
   ({
     entry: {
@@ -56,6 +59,13 @@ const getActionHandlers = <T extends typeof helper>(helper: T) =>
   ({
     entry: {
       recalculate() {},
+    },
+    library: {
+      recalculate() {
+        recalculateEntries<ItemJurnalBarang>(lib(), (e) => {
+          helper.updateGambar(e);
+        });
+      },
     },
   }) satisfies ActionHandlers<ItemJurnalBarang>;
 

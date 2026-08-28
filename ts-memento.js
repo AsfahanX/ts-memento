@@ -48,11 +48,38 @@ var _ = (() => {
     }
   });
 
+  // src/utils.ts
+  function showNotif(id, title, text) {
+    notification().id(id).title(title).text("You have received a new message ").bigText(text).alertOnce().show();
+  }
+  function recalculateEntries(l, cb) {
+    l != null ? l : l = lib();
+    let libName = l.name;
+    let items = l.entries();
+    let total = items.length;
+    message("Recalculating " + libName);
+    for (let i = 0; i < total; i++) {
+      items[i].recalc();
+      cb == null ? void 0 : cb(items[i]);
+      showNotif(libName, "Recalculating " + libName, i + 1 + " of " + total);
+    }
+    showNotif(
+      libName,
+      "Finisehd Recalculating " + libName,
+      total + " of " + total
+    );
+  }
+  var init_utils = __esm({
+    "src/utils.ts"() {
+    }
+  });
+
   // src/lib/lib-item-jurnal-barang.ts
   var helper, getEventHandlers, getActionHandlers, lib_item_jurnal_barang_default;
   var init_lib_item_jurnal_barang = __esm({
     "src/lib/lib-item-jurnal-barang.ts"() {
       init_lib_helper();
+      init_utils();
       helper = {
         updateGambar(e) {
           var _a, _b, _c;
@@ -78,6 +105,13 @@ var _ = (() => {
       getActionHandlers = (helper2) => ({
         entry: {
           recalculate() {
+          }
+        },
+        library: {
+          recalculate() {
+            recalculateEntries(lib(), (e) => {
+              helper2.updateGambar(e);
+            });
           }
         }
       });

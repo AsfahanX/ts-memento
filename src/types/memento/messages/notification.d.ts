@@ -58,4 +58,7 @@ export interface Notification {
    * @see https://scripts.mementodatabase.com/script_api/messages/#show-1
    */
   show(): void;
+
+  buttonAction: unknown;
+  tapAction: unknown;
 }

@@ -18,7 +18,7 @@ export * from "./library";
  * });
  * @see https://scripts.mementodatabase.com/script_api/library/#lib
  */
-export function lib<T extends LibraryStruct>(): Library<T>;
+export function lib<T>(): Library<T>;
 
 /**
  * Find a library by its name.
