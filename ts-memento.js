@@ -380,10 +380,12 @@ var _ = (() => {
     "src/main.ts"(exports) {
       init_lib();
       init_utils();
+      init_lib_item_penjualan();
       Object.assign(exports, {
-        libPenjualan: lib_penjualan_default,
-        libBarang: lib_barang_default,
         libGudang: lib_gudang_default,
+        libBarang: lib_barang_default,
+        libPenjualan: lib_penjualan_default,
+        libItemPenjualan: lib_item_penjualan_default,
         libJurnalBarang: lib_jurnal_barang_default,
         libItemJurnalBarang: lib_item_jurnal_barang_default,
         libRakitan: lib_rakitan_default,
