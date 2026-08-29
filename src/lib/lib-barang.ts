@@ -1,5 +1,6 @@
 import type { Field } from "@/types/memento";
-import { createLibAccessor, createLibhelper } from "./lib-helper";
+import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
+import { createLibAccessor } from "./lib-helper";
 
 export type Barang = {
   Nama: Field.Text;
@@ -7,7 +8,13 @@ export type Barang = {
   "Gambar utama": Field.Image;
 };
 
-export default createLibhelper(
-  createLibAccessor<Barang>("QFQxY0BKVWQ0elJkKTY5SSU6cUM"),
-  {},
-);
+const helper = {};
+const events = {} satisfies EventHandlers<Barang>;
+const actions = {} satisfies ActionHandlers<Barang>;
+
+export default {
+  ...createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM"),
+  helper,
+  events,
+  actions,
+} satisfies LibHelper<Barang>;

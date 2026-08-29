@@ -1,14 +1,10 @@
 import type { Entry, Field } from "@/types/memento";
+import { recalculateEntries } from "@/utils";
 import type { Barang } from "./lib-barang";
 import type { Gudang } from "./lib-gudang";
-import {
-  createLibAccessor,
-  createLibhelper,
-  type EventHandlers,
-  type ActionHandlers,
-} from "./lib-helper";
+import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
+import { createLibAccessor } from "./lib-helper";
 import type { JurnalBarang } from "./lib-jurnal-barang";
-import { recalculateEntries } from "@/utils";
 
 export type ItemJurnalBarang = {
   "Jurnal barang": Field.LinkToEntry<JurnalBarang>;
@@ -63,11 +59,8 @@ const actions = {
   },
 } satisfies ActionHandlers<ItemJurnalBarang>;
 
-export default createLibhelper(
-  createLibAccessor<ItemJurnalBarang>("I2lTWGc0UFFxcTUxdi1kOUc6Rk0"),
-  {
-    helper,
-    events,
-    actions,
-  },
-);
+export default {
+  ...createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0"),
+  events,
+  actions,
+} satisfies LibHelper<ItemJurnalBarang>;

@@ -1,11 +1,18 @@
 import type { Field } from "@/types/memento";
-import { createLibAccessor, createLibhelper } from "./lib-helper";
+import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
+import { createLibAccessor } from "./lib-helper";
 
 export type Gudang = {
   Nama: Field.Text;
 };
 
-export default createLibhelper(
-  createLibAccessor<Gudang>("XSNaUEFQbWdzWHBnJXVdNXZUTlE"),
-  {},
-);
+const helper = {};
+const events = {} satisfies EventHandlers<Gudang>;
+const actions = {} satisfies ActionHandlers<Gudang>;
+
+export default {
+  ...createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE"),
+  helper,
+  events,
+  actions,
+} satisfies LibHelper<Gudang>;
