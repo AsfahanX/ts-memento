@@ -1,4 +1,4 @@
-import type { Field } from "@/types/memento";
+import type { Entry, Field } from "@/types/memento";
 import type { Barang } from "./lib-barang";
 import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
 import { createLibAccessor } from "./lib-helper";
@@ -16,21 +16,27 @@ export type ItemPenjualan = {
   "Total harga pokok penjualan"?: Field.Calculation<number>;
 };
 
-const helper = {};
+const helper = {
+  updateGambar(e?: Entry<ItemPenjualan>) {
+    e ??= entry();
+    const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
+    if (gbr) {
+      e.set("Gambar utama", [gbr]);
+    } else {
+      e.set("Gambar utama", null);
+    }
+  },
+};
 const events = {
   entry: {
     updated(e) {
-      e ??= entry();
-      const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
-      if (gbr) {
-        e.set("Gambar utama", [gbr]);
-      } else {
-        e.set("Gambar utama", null);
-      }
+      helper.updateGambar(e);
     },
   },
 } satisfies EventHandlers<ItemPenjualan>;
-const actions = {} satisfies ActionHandlers<ItemPenjualan>;
+const actions = {
+  bulk: {},
+} satisfies ActionHandlers<ItemPenjualan>;
 
 export default {
   ...createLibAccessor("RE4pK2hXUllyUlNtd1VRWjJrVG0"),

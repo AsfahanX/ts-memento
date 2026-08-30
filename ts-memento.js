@@ -129,22 +129,28 @@ var _ = (() => {
   var init_lib_item_penjualan = __esm({
     "src/lib/lib-item-penjualan.ts"() {
       init_lib_helper();
-      helper2 = {};
-      events2 = {
-        entry: {
-          updated(e) {
-            var _a, _b, _c;
-            e != null ? e : e = entry();
-            const gbr = (_c = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama")) == null ? void 0 : _c[0];
-            if (gbr) {
-              e.set("Gambar utama", [gbr]);
-            } else {
-              e.set("Gambar utama", null);
-            }
+      helper2 = {
+        updateGambar(e) {
+          var _a, _b, _c;
+          e != null ? e : e = entry();
+          const gbr = (_c = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama")) == null ? void 0 : _c[0];
+          if (gbr) {
+            e.set("Gambar utama", [gbr]);
+          } else {
+            e.set("Gambar utama", null);
           }
         }
       };
-      actions2 = {};
+      events2 = {
+        entry: {
+          updated(e) {
+            helper2.updateGambar(e);
+          }
+        }
+      };
+      actions2 = {
+        bulk: {}
+      };
       lib_item_penjualan_default = __spreadProps(__spreadValues({}, createLibAccessor("RE4pK2hXUllyUlNtd1VRWjJrVG0")), {
         helper: helper2,
         events: events2,
