@@ -14,6 +14,8 @@ const libStokBarang = {
       return this._gudangs;
     },
 
+    
+
     createIfMissing(barangs) {
       let libBarang = libById("QFQxY0BKVWQ0elJkKTY5SSU6cUM");
       let libStokBarang = libById("RUNQRCkxQUk6JmhzOilQVjNJV28");
