@@ -6,6 +6,8 @@ import { createLibAccessor } from "./lib-helper";
 import libItemJurnalBarang from "./lib-item-jurnal-barang";
 import libItemPenjualan, { type ItemPenjualan } from "./lib-item-penjualan";
 import libJurnalBarang from "./lib-jurnal-barang";
+import libPembelian from "./lib-pembelian";
+import libItemPembelian from "./lib-item-pembelian";
 
 export type Penjualan = {
   Tanggal: Field.Date;
@@ -63,10 +65,66 @@ const helper = {
       }),
     );
   },
+
+  createPembelian(e: Entry<ItemPenjualan>) {
+    // let e = itemPenjualan;
+    let penjualan = e.field("Pesanan Penjualan");
+    if (!penjualan) {
+      message("Pesanan Penjualan is empty");
+      return null;
+    }
+
+    let catatan = e.field("Catatan");
+    let barang = e.field("Barang");
+    let harga = e.field("Harga Satuan");
+    let jumlah = e.field("Kuantitas");
+    let gambar = e.field("Gambar utama");
+    let tanggal = penjualan[0].field("Tanggal");
+
+    if (barang && barang.length > 0) {
+      if (barang[0].field("Jenis") == "Jasa") return null;
+    }
+
+    let pembelian = libPembelian.lib().create({
+      "Pesanan Penjualan": penjualan,
+      Deskripsi: catatan,
+      _Thumbnail: gambar,
+      Tanggal: tanggal,
+      "Baris nomor": e.field("Baris Nomor"),
+    });
+
+    let itemPembelian = libItemPembelian.lib().create({
+      "Pesanan pembelian": [pembelian],
+      Catatan: catatan,
+      Barang: barang,
+      Kuantitas: jumlah,
+      "Gambar utama": gambar,
+      "Harga Satuan": harga,
+    });
+
+    itemPembelian.recalc();
+    pembelian.recalc();
+    return pembelian;
+  },
 };
 
 const events = {} satisfies EventHandlers<Penjualan>;
-const actions = {} satisfies ActionHandlers<Penjualan>;
+const actions = {
+  entry: {
+    buatPembelian(e?: Entry<Penjualan>) {
+      e ??= entry();
+      const items = libItemPenjualan.lib().linksTo(e);
+      items.forEach((item) => {
+        helper.createPembelian(item);
+      });
+      //      let items = libByName("Item Penjualan").linksTo(penjualan);
+      // for (itemPenjualan of items) {
+      //   createPembelian(itemPenjualan);
+      // }
+      if (items) message(items.length + " pembelian berhasil dibuat");
+    },
+  },
+} satisfies ActionHandlers<Penjualan>;
 
 export default {
   ...createLibAccessor("WCN6aFtvRkxPUig1PitlPHdJNiE"),

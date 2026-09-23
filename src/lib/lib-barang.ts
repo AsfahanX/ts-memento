@@ -3,6 +3,7 @@ import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
 import { createLibAccessor } from "./lib-helper";
 
 export type Barang = {
+  Jenis: Field.RadioButtons<"Barang" | "Jasa">;
   Nama: Field.Text;
   "Nama tampilan": Field.Text;
   "Gambar utama": Field.Image;

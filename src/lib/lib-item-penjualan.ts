@@ -11,9 +11,11 @@ export type ItemPenjualan = {
   "Harga Satuan": Field.Currency;
   Diskon: Field.Currency;
   Subtotal: Field.Calculation<Field.Integer>;
+  Catatan: Field.Text;
   "Gambar utama"?: Field.Image;
   "Harga pokok penjualan"?: Field.Currency;
   "Total harga pokok penjualan"?: Field.Calculation<number>;
+  "Baris Nomor"?: Field.Integer;
 };
 
 const helper = {

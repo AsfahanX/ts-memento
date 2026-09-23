@@ -133,6 +133,7 @@ export namespace Field {
   type Calculation<T extends Integer | Date | DateTime | string> = T;
   type Javascript<T> = T;
   type SingleChoice<T> = T;
+  type RadioButtons<T> = T;
   type MultipleChoice<T> = T;
   type LinkToEntry<T = unknown> = Entry<T>[];
   type Lookup<L, F extends keyof L> = L[F];
