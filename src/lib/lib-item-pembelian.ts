@@ -19,7 +19,7 @@ const events = {} satisfies EventHandlers<ItemPembelian>;
 const actions = {} satisfies ActionHandlers<ItemPembelian>;
 
 export default {
-  ...createLibAccessor(""),
+  ...createLibAccessor("KjxrIzRHVy0qQE1VM1I1MVsoNFk"),
   helper,
   events,
   actions,
