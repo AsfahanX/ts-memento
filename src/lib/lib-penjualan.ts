@@ -117,11 +117,23 @@ const actions = {
       items.forEach((item) => {
         helper.createPembelian(item);
       });
-      //      let items = libByName("Item Penjualan").linksTo(penjualan);
-      // for (itemPenjualan of items) {
-      //   createPembelian(itemPenjualan);
-      // }
+
       if (items) message(items.length + " pembelian berhasil dibuat");
+    },
+
+    hapusPembelian(e?: Entry<Penjualan>) {
+      e ??= entry();
+
+      libPembelian
+        .lib()
+        .linksTo(e)
+        .forEach((pembelian) => {
+          libItemPembelian
+            .lib()
+            .linksTo(pembelian)
+            .forEach((item) => item.trash());
+          pembelian.trash();
+        });
     },
   },
 } satisfies ActionHandlers<Penjualan>;
@@ -132,65 +144,3 @@ export default {
   events,
   actions,
 } satisfies LibHelper<Penjualan>;
-
-function getPembelians(penjualan) {
-let id = penjualan.id;
-let items = [];
-let all =
-  libByName('Pesanan pembelian')
-    .entries();
-for(i of all) {
-  let parent =
-    i.field('Pesanan Penjualan');
-  if(parent) {
-    if(parent[0].id == id) {
-      items.push(i);
-    }
-  }
-}
-return items;
-}
-
-function getItemsPembelian(pembelian) {
-let id = pembelian.id;
-let items = [];
-let all =
-  libByName('Item Pembelian')
-    .entries();
-for(i of all) {
-  let parent =
-    i.field('Pembelian');
-  if(parent) {
-    if(parent[0].id == id) {
-      items.push(i);
-    }
-  }
-}
-return items;
-}
-
-let libItemPembelian = libByName('Item Pembelian')
-
-/*
-let pembelians =
-  libByName('Pesanan Pembelian')
-  .linksTo(entry());
-for(pembelian of pembelians) {
-  let items =
-    libItemPembelian
-    .linksTo(pembelian);
-  for(i of items) {
-    i.trash();
-  }
-  pembelian.trash();
-  
-}
-*/
-libByName('Pesanan Pembelian')
-  .linksTo(entry())
-  .forEach(pembelian => {
-    libItemPembelian
-      .linksTo(pembelian)
-      .forEach(item => item.trash())
-    pembelian.trash()
-  })

@@ -299,6 +299,13 @@ var _ = (() => {
               helper5.createPembelian(item);
             });
             if (items) message(items.length + " pembelian berhasil dibuat");
+          },
+          hapusPembelian(e) {
+            e != null ? e : e = entry();
+            lib_pembelian_default.lib().linksTo(e).forEach((pembelian) => {
+              lib_item_pembelian_default.lib().linksTo(pembelian).forEach((item) => item.trash());
+              pembelian.trash();
+            });
           }
         }
       };
