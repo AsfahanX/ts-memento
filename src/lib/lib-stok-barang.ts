@@ -49,11 +49,7 @@ const helper = {
       );
     }
 
-    // entries.forEach((v) => {
-    //   this.updateStockBalance(v);
-    //   v.recalc();
-    //   v.field("Barang")?.[0]?.recalc();
-    // });
+    this._queuedItems = {};
   },
   _gudangs: null as Entry<Gudang>[] | null,
   gudangs() {

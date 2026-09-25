@@ -210,6 +210,7 @@ var _ = (() => {
               "Updating stock balances..."
             );
           }
+          this._queuedItems = {};
         },
         _gudangs: null,
         gudangs() {
@@ -298,6 +299,10 @@ var _ = (() => {
         },
         coba() {
           const en = entry();
+        },
+        deleteEntry(e) {
+          e.trash();
+          lib_stok_barang_default.helper.enqueueStockUpdate(e.field("Barang"));
         }
       };
       events4 = {
@@ -306,6 +311,11 @@ var _ = (() => {
             e != null ? e : e = entry();
             helper4.updateGambar(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate(e.field("Barang"));
+          },
+          deleted(e) {
+            e != null ? e : e = entry();
+            helper4.deleteEntry(e);
+            lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
@@ -323,6 +333,7 @@ var _ = (() => {
         }
       };
       lib_item_jurnal_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0")), {
+        helper: helper4,
         events: events4,
         actions: actions4
       });
@@ -391,18 +402,24 @@ var _ = (() => {
   var init_lib_item_pembelian = __esm({
     "src/lib/lib-item-pembelian.ts"() {
       init_lib_helper();
+      init_lib_item_jurnal_barang();
+      init_lib_stok_barang();
       helper6 = {
-        delete(e) {
-          var _a, _b;
-          e != null ? e : e = entry();
+        deleteEntry(e) {
+          var _a;
           e.trash();
-          (_b = (_a = e.field("Item jurnal barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.trash();
+          const itemJurnal = (_a = e.field("Item jurnal barang")) == null ? void 0 : _a[0];
+          if (itemJurnal) {
+            lib_item_jurnal_barang_default.helper.deleteEntry(itemJurnal);
+          }
         }
       };
       events7 = {
         entry: {
           deleted(e) {
-            helper6.delete(e);
+            e != null ? e : e = entry();
+            helper6.deleteEntry(e);
+            lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
@@ -421,17 +438,19 @@ var _ = (() => {
     "src/lib/lib-pembelian.ts"() {
       init_lib_helper();
       init_lib_item_pembelian();
+      init_lib_stok_barang();
       helper7 = {
-        delete(e) {
-          e != null ? e : e = entry();
+        deleteEntry(e) {
           e.trash();
-          lib_item_pembelian_default.lib().linksTo(e).forEach((v) => lib_item_pembelian_default.helper.delete(v));
+          lib_item_pembelian_default.lib().linksTo(e).forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v));
         }
       };
       events8 = {
         entry: {
           deleted(e) {
-            helper7.delete(e);
+            e != null ? e : e = entry();
+            helper7.deleteEntry(e);
+            lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };

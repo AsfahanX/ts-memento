@@ -37,6 +37,11 @@ const helper = {
   coba<T>() {
     const en = entry();
   },
+
+  deleteEntry(e: Entry<ItemJurnalBarang>) {
+    e.trash();
+    libStokBarang.helper.enqueueStockUpdate(e.field("Barang"));
+  },
 };
 
 const events = {
@@ -45,6 +50,11 @@ const events = {
       e ??= entry();
       helper.updateGambar(e);
       libStokBarang.helper.startQueuedStockUpdate(e.field("Barang"));
+    },
+    deleted(e) {
+      e ??= entry();
+      helper.deleteEntry(e);
+      libStokBarang.helper.startQueuedStockUpdate();
     },
   },
 } satisfies EventHandlers<ItemJurnalBarang>;
@@ -64,6 +74,7 @@ const actions = {
 
 export default {
   ...createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0"),
+  helper,
   events,
   actions,
 } satisfies LibHelper<ItemJurnalBarang>;

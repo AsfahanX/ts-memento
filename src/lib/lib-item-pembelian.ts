@@ -4,6 +4,8 @@ import { createLibAccessor } from "./lib-helper";
 import type { Pembelian } from "./lib-pembelian";
 import type { Barang } from "./lib-barang";
 import type { ItemJurnalBarang } from "./lib-item-jurnal-barang";
+import libItemJurnalBarang from "./lib-item-jurnal-barang";
+import libStokBarang from "./lib-stok-barang";
 
 export type ItemPembelian = {
   // Nama: Field.Text;
@@ -18,17 +20,22 @@ export type ItemPembelian = {
 };
 
 const helper = {
-  delete(e?: Entry<ItemPembelian>) {
-    e ??= entry();
+  deleteEntry(e: Entry<ItemPembelian>) {
     e.trash();
-    e.field("Item jurnal barang")?.[0]?.trash();
+
+    const itemJurnal = e.field("Item jurnal barang")?.[0];
+    if (itemJurnal) {
+      libItemJurnalBarang.helper.deleteEntry(itemJurnal);
+    }
   },
 };
 
 const events = {
   entry: {
     deleted(e) {
-      helper.delete(e);
+      e ??= entry();
+      helper.deleteEntry(e);
+      libStokBarang.helper.startQueuedStockUpdate();
     },
   },
 } satisfies EventHandlers<ItemPembelian>;

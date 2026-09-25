@@ -3,6 +3,7 @@ import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
 import { createLibAccessor } from "./lib-helper";
 import { Penjualan } from "./lib-penjualan";
 import libItemPembelian from "./lib-item-pembelian";
+import libStokBarang from "./lib-stok-barang";
 
 export type Pembelian = {
   // Nama: Field.Text;
@@ -14,19 +15,20 @@ export type Pembelian = {
 };
 
 const helper = {
-  delete(e?: Entry<Pembelian>) {
-    e ??= entry();
+  deleteEntry(e: Entry<Pembelian>) {
     e.trash();
     libItemPembelian
       .lib()
       .linksTo(e)
-      .forEach((v) => libItemPembelian.helper.delete(v));
+      .forEach((v) => libItemPembelian.helper.deleteEntry(v));
   },
 };
 const events = {
   entry: {
     deleted(e) {
-      helper.delete(e);
+      e ??= entry();
+      helper.deleteEntry(e);
+      libStokBarang.helper.startQueuedStockUpdate();
     },
   },
 } satisfies EventHandlers<Pembelian>;
