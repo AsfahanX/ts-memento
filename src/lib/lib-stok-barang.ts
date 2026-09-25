@@ -5,30 +5,56 @@ import type { Barang } from "./lib-barang";
 import type { Gudang } from "./lib-gudang";
 import libGudang from "./lib-gudang";
 import libBarang from "./lib-barang";
+import { withProgress } from "@/utils";
 
 export type StokBarang = {
   Barang: Field.LinkToEntry<Barang>;
   "Gambar utama": Field.Image;
 };
 
-// let library = null as Library<StokBarang> | null;
-// const getLibrary = () => {
-//   if (library) return library;
-
-//   const id = "RUNQRCkxQUk6JmhzOilQVjNJV28";
-//   library =
-//     libById(id) ??
-//     (() => {
-//       throw new Error(`Library with id ${id} not found`);
-//     })();
-//   return library;
-// };
-
 const libAccessor = createLibAccessor<StokBarang>(
   "RUNQRCkxQUk6JmhzOilQVjNJV28",
 ).lib;
 
 const helper = {
+  _queuedItems: {} as Record<string, boolean>,
+  enqueueStockUpdate(barangs: Entry<Barang>[]) {
+    barangs.forEach((v) => (this._queuedItems[v.id] = true));
+  },
+  startQueuedStockUpdate(barangs?: Entry<Barang>[]) {
+    if (barangs) this.enqueueStockUpdate(barangs);
+
+    const ids = Object.keys(this._queuedItems);
+    const entries = libAccessor()
+      .entries()
+      .filter((v) => ids.includes(v.field("Barang")?.[0]?.id));
+
+    if (entries.length == 1) {
+      const v = entries[0];
+      this.updateStockBalance(v);
+      v.recalc();
+      v.field("Barang")?.[0]?.recalc();
+      message("Stok diupdate: " + v.name);
+    }
+
+    if (entries.length > 1) {
+      withProgress(
+        entries,
+        (v) => {
+          this.updateStockBalance(v);
+          v.recalc();
+          v.field("Barang")?.[0]?.recalc();
+        },
+        "Updating stock balances...",
+      );
+    }
+
+    // entries.forEach((v) => {
+    //   this.updateStockBalance(v);
+    //   v.recalc();
+    //   v.field("Barang")?.[0]?.recalc();
+    // });
+  },
   _gudangs: null as Entry<Gudang>[] | null,
   gudangs() {
     if (this._gudangs) return this._gudangs;

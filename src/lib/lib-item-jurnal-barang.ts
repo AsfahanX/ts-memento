@@ -5,6 +5,7 @@ import type { Gudang } from "./lib-gudang";
 import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
 import { createLibAccessor } from "./lib-helper";
 import type { JurnalBarang } from "./lib-jurnal-barang";
+import libStokBarang from "./lib-stok-barang";
 
 export type ItemJurnalBarang = {
   "Jurnal barang": Field.LinkToEntry<JurnalBarang>;
@@ -41,7 +42,9 @@ const helper = {
 const events = {
   entry: {
     updated(e) {
+      e ??= entry();
       helper.updateGambar(e);
+      libStokBarang.helper.startQueuedStockUpdate(e.field("Barang"));
     },
   },
 } satisfies EventHandlers<ItemJurnalBarang>;

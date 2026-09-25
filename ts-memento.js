@@ -136,6 +136,37 @@ var _ = (() => {
     }
   });
 
+  // src/utils.ts
+  function showNotif(id, title, text) {
+    notification().id(id).title(title).text("You have received a new message ").bigText(text).alertOnce().show();
+  }
+  function recalculateEntries(library, callback) {
+    library != null ? library : library = lib();
+    withProgress(
+      library.entries(),
+      (e, i) => {
+        e.recalc();
+        callback == null ? void 0 : callback(e, i);
+      },
+      library.title
+    );
+  }
+  function withProgress(items, callback, title) {
+    title != null ? title : title = "Calculating";
+    const id = title;
+    const total = items.length;
+    message(title);
+    for (let i = 0; i < items.length; i++) {
+      callback == null ? void 0 : callback(items[i], i);
+      showNotif(id, title, `${i + 1} of ${total}`);
+    }
+    showNotif(id, "Finisehd " + title, `${total} of ${total}`);
+  }
+  var init_utils = __esm({
+    "src/utils.ts"() {
+    }
+  });
+
   // src/lib/lib-stok-barang.ts
   var libAccessor, helper3, events3, actions3, lib_stok_barang_default;
   var init_lib_stok_barang = __esm({
@@ -143,10 +174,43 @@ var _ = (() => {
       init_lib_helper();
       init_lib_gudang();
       init_lib_barang();
+      init_utils();
       libAccessor = createLibAccessor(
         "RUNQRCkxQUk6JmhzOilQVjNJV28"
       ).lib;
       helper3 = {
+        _queuedItems: {},
+        enqueueStockUpdate(barangs) {
+          barangs.forEach((v) => this._queuedItems[v.id] = true);
+        },
+        startQueuedStockUpdate(barangs) {
+          var _a, _b;
+          if (barangs) this.enqueueStockUpdate(barangs);
+          const ids = Object.keys(this._queuedItems);
+          const entries = libAccessor().entries().filter((v) => {
+            var _a2, _b2;
+            return ids.includes((_b2 = (_a2 = v.field("Barang")) == null ? void 0 : _a2[0]) == null ? void 0 : _b2.id);
+          });
+          if (entries.length == 1) {
+            const v = entries[0];
+            this.updateStockBalance(v);
+            v.recalc();
+            (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.recalc();
+            message("Stok diupdate: " + v.name);
+          }
+          if (entries.length > 1) {
+            withProgress(
+              entries,
+              (v) => {
+                var _a2, _b2;
+                this.updateStockBalance(v);
+                v.recalc();
+                (_b2 = (_a2 = v.field("Barang")) == null ? void 0 : _a2[0]) == null ? void 0 : _b2.recalc();
+              },
+              "Updating stock balances..."
+            );
+          }
+        },
         _gudangs: null,
         gudangs() {
           if (this._gudangs) return this._gudangs;
@@ -214,43 +278,13 @@ var _ = (() => {
     }
   });
 
-  // src/utils.ts
-  function showNotif(id, title, text) {
-    notification().id(id).title(title).text("You have received a new message ").bigText(text).alertOnce().show();
-  }
-  function recalculateEntries(library, callback) {
-    library != null ? library : library = lib();
-    withProgress(
-      library.entries(),
-      (e, i) => {
-        e.recalc();
-        callback == null ? void 0 : callback(e, i);
-      },
-      library.title
-    );
-  }
-  function withProgress(items, callback, title) {
-    title != null ? title : title = "Calculating";
-    const id = title;
-    const total = items.length;
-    message(title);
-    for (let i = 0; i < items.length; i++) {
-      callback == null ? void 0 : callback(items[i], i);
-      showNotif(id, title, `${i + 1} of ${total}`);
-    }
-    showNotif(id, "Finisehd " + title, `${total} of ${total}`);
-  }
-  var init_utils = __esm({
-    "src/utils.ts"() {
-    }
-  });
-
   // src/lib/lib-item-jurnal-barang.ts
   var helper4, events4, actions4, lib_item_jurnal_barang_default;
   var init_lib_item_jurnal_barang = __esm({
     "src/lib/lib-item-jurnal-barang.ts"() {
       init_utils();
       init_lib_helper();
+      init_lib_stok_barang();
       helper4 = {
         updateGambar(e) {
           var _a, _b, _c;
@@ -269,7 +303,9 @@ var _ = (() => {
       events4 = {
         entry: {
           updated(e) {
+            e != null ? e : e = entry();
             helper4.updateGambar(e);
+            lib_stok_barang_default.helper.startQueuedStockUpdate(e.field("Barang"));
           }
         }
       };
