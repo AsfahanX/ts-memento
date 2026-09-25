@@ -181,15 +181,28 @@ var _ = (() => {
     }
   });
 
-  // src/lib/lib-pembelian.ts
-  var helper3, events4, actions4, lib_pembelian_default;
-  var init_lib_pembelian = __esm({
-    "src/lib/lib-pembelian.ts"() {
+  // src/lib/lib-item-pembelian.ts
+  var helper3, events4, actions4, lib_item_pembelian_default;
+  var init_lib_item_pembelian = __esm({
+    "src/lib/lib-item-pembelian.ts"() {
       init_lib_helper();
-      helper3 = {};
-      events4 = {};
+      helper3 = {
+        delete(e) {
+          var _a, _b;
+          e != null ? e : e = entry();
+          e.trash();
+          (_b = (_a = e.field("Item jurnal barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.trash();
+        }
+      };
+      events4 = {
+        entry: {
+          deleted(e) {
+            helper3.delete(e);
+          }
+        }
+      };
       actions4 = {};
-      lib_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("UW1DRlZVK1hPZmZWPGt5UkJ0ZiE")), {
+      lib_item_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("KjxrIzRHVy0qQE1VM1I1MVsoNFk")), {
         helper: helper3,
         events: events4,
         actions: actions4
@@ -197,15 +210,28 @@ var _ = (() => {
     }
   });
 
-  // src/lib/lib-item-pembelian.ts
-  var helper4, events5, actions5, lib_item_pembelian_default;
-  var init_lib_item_pembelian = __esm({
-    "src/lib/lib-item-pembelian.ts"() {
+  // src/lib/lib-pembelian.ts
+  var helper4, events5, actions5, lib_pembelian_default;
+  var init_lib_pembelian = __esm({
+    "src/lib/lib-pembelian.ts"() {
       init_lib_helper();
-      helper4 = {};
-      events5 = {};
+      init_lib_item_pembelian();
+      helper4 = {
+        delete(e) {
+          e != null ? e : e = entry();
+          e.trash();
+          lib_item_pembelian_default.lib().linksTo(e).forEach((v) => lib_item_pembelian_default.helper.delete(v));
+        }
+      };
+      events5 = {
+        entry: {
+          deleted(e) {
+            helper4.delete(e);
+          }
+        }
+      };
       actions5 = {};
-      lib_item_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("KjxrIzRHVy0qQE1VM1I1MVsoNFk")), {
+      lib_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("UW1DRlZVK1hPZmZWPGt5UkJ0ZiE")), {
         helper: helper4,
         events: events5,
         actions: actions5
@@ -317,15 +343,15 @@ var _ = (() => {
     }
   });
 
-  // src/lib/lib-barang.ts
-  var helper6, events7, actions7, lib_barang_default;
-  var init_lib_barang = __esm({
-    "src/lib/lib-barang.ts"() {
+  // src/lib/lib-gudang.ts
+  var helper6, events7, actions7, lib_gudang_default;
+  var init_lib_gudang = __esm({
+    "src/lib/lib-gudang.ts"() {
       init_lib_helper();
       helper6 = {};
       events7 = {};
       actions7 = {};
-      lib_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM")), {
+      lib_gudang_default = __spreadProps(__spreadValues({}, createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE")), {
         helper: helper6,
         events: events7,
         actions: actions7
@@ -333,15 +359,15 @@ var _ = (() => {
     }
   });
 
-  // src/lib/lib-gudang.ts
-  var helper7, events8, actions8, lib_gudang_default;
-  var init_lib_gudang = __esm({
-    "src/lib/lib-gudang.ts"() {
+  // src/lib/lib-stok-barang.ts
+  var helper7, events8, actions8, lib_stok_barang_default;
+  var init_lib_stok_barang = __esm({
+    "src/lib/lib-stok-barang.ts"() {
       init_lib_helper();
       helper7 = {};
       events8 = {};
       actions8 = {};
-      lib_gudang_default = __spreadProps(__spreadValues({}, createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE")), {
+      lib_stok_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("RUNQRCkxQUk6JmhzOilQVjNJV28")), {
         helper: helper7,
         events: events8,
         actions: actions8
@@ -349,13 +375,88 @@ var _ = (() => {
     }
   });
 
+  // src/lib/lib-barang.ts
+  var helper8, events9, actions9, lib_barang_default;
+  var init_lib_barang = __esm({
+    "src/lib/lib-barang.ts"() {
+      init_lib_helper();
+      init_lib_gudang();
+      init_lib_barang();
+      init_lib_stok_barang();
+      helper8 = {
+        _gudangs: null,
+        gudangs() {
+          if (this._gudangs) return this._gudangs;
+          let fieldNames = lib_stok_barang_default.lib().fields();
+          this._gudangs = lib_gudang_default.lib().entries().filter((v) => fieldNames == null ? void 0 : fieldNames.includes(v.name));
+          return this._gudangs;
+        },
+        createIfMissing(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          let entries = lib_stok_barang_default.lib().entries().map((v) => {
+            var _a, _b;
+            return (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id;
+          });
+          let missings = barangs.filter((v) => !entries.includes(v.id));
+          return missings.map(
+            (v) => lib_stok_barang_default.lib().create({
+              Barang: [v],
+              "Gambar utama": v.field("Gambar utama")
+            })
+          );
+        },
+        findEntries(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          this.createIfMissing(barangs);
+          let ids = barangs.map((v) => v.id);
+          return lib_stok_barang_default.lib().entries().filter((v) => {
+            var _a, _b;
+            return ids.includes((_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id);
+          });
+        },
+        updateStockBalance(e) {
+          var _a, _b;
+          e != null ? e : e = entry();
+          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
+          if (!barang) {
+            return;
+          }
+          this.gudangs().forEach((gudang) => {
+            let result = sql(
+              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
+            );
+            result = result.asInt();
+            result = result == 0 ? null : result;
+            e.set(gudang.name, result);
+          });
+        },
+        updateStok(barangs) {
+          this.findEntries(barangs).forEach((v) => {
+            var _a, _b;
+            this.updateStockBalance(v);
+            v.recalc();
+            (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.recalc();
+            message("Stok diupdate: " + v.name);
+          });
+        }
+      };
+      events9 = {};
+      actions9 = {};
+      lib_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM")), {
+        helper: helper8,
+        events: events9,
+        actions: actions9
+      });
+    }
+  });
+
   // src/lib/lib-item-rakitan.ts
-  var helper8, events9, actions9, lib_item_rakitan_default;
+  var helper9, events10, actions10, lib_item_rakitan_default;
   var init_lib_item_rakitan = __esm({
     "src/lib/lib-item-rakitan.ts"() {
       init_lib_helper();
-      helper8 = {};
-      events9 = {
+      helper9 = {};
+      events10 = {
         entry: {
           updated(e) {
             var _a, _b, _c;
@@ -369,17 +470,17 @@ var _ = (() => {
           }
         }
       };
-      actions9 = {};
+      actions10 = {};
       lib_item_rakitan_default = __spreadProps(__spreadValues({}, createLibAccessor("JVBtMUppVGxvUCFYbFNlOyhOQGY")), {
-        helper: helper8,
-        events: events9,
-        actions: actions9
+        helper: helper9,
+        events: events10,
+        actions: actions10
       });
     }
   });
 
   // src/lib/lib-rakitan.ts
-  var helper9, events10, actions10, lib_rakitan_default;
+  var helper10, events11, actions11, lib_rakitan_default;
   var init_lib_rakitan = __esm({
     "src/lib/lib-rakitan.ts"() {
       init_lib_gudang();
@@ -387,9 +488,9 @@ var _ = (() => {
       init_lib_item_jurnal_barang();
       init_lib_item_rakitan();
       init_lib_jurnal_barang();
-      helper9 = {};
-      events10 = {};
-      actions10 = {
+      helper10 = {};
+      events11 = {};
+      actions11 = {
         entry: {
           buatJurnalBarang(e) {
             e != null ? e : e = entry();
@@ -447,9 +548,9 @@ var _ = (() => {
         }
       };
       lib_rakitan_default = __spreadProps(__spreadValues({}, createLibAccessor("JTlxbXJ3OEsjYXp2UEJzdWhNKm0")), {
-        helper: helper9,
-        events: events10,
-        actions: actions10
+        helper: helper10,
+        events: events11,
+        actions: actions11
       });
     }
   });
