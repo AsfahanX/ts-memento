@@ -360,18 +360,80 @@ var _ = (() => {
   });
 
   // src/lib/lib-stok-barang.ts
-  var helper7, events8, actions8, lib_stok_barang_default;
+  var libAccessor, helper7, events8, actions8, lib_stok_barang_default;
   var init_lib_stok_barang = __esm({
     "src/lib/lib-stok-barang.ts"() {
       init_lib_helper();
-      helper7 = {};
+      init_lib_gudang();
+      init_lib_barang();
+      libAccessor = createLibAccessor(
+        "RUNQRCkxQUk6JmhzOilQVjNJV28"
+      ).lib;
+      helper7 = {
+        _gudangs: null,
+        gudangs() {
+          if (this._gudangs) return this._gudangs;
+          let fieldNames = libAccessor().fields();
+          this._gudangs = lib_gudang_default.lib().entries().filter((v) => fieldNames == null ? void 0 : fieldNames.includes(v.name));
+          return this._gudangs;
+        },
+        createIfMissing(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          let entries = libAccessor().entries().map((v) => {
+            var _a, _b;
+            return (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id;
+          });
+          let missings = barangs.filter((v) => !entries.includes(v.id));
+          return missings.map(
+            (v) => libAccessor().create({
+              Barang: [v],
+              "Gambar utama": v.field("Gambar utama")
+            })
+          );
+        },
+        findEntries(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          this.createIfMissing(barangs);
+          let ids = barangs.map((v) => v.id);
+          return libAccessor().entries().filter((v) => {
+            var _a, _b;
+            return ids.includes((_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id);
+          });
+        },
+        updateStockBalance(e) {
+          var _a, _b;
+          e != null ? e : e = entry();
+          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
+          if (!barang) {
+            return;
+          }
+          this.gudangs().forEach((gudang) => {
+            let result = sql(
+              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
+            );
+            result = result.asInt();
+            result = result == 0 ? null : result;
+            e.set(gudang.name, result);
+          });
+        },
+        updateStok(barangs) {
+          this.findEntries(barangs).forEach((v) => {
+            var _a, _b;
+            this.updateStockBalance(v);
+            v.recalc();
+            (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.recalc();
+            message("Stok diupdate: " + v.name);
+          });
+        }
+      };
       events8 = {};
       actions8 = {};
-      lib_stok_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("RUNQRCkxQUk6JmhzOilQVjNJV28")), {
+      lib_stok_barang_default = {
+        lib: libAccessor,
         helper: helper7,
         events: events8,
         actions: actions8
-      });
+      };
     }
   });
 
