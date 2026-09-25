@@ -1,3 +1,5 @@
+export { default as libStokBarang } from "./lib-stok-barang";
+
 export { default as libPenjualan } from "./lib-penjualan";
 export { default as libItemPenjualan } from "./lib-item-penjualan";
 

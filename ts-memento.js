@@ -45,6 +45,175 @@ var _ = (() => {
     }
   });
 
+  // src/lib/lib-gudang.ts
+  var helper, events, actions, lib_gudang_default;
+  var init_lib_gudang = __esm({
+    "src/lib/lib-gudang.ts"() {
+      init_lib_helper();
+      helper = {};
+      events = {};
+      actions = {};
+      lib_gudang_default = __spreadProps(__spreadValues({}, createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE")), {
+        helper,
+        events,
+        actions
+      });
+    }
+  });
+
+  // src/lib/lib-barang.ts
+  var helper2, events2, actions2, lib_barang_default;
+  var init_lib_barang = __esm({
+    "src/lib/lib-barang.ts"() {
+      init_lib_helper();
+      init_lib_gudang();
+      init_lib_barang();
+      init_lib_stok_barang();
+      helper2 = {
+        _gudangs: null,
+        gudangs() {
+          if (this._gudangs) return this._gudangs;
+          let fieldNames = lib_stok_barang_default.lib().fields();
+          this._gudangs = lib_gudang_default.lib().entries().filter((v) => fieldNames == null ? void 0 : fieldNames.includes(v.name));
+          return this._gudangs;
+        },
+        createIfMissing(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          let entries = lib_stok_barang_default.lib().entries().map((v) => {
+            var _a, _b;
+            return (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id;
+          });
+          let missings = barangs.filter((v) => !entries.includes(v.id));
+          return missings.map(
+            (v) => lib_stok_barang_default.lib().create({
+              Barang: [v],
+              "Gambar utama": v.field("Gambar utama")
+            })
+          );
+        },
+        findEntries(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          this.createIfMissing(barangs);
+          let ids = barangs.map((v) => v.id);
+          return lib_stok_barang_default.lib().entries().filter((v) => {
+            var _a, _b;
+            return ids.includes((_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id);
+          });
+        },
+        updateStockBalance(e) {
+          var _a, _b;
+          e != null ? e : e = entry();
+          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
+          if (!barang) {
+            return;
+          }
+          this.gudangs().forEach((gudang) => {
+            let result = sql(
+              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
+            );
+            result = result.asInt();
+            result = result == 0 ? null : result;
+            e.set(gudang.name, result);
+          });
+        },
+        updateStok(barangs) {
+          this.findEntries(barangs).forEach((v) => {
+            var _a, _b;
+            this.updateStockBalance(v);
+            v.recalc();
+            (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.recalc();
+            message("Stok diupdate: " + v.name);
+          });
+        }
+      };
+      events2 = {};
+      actions2 = {};
+      lib_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM")), {
+        helper: helper2,
+        events: events2,
+        actions: actions2
+      });
+    }
+  });
+
+  // src/lib/lib-stok-barang.ts
+  var libAccessor, helper3, events3, actions3, lib_stok_barang_default;
+  var init_lib_stok_barang = __esm({
+    "src/lib/lib-stok-barang.ts"() {
+      init_lib_helper();
+      init_lib_gudang();
+      init_lib_barang();
+      libAccessor = createLibAccessor(
+        "RUNQRCkxQUk6JmhzOilQVjNJV28"
+      ).lib;
+      helper3 = {
+        _gudangs: null,
+        gudangs() {
+          if (this._gudangs) return this._gudangs;
+          let fieldNames = libAccessor().fields();
+          this._gudangs = lib_gudang_default.lib().entries().filter((v) => fieldNames == null ? void 0 : fieldNames.includes(v.name));
+          return this._gudangs;
+        },
+        createIfMissing(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          let entries = libAccessor().entries().map((v) => {
+            var _a, _b;
+            return (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id;
+          });
+          let missings = barangs.filter((v) => !entries.includes(v.id));
+          return missings.map(
+            (v) => libAccessor().create({
+              Barang: [v],
+              "Gambar utama": v.field("Gambar utama")
+            })
+          );
+        },
+        findEntries(barangs) {
+          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
+          this.createIfMissing(barangs);
+          let ids = barangs.map((v) => v.id);
+          return libAccessor().entries().filter((v) => {
+            var _a, _b;
+            return ids.includes((_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id);
+          });
+        },
+        updateStockBalance(e) {
+          var _a, _b;
+          e != null ? e : e = entry();
+          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
+          if (!barang) {
+            return;
+          }
+          this.gudangs().forEach((gudang) => {
+            let result = sql(
+              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
+            );
+            result = result.asInt();
+            result = result == 0 ? null : result;
+            e.set(gudang.name, result);
+          });
+        },
+        updateStok(barangs) {
+          this.findEntries(barangs).forEach((v) => {
+            var _a, _b;
+            this.updateStockBalance(v);
+            v.recalc();
+            (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.recalc();
+            message("Stok diupdate: " + v.name);
+          });
+        }
+      };
+      events3 = {};
+      actions3 = {};
+      lib_stok_barang_default = {
+        lib: libAccessor,
+        helper: helper3,
+        events: events3,
+        actions: actions3
+      };
+    }
+  });
+
   // src/utils.ts
   function showNotif(id, title, text) {
     notification().id(id).title(title).text("You have received a new message ").bigText(text).alertOnce().show();
@@ -77,12 +246,12 @@ var _ = (() => {
   });
 
   // src/lib/lib-item-jurnal-barang.ts
-  var helper, events, actions, lib_item_jurnal_barang_default;
+  var helper4, events4, actions4, lib_item_jurnal_barang_default;
   var init_lib_item_jurnal_barang = __esm({
     "src/lib/lib-item-jurnal-barang.ts"() {
       init_utils();
       init_lib_helper();
-      helper = {
+      helper4 = {
         updateGambar(e) {
           var _a, _b, _c;
           e != null ? e : e = entry();
@@ -97,14 +266,14 @@ var _ = (() => {
           const en = entry();
         }
       };
-      events = {
+      events4 = {
         entry: {
           updated(e) {
-            helper.updateGambar(e);
+            helper4.updateGambar(e);
           }
         }
       };
-      actions = {
+      actions4 = {
         entry: {
           recalculate() {
           }
@@ -112,24 +281,24 @@ var _ = (() => {
         library: {
           recalculate() {
             recalculateEntries(lib(), (e) => {
-              helper.updateGambar(e);
+              helper4.updateGambar(e);
             });
           }
         }
       };
       lib_item_jurnal_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0")), {
-        events,
-        actions
+        events: events4,
+        actions: actions4
       });
     }
   });
 
   // src/lib/lib-item-penjualan.ts
-  var helper2, events2, actions2, lib_item_penjualan_default;
+  var helper5, events5, actions5, lib_item_penjualan_default;
   var init_lib_item_penjualan = __esm({
     "src/lib/lib-item-penjualan.ts"() {
       init_lib_helper();
-      helper2 = {
+      helper5 = {
         updateGambar(e) {
           var _a, _b, _c;
           e != null ? e : e = entry();
@@ -141,31 +310,31 @@ var _ = (() => {
           }
         }
       };
-      events2 = {
+      events5 = {
         entry: {
           updated(e) {
-            helper2.updateGambar(e);
+            helper5.updateGambar(e);
           }
         }
       };
-      actions2 = {
+      actions5 = {
         bulk: {}
       };
       lib_item_penjualan_default = __spreadProps(__spreadValues({}, createLibAccessor("RE4pK2hXUllyUlNtd1VRWjJrVG0")), {
-        helper: helper2,
-        events: events2,
-        actions: actions2
+        helper: helper5,
+        events: events5,
+        actions: actions5
       });
     }
   });
 
   // src/lib/lib-jurnal-barang.ts
-  var events3, actions3, lib_jurnal_barang_default;
+  var events6, actions6, lib_jurnal_barang_default;
   var init_lib_jurnal_barang = __esm({
     "src/lib/lib-jurnal-barang.ts"() {
       init_lib_helper();
       init_lib_item_jurnal_barang();
-      events3 = {
+      events6 = {
         entry: {
           deleted(e) {
             e != null ? e : e = entry();
@@ -173,20 +342,20 @@ var _ = (() => {
           }
         }
       };
-      actions3 = {};
+      actions6 = {};
       lib_jurnal_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("UHoqKEhMPDJkNyoteTllK3dFWlk")), {
-        events: events3,
-        actions: actions3
+        events: events6,
+        actions: actions6
       });
     }
   });
 
   // src/lib/lib-item-pembelian.ts
-  var helper3, events4, actions4, lib_item_pembelian_default;
+  var helper6, events7, actions7, lib_item_pembelian_default;
   var init_lib_item_pembelian = __esm({
     "src/lib/lib-item-pembelian.ts"() {
       init_lib_helper();
-      helper3 = {
+      helper6 = {
         delete(e) {
           var _a, _b;
           e != null ? e : e = entry();
@@ -194,53 +363,53 @@ var _ = (() => {
           (_b = (_a = e.field("Item jurnal barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.trash();
         }
       };
-      events4 = {
+      events7 = {
         entry: {
           deleted(e) {
-            helper3.delete(e);
+            helper6.delete(e);
           }
         }
       };
-      actions4 = {};
+      actions7 = {};
       lib_item_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("KjxrIzRHVy0qQE1VM1I1MVsoNFk")), {
-        helper: helper3,
-        events: events4,
-        actions: actions4
+        helper: helper6,
+        events: events7,
+        actions: actions7
       });
     }
   });
 
   // src/lib/lib-pembelian.ts
-  var helper4, events5, actions5, lib_pembelian_default;
+  var helper7, events8, actions8, lib_pembelian_default;
   var init_lib_pembelian = __esm({
     "src/lib/lib-pembelian.ts"() {
       init_lib_helper();
       init_lib_item_pembelian();
-      helper4 = {
+      helper7 = {
         delete(e) {
           e != null ? e : e = entry();
           e.trash();
           lib_item_pembelian_default.lib().linksTo(e).forEach((v) => lib_item_pembelian_default.helper.delete(v));
         }
       };
-      events5 = {
+      events8 = {
         entry: {
           deleted(e) {
-            helper4.delete(e);
+            helper7.delete(e);
           }
         }
       };
-      actions5 = {};
+      actions8 = {};
       lib_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("UW1DRlZVK1hPZmZWPGt5UkJ0ZiE")), {
-        helper: helper4,
-        events: events5,
-        actions: actions5
+        helper: helper7,
+        events: events8,
+        actions: actions8
       });
     }
   });
 
   // src/lib/lib-penjualan.ts
-  var helper5, events6, actions6, lib_penjualan_default;
+  var helper8, events9, actions9, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_helper();
@@ -249,7 +418,7 @@ var _ = (() => {
       init_lib_jurnal_barang();
       init_lib_pembelian();
       init_lib_item_pembelian();
-      helper5 = {
+      helper8 = {
         buatJurnal(e) {
           var _a;
           e != null ? e : e = entry();
@@ -315,14 +484,14 @@ var _ = (() => {
           return pembelian;
         }
       };
-      events6 = {};
-      actions6 = {
+      events9 = {};
+      actions9 = {
         entry: {
           buatPembelian(e) {
             e != null ? e : e = entry();
             const items = lib_item_penjualan_default.lib().linksTo(e);
             items.forEach((item) => {
-              helper5.createPembelian(item);
+              helper8.createPembelian(item);
             });
             if (items) message(items.length + " pembelian berhasil dibuat");
           },
@@ -336,175 +505,6 @@ var _ = (() => {
         }
       };
       lib_penjualan_default = __spreadProps(__spreadValues({}, createLibAccessor("WCN6aFtvRkxPUig1PitlPHdJNiE")), {
-        helper: helper5,
-        events: events6,
-        actions: actions6
-      });
-    }
-  });
-
-  // src/lib/lib-gudang.ts
-  var helper6, events7, actions7, lib_gudang_default;
-  var init_lib_gudang = __esm({
-    "src/lib/lib-gudang.ts"() {
-      init_lib_helper();
-      helper6 = {};
-      events7 = {};
-      actions7 = {};
-      lib_gudang_default = __spreadProps(__spreadValues({}, createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE")), {
-        helper: helper6,
-        events: events7,
-        actions: actions7
-      });
-    }
-  });
-
-  // src/lib/lib-stok-barang.ts
-  var libAccessor, helper7, events8, actions8, lib_stok_barang_default;
-  var init_lib_stok_barang = __esm({
-    "src/lib/lib-stok-barang.ts"() {
-      init_lib_helper();
-      init_lib_gudang();
-      init_lib_barang();
-      libAccessor = createLibAccessor(
-        "RUNQRCkxQUk6JmhzOilQVjNJV28"
-      ).lib;
-      helper7 = {
-        _gudangs: null,
-        gudangs() {
-          if (this._gudangs) return this._gudangs;
-          let fieldNames = libAccessor().fields();
-          this._gudangs = lib_gudang_default.lib().entries().filter((v) => fieldNames == null ? void 0 : fieldNames.includes(v.name));
-          return this._gudangs;
-        },
-        createIfMissing(barangs) {
-          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
-          let entries = libAccessor().entries().map((v) => {
-            var _a, _b;
-            return (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id;
-          });
-          let missings = barangs.filter((v) => !entries.includes(v.id));
-          return missings.map(
-            (v) => libAccessor().create({
-              Barang: [v],
-              "Gambar utama": v.field("Gambar utama")
-            })
-          );
-        },
-        findEntries(barangs) {
-          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
-          this.createIfMissing(barangs);
-          let ids = barangs.map((v) => v.id);
-          return libAccessor().entries().filter((v) => {
-            var _a, _b;
-            return ids.includes((_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id);
-          });
-        },
-        updateStockBalance(e) {
-          var _a, _b;
-          e != null ? e : e = entry();
-          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
-          if (!barang) {
-            return;
-          }
-          this.gudangs().forEach((gudang) => {
-            let result = sql(
-              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
-            );
-            result = result.asInt();
-            result = result == 0 ? null : result;
-            e.set(gudang.name, result);
-          });
-        },
-        updateStok(barangs) {
-          this.findEntries(barangs).forEach((v) => {
-            var _a, _b;
-            this.updateStockBalance(v);
-            v.recalc();
-            (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.recalc();
-            message("Stok diupdate: " + v.name);
-          });
-        }
-      };
-      events8 = {};
-      actions8 = {};
-      lib_stok_barang_default = {
-        lib: libAccessor,
-        helper: helper7,
-        events: events8,
-        actions: actions8
-      };
-    }
-  });
-
-  // src/lib/lib-barang.ts
-  var helper8, events9, actions9, lib_barang_default;
-  var init_lib_barang = __esm({
-    "src/lib/lib-barang.ts"() {
-      init_lib_helper();
-      init_lib_gudang();
-      init_lib_barang();
-      init_lib_stok_barang();
-      helper8 = {
-        _gudangs: null,
-        gudangs() {
-          if (this._gudangs) return this._gudangs;
-          let fieldNames = lib_stok_barang_default.lib().fields();
-          this._gudangs = lib_gudang_default.lib().entries().filter((v) => fieldNames == null ? void 0 : fieldNames.includes(v.name));
-          return this._gudangs;
-        },
-        createIfMissing(barangs) {
-          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
-          let entries = lib_stok_barang_default.lib().entries().map((v) => {
-            var _a, _b;
-            return (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id;
-          });
-          let missings = barangs.filter((v) => !entries.includes(v.id));
-          return missings.map(
-            (v) => lib_stok_barang_default.lib().create({
-              Barang: [v],
-              "Gambar utama": v.field("Gambar utama")
-            })
-          );
-        },
-        findEntries(barangs) {
-          barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
-          this.createIfMissing(barangs);
-          let ids = barangs.map((v) => v.id);
-          return lib_stok_barang_default.lib().entries().filter((v) => {
-            var _a, _b;
-            return ids.includes((_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id);
-          });
-        },
-        updateStockBalance(e) {
-          var _a, _b;
-          e != null ? e : e = entry();
-          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
-          if (!barang) {
-            return;
-          }
-          this.gudangs().forEach((gudang) => {
-            let result = sql(
-              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
-            );
-            result = result.asInt();
-            result = result == 0 ? null : result;
-            e.set(gudang.name, result);
-          });
-        },
-        updateStok(barangs) {
-          this.findEntries(barangs).forEach((v) => {
-            var _a, _b;
-            this.updateStockBalance(v);
-            v.recalc();
-            (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.recalc();
-            message("Stok diupdate: " + v.name);
-          });
-        }
-      };
-      events9 = {};
-      actions9 = {};
-      lib_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM")), {
         helper: helper8,
         events: events9,
         actions: actions9
@@ -620,6 +620,7 @@ var _ = (() => {
   // src/lib/index.ts
   var init_lib = __esm({
     "src/lib/index.ts"() {
+      init_lib_stok_barang();
       init_lib_penjualan();
       init_lib_item_penjualan();
       init_lib_pembelian();
@@ -648,6 +649,7 @@ var _ = (() => {
         libItemJurnalBarang: lib_item_jurnal_barang_default,
         libRakitan: lib_rakitan_default,
         libItemRakitan: lib_item_rakitan_default,
+        libStokBarang: lib_stok_barang_default,
         formatRupiah(nominal) {
           if (typeof nominal !== "number" || nominal <= 0) {
             return null;

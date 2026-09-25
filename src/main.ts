@@ -17,6 +17,7 @@ import {
   libItemJurnalBarang,
   libRakitan,
   libItemRakitan,
+  libStokBarang,
 } from "@/lib";
 import { recalculateEntries, withProgress } from "./utils";
 import libItemPenjualan from "./lib/lib-item-penjualan";
@@ -30,6 +31,7 @@ Object.assign(this as unknown as object, {
   libItemJurnalBarang,
   libRakitan,
   libItemRakitan,
+  libStokBarang,
 
   formatRupiah(nominal: number) {
     if (typeof nominal !== "number" || nominal <= 0) {
