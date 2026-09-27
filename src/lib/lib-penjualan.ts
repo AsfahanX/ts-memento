@@ -106,7 +106,23 @@ const helper = {
     itemPembelian.recalc();
     pembelian.recalc();
 
-    // const jurnalbarang =
+    const jurnalbarang = libJurnalBarang.lib().create({
+      Jenis: "Pembelian",
+      Tanggal: tanggal,
+      Keterangan: pembelian.name,
+      "Pesanan pembelian": [pembelian],
+      "Dibuat oleh sistem": true,
+    });
+    const itemJurnalBarang = libItemJurnalBarang.lib().create({
+      "Jurnal barang": [jurnalbarang],
+      "Item pembelian": [itemPembelian],
+      Barang: barang,
+      Kuantitas: jumlah,
+      Jenis: "Masuk",
+      "Gambar utama": gambar,
+    });
+
+    libStokBarang.helper.enqueueStockUpdate(barang);
     return pembelian;
   },
 };

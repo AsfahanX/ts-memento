@@ -6,6 +6,7 @@ import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
 import { createLibAccessor } from "./lib-helper";
 import type { JurnalBarang } from "./lib-jurnal-barang";
 import libStokBarang from "./lib-stok-barang";
+import type { ItemPembelian } from "./lib-item-pembelian";
 
 export type ItemJurnalBarang = {
   "Jurnal barang": Field.LinkToEntry<JurnalBarang>;
@@ -22,6 +23,8 @@ export type ItemJurnalBarang = {
   "Serial number"?: Field.Barcode;
 
   "_Nama barang"?: Field.Lookup<Barang, "Nama">;
+
+  "Item pembelian"?: Field.LinkToEntry<ItemPembelian>;
 };
 
 const helper = {

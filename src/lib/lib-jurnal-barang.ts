@@ -6,8 +6,10 @@ import libItemJurnalBarang from "./lib-item-jurnal-barang";
 import type { Penjualan } from "./lib-penjualan";
 import type { Rakitan } from "./lib-rakitan";
 import libStokBarang from "./lib-stok-barang";
+import type { Pembelian } from "./lib-pembelian";
 
 export type JurnalBarang = {
+  "Dibuat oleh sistem"?: Field.Boolean;
   Jenis?: Field.SingleChoice<
     "Penyesuaian persediaan" | "Pembelian" | "Penjualan"
   >;
@@ -15,6 +17,7 @@ export type JurnalBarang = {
   Keterangan?: Field.Text;
   Rakitan?: Field.LinkToEntry<Rakitan>;
   Penjualan?: Field.LinkToEntry<Penjualan>;
+  "Pesanan pembelian"?: Field.LinkToEntry<Pembelian>;
 
   "Gudang Asal"?: Field.LinkToEntry<Gudang>;
   "Gudang Tujuan"?: Field.LinkToEntry<Gudang>;

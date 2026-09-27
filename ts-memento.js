@@ -555,6 +555,22 @@ var _ = (() => {
           });
           itemPembelian.recalc();
           pembelian.recalc();
+          const jurnalbarang = lib_jurnal_barang_default.lib().create({
+            Jenis: "Pembelian",
+            Tanggal: tanggal,
+            Keterangan: pembelian.name,
+            "Pesanan pembelian": [pembelian],
+            "Dibuat oleh sistem": true
+          });
+          const itemJurnalBarang = lib_item_jurnal_barang_default.lib().create({
+            "Jurnal barang": [jurnalbarang],
+            "Item pembelian": [itemPembelian],
+            Barang: barang,
+            Kuantitas: jumlah,
+            Jenis: "Masuk",
+            "Gambar utama": gambar
+          });
+          lib_stok_barang_default.helper.enqueueStockUpdate(barang);
           return pembelian;
         }
       };
