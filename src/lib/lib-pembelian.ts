@@ -14,12 +14,12 @@ export type Pembelian = {
   Tanggal: Field.Date;
   "Baris nomor"?: Field.Integer;
 
-  "Jurnal barang"?: Field.LinkToEntry<JurnalBarang>;
+  // "Jurnal barang"?: Field.LinkToEntry<JurnalBarang>;
 };
 
 const helper = {
   deleteEntry(e: Entry<Pembelian>) {
-    libJurnalBarang.helper.deleteEntry(e.field("Jurnal barang")?.[0]);
+    libJurnalBarang.helper.deleteEntry(libJurnalBarang.lib().linksTo(e)?.[0]);
 
     libItemPembelian
       .lib()
