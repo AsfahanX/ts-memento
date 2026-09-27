@@ -46,15 +46,13 @@ var _ = (() => {
   });
 
   // src/lib/lib-gudang.ts
-  var helper, events, actions, lib_gudang_default;
+  var events, actions, lib_gudang_default;
   var init_lib_gudang = __esm({
     "src/lib/lib-gudang.ts"() {
       init_lib_helper();
-      helper = {};
       events = {};
       actions = {};
       lib_gudang_default = __spreadProps(__spreadValues({}, createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE")), {
-        helper,
         events,
         actions
       });
@@ -62,14 +60,14 @@ var _ = (() => {
   });
 
   // src/lib/lib-barang.ts
-  var helper2, events2, actions2, lib_barang_default;
+  var helper, events2, actions2, lib_barang_default;
   var init_lib_barang = __esm({
     "src/lib/lib-barang.ts"() {
       init_lib_helper();
       init_lib_gudang();
       init_lib_barang();
       init_lib_stok_barang();
-      helper2 = {
+      helper = {
         _gudangs: null,
         gudangs() {
           if (this._gudangs) return this._gudangs;
@@ -129,7 +127,7 @@ var _ = (() => {
       events2 = {};
       actions2 = {};
       lib_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM")), {
-        helper: helper2,
+        helper,
         events: events2,
         actions: actions2
       });
@@ -168,7 +166,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-stok-barang.ts
-  var libAccessor, helper3, events3, actions3, lib_stok_barang_default;
+  var libAccessor, helper2, events3, actions3, lib_stok_barang_default;
   var init_lib_stok_barang = __esm({
     "src/lib/lib-stok-barang.ts"() {
       init_lib_helper();
@@ -178,7 +176,7 @@ var _ = (() => {
       libAccessor = createLibAccessor(
         "RUNQRCkxQUk6JmhzOilQVjNJV28"
       ).lib;
-      helper3 = {
+      helper2 = {
         _queuedItems: {},
         enqueueStockUpdate(barangs) {
           barangs.forEach((v) => this._queuedItems[v.id] = true);
@@ -272,7 +270,7 @@ var _ = (() => {
       actions3 = {};
       lib_stok_barang_default = {
         lib: libAccessor,
-        helper: helper3,
+        helper: helper2,
         events: events3,
         actions: actions3
       };
@@ -280,13 +278,13 @@ var _ = (() => {
   });
 
   // src/lib/lib-item-jurnal-barang.ts
-  var helper4, events4, actions4, lib_item_jurnal_barang_default;
+  var helper3, events4, actions4, lib_item_jurnal_barang_default;
   var init_lib_item_jurnal_barang = __esm({
     "src/lib/lib-item-jurnal-barang.ts"() {
       init_utils();
       init_lib_helper();
       init_lib_stok_barang();
-      helper4 = {
+      helper3 = {
         updateGambar(e) {
           var _a, _b, _c;
           e != null ? e : e = entry();
@@ -309,17 +307,17 @@ var _ = (() => {
         entry: {
           created(e) {
             e != null ? e : e = entry();
-            helper4.updateGambar(e);
+            helper3.updateGambar(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate(e.field("Barang"));
           },
           updated(e) {
             e != null ? e : e = entry();
-            helper4.updateGambar(e);
+            helper3.updateGambar(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate(e.field("Barang"));
           },
           deleted(e) {
             e != null ? e : e = entry();
-            helper4.deleteEntry(e);
+            helper3.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
@@ -332,13 +330,13 @@ var _ = (() => {
         library: {
           recalculate() {
             recalculateEntries(lib(), (e) => {
-              helper4.updateGambar(e);
+              helper3.updateGambar(e);
             });
           }
         }
       };
       lib_item_jurnal_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0")), {
-        helper: helper4,
+        helper: helper3,
         events: events4,
         actions: actions4
       });
@@ -346,11 +344,11 @@ var _ = (() => {
   });
 
   // src/lib/lib-item-penjualan.ts
-  var helper5, events5, actions5, lib_item_penjualan_default;
+  var helper4, events5, actions5, lib_item_penjualan_default;
   var init_lib_item_penjualan = __esm({
     "src/lib/lib-item-penjualan.ts"() {
       init_lib_helper();
-      helper5 = {
+      helper4 = {
         updateGambar(e) {
           var _a, _b, _c;
           e != null ? e : e = entry();
@@ -365,7 +363,7 @@ var _ = (() => {
       events5 = {
         entry: {
           updated(e) {
-            helper5.updateGambar(e);
+            helper4.updateGambar(e);
           }
         }
       };
@@ -373,7 +371,7 @@ var _ = (() => {
         bulk: {}
       };
       lib_item_penjualan_default = __spreadProps(__spreadValues({}, createLibAccessor("RE4pK2hXUllyUlNtd1VRWjJrVG0")), {
-        helper: helper5,
+        helper: helper4,
         events: events5,
         actions: actions5
       });
@@ -381,13 +379,13 @@ var _ = (() => {
   });
 
   // src/lib/lib-jurnal-barang.ts
-  var helper6, events6, actions6, lib_jurnal_barang_default;
+  var helper5, events6, actions6, lib_jurnal_barang_default;
   var init_lib_jurnal_barang = __esm({
     "src/lib/lib-jurnal-barang.ts"() {
       init_lib_helper();
       init_lib_item_jurnal_barang();
       init_lib_stok_barang();
-      helper6 = {
+      helper5 = {
         deleteEntry(e) {
           if (!e) return;
           const items = lib_item_jurnal_barang_default.lib().linksTo(e);
@@ -398,14 +396,14 @@ var _ = (() => {
       events6 = {
         entry: {
           deleted(e) {
-            helper6.deleteEntry(e != null ? e : entry());
+            helper5.deleteEntry(e != null ? e : entry());
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
       actions6 = {};
       lib_jurnal_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("UHoqKEhMPDJkNyoteTllK3dFWlk")), {
-        helper: helper6,
+        helper: helper5,
         events: events6,
         actions: actions6
       });
@@ -413,13 +411,13 @@ var _ = (() => {
   });
 
   // src/lib/lib-item-pembelian.ts
-  var helper7, events7, actions7, lib_item_pembelian_default;
+  var helper6, events7, actions7, lib_item_pembelian_default;
   var init_lib_item_pembelian = __esm({
     "src/lib/lib-item-pembelian.ts"() {
       init_lib_helper();
       init_lib_item_jurnal_barang();
       init_lib_stok_barang();
-      helper7 = {
+      helper6 = {
         deleteEntry(e) {
           var _a;
           e.trash();
@@ -433,14 +431,14 @@ var _ = (() => {
         entry: {
           deleted(e) {
             e != null ? e : e = entry();
-            helper7.deleteEntry(e);
+            helper6.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
       actions7 = {};
       lib_item_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("KjxrIzRHVy0qQE1VM1I1MVsoNFk")), {
-        helper: helper7,
+        helper: helper6,
         events: events7,
         actions: actions7
       });
@@ -448,14 +446,14 @@ var _ = (() => {
   });
 
   // src/lib/lib-pembelian.ts
-  var helper8, events8, actions8, lib_pembelian_default;
+  var helper7, events8, actions8, lib_pembelian_default;
   var init_lib_pembelian = __esm({
     "src/lib/lib-pembelian.ts"() {
       init_lib_helper();
       init_lib_item_pembelian();
       init_lib_stok_barang();
       init_lib_jurnal_barang();
-      helper8 = {
+      helper7 = {
         deleteEntry(e) {
           var _a;
           lib_jurnal_barang_default.helper.deleteEntry((_a = e.field("Jurnal barang")) == null ? void 0 : _a[0]);
@@ -467,14 +465,14 @@ var _ = (() => {
         entry: {
           deleted(e) {
             e != null ? e : e = entry();
-            helper8.deleteEntry(e);
+            helper7.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
       actions8 = {};
       lib_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("UW1DRlZVK1hPZmZWPGt5UkJ0ZiE")), {
-        helper: helper8,
+        helper: helper7,
         events: events8,
         actions: actions8
       });
@@ -482,7 +480,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-penjualan.ts
-  var helper9, events9, actions9, lib_penjualan_default;
+  var helper8, events9, actions9, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_helper();
@@ -492,7 +490,16 @@ var _ = (() => {
       init_lib_pembelian();
       init_lib_item_pembelian();
       init_lib_stok_barang();
-      helper9 = {
+      init_lib_gudang();
+      helper8 = {
+        _gudangDefault: null,
+        gudangDefault() {
+          var _a;
+          if (!helper8._gudangDefault) {
+            helper8._gudangDefault = (_a = lib_gudang_default.lib().find("[TS] - Stok \u{1F535}")) == null ? void 0 : _a[0];
+          }
+          return helper8._gudangDefault;
+        },
         buatJurnal(e) {
           var _a;
           e != null ? e : e = entry();
@@ -567,8 +574,9 @@ var _ = (() => {
             "Item pembelian": [itemPembelian],
             Barang: barang,
             Kuantitas: jumlah,
-            Jenis: "Masuk",
-            "Gambar utama": gambar
+            "Gambar utama": gambar,
+            Gudang: this.gudangDefault() ? [this.gudangDefault()] : void 0,
+            Jenis: "Masuk"
           });
           lib_stok_barang_default.helper.enqueueStockUpdate(barang);
           return pembelian;
@@ -580,7 +588,7 @@ var _ = (() => {
           buatPembelian(e) {
             e != null ? e : e = entry();
             const items = lib_item_penjualan_default.lib().linksTo(e);
-            items.forEach((item) => helper9.createPembelian(item));
+            items.forEach((item) => helper8.createPembelian(item));
             if (items) message(items.length + " pembelian berhasil dibuat");
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           },
@@ -593,7 +601,7 @@ var _ = (() => {
         }
       };
       lib_penjualan_default = __spreadProps(__spreadValues({}, createLibAccessor("WCN6aFtvRkxPUig1PitlPHdJNiE")), {
-        helper: helper9,
+        helper: helper8,
         events: events9,
         actions: actions9
       });
@@ -601,11 +609,11 @@ var _ = (() => {
   });
 
   // src/lib/lib-item-rakitan.ts
-  var helper10, events10, actions10, lib_item_rakitan_default;
+  var helper9, events10, actions10, lib_item_rakitan_default;
   var init_lib_item_rakitan = __esm({
     "src/lib/lib-item-rakitan.ts"() {
       init_lib_helper();
-      helper10 = {};
+      helper9 = {};
       events10 = {
         entry: {
           updated(e) {
@@ -622,7 +630,7 @@ var _ = (() => {
       };
       actions10 = {};
       lib_item_rakitan_default = __spreadProps(__spreadValues({}, createLibAccessor("JVBtMUppVGxvUCFYbFNlOyhOQGY")), {
-        helper: helper10,
+        helper: helper9,
         events: events10,
         actions: actions10
       });
@@ -630,7 +638,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-rakitan.ts
-  var helper11, events11, actions11, lib_rakitan_default;
+  var helper10, events11, actions11, lib_rakitan_default;
   var init_lib_rakitan = __esm({
     "src/lib/lib-rakitan.ts"() {
       init_lib_gudang();
@@ -638,7 +646,7 @@ var _ = (() => {
       init_lib_item_jurnal_barang();
       init_lib_item_rakitan();
       init_lib_jurnal_barang();
-      helper11 = {};
+      helper10 = {};
       events11 = {};
       actions11 = {
         entry: {
@@ -698,7 +706,7 @@ var _ = (() => {
         }
       };
       lib_rakitan_default = __spreadProps(__spreadValues({}, createLibAccessor("JTlxbXJ3OEsjYXp2UEJzdWhNKm0")), {
-        helper: helper11,
+        helper: helper10,
         events: events11,
         actions: actions11
       });

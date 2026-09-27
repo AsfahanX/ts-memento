@@ -9,6 +9,7 @@ import libJurnalBarang from "./lib-jurnal-barang";
 import libPembelian from "./lib-pembelian";
 import libItemPembelian from "./lib-item-pembelian";
 import libStokBarang from "./lib-stok-barang";
+import libGudang from "./lib-gudang";
 
 export type Penjualan = {
   Tanggal: Field.Date;
@@ -23,6 +24,13 @@ export type Penjualan = {
 };
 
 const helper = {
+  _gudangDefault: null as Entry<Gudang> | null,
+  gudangDefault() {
+    if (!helper._gudangDefault) {
+      helper._gudangDefault = libGudang.lib().find("[TS] - Stok 🔵")?.[0];
+    }
+    return helper._gudangDefault;
+  },
   buatJurnal(e?: Entry<Penjualan>) {
     e ??= entry();
     let jurnal = libJurnalBarang.lib().linksTo(e)?.[0];
@@ -118,8 +126,9 @@ const helper = {
       "Item pembelian": [itemPembelian],
       Barang: barang,
       Kuantitas: jumlah,
-      Jenis: "Masuk",
       "Gambar utama": gambar,
+      Gudang: this.gudangDefault() ? [this.gudangDefault()] : undefined,
+      Jenis: "Masuk",
     });
 
     libStokBarang.helper.enqueueStockUpdate(barang);
