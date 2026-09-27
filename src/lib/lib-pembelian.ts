@@ -19,7 +19,9 @@ export type Pembelian = {
 
 const helper = {
   deleteEntry(e: Entry<Pembelian>) {
-    libJurnalBarang.helper.deleteEntry(libJurnalBarang.lib().linksTo(e)?.[0]);
+    libJurnalBarang.helper.deleteEntry(
+      libJurnalBarang.lib().linksTo(e)?.[0] ?? undefined,
+    );
 
     libItemPembelian
       .lib()

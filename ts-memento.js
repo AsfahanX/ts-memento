@@ -455,8 +455,10 @@ var _ = (() => {
       init_lib_jurnal_barang();
       helper7 = {
         deleteEntry(e) {
-          var _a;
-          lib_jurnal_barang_default.helper.deleteEntry((_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0]);
+          var _a, _b;
+          lib_jurnal_barang_default.helper.deleteEntry(
+            (_b = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0]) != null ? _b : void 0
+          );
           lib_item_pembelian_default.lib().linksTo(e).forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v));
           e.trash();
         }
