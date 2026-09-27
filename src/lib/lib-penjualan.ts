@@ -8,6 +8,7 @@ import libItemPenjualan, { type ItemPenjualan } from "./lib-item-penjualan";
 import libJurnalBarang from "./lib-jurnal-barang";
 import libPembelian from "./lib-pembelian";
 import libItemPembelian from "./lib-item-pembelian";
+import libStokBarang from "./lib-stok-barang";
 
 export type Penjualan = {
   Tanggal: Field.Date;
@@ -104,6 +105,8 @@ const helper = {
 
     itemPembelian.recalc();
     pembelian.recalc();
+
+    // const jurnalbarang =
     return pembelian;
   },
 };
@@ -114,26 +117,18 @@ const actions = {
     buatPembelian(e?: Entry<Penjualan>) {
       e ??= entry();
       const items = libItemPenjualan.lib().linksTo(e);
-      items.forEach((item) => {
-        helper.createPembelian(item);
-      });
+      items.forEach((item) => helper.createPembelian(item));
 
       if (items) message(items.length + " pembelian berhasil dibuat");
+      libStokBarang.helper.startQueuedStockUpdate();
     },
 
     hapusPembelian(e?: Entry<Penjualan>) {
       e ??= entry();
 
-      libPembelian
-        .lib()
-        .linksTo(e)
-        .forEach((pembelian) => {
-          libItemPembelian
-            .lib()
-            .linksTo(pembelian)
-            .forEach((item) => item.trash());
-          pembelian.trash();
-        });
+      const pembelians = libPembelian.lib().linksTo(e);
+      pembelians.forEach((v) => libPembelian.helper.deleteEntry(v));
+      libStokBarang.helper.startQueuedStockUpdate();
     },
   },
 } satisfies ActionHandlers<Penjualan>;

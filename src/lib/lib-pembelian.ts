@@ -4,6 +4,7 @@ import { createLibAccessor } from "./lib-helper";
 import { Penjualan } from "./lib-penjualan";
 import libItemPembelian from "./lib-item-pembelian";
 import libStokBarang from "./lib-stok-barang";
+import libJurnalBarang, { type JurnalBarang } from "./lib-jurnal-barang";
 
 export type Pembelian = {
   // Nama: Field.Text;
@@ -12,15 +13,19 @@ export type Pembelian = {
   _Thumbnail?: Field.Image;
   Tanggal: Field.Date;
   "Baris nomor"?: Field.Integer;
+
+  "Jurnal barang"?: Field.LinkToEntry<JurnalBarang>;
 };
 
 const helper = {
   deleteEntry(e: Entry<Pembelian>) {
-    e.trash();
+    libJurnalBarang.helper.deleteEntry(e.field("Jurnal barang")?.[0]);
+
     libItemPembelian
       .lib()
       .linksTo(e)
       .forEach((v) => libItemPembelian.helper.deleteEntry(v));
+    e.trash();
   },
 };
 const events = {

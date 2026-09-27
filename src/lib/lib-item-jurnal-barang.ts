@@ -46,6 +46,11 @@ const helper = {
 
 const events = {
   entry: {
+    created(e) {
+      e ??= entry();
+      helper.updateGambar(e);
+      libStokBarang.helper.startQueuedStockUpdate(e.field("Barang"));
+    },
     updated(e) {
       e ??= entry();
       helper.updateGambar(e);
