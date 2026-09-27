@@ -420,11 +420,11 @@ var _ = (() => {
       helper6 = {
         deleteEntry(e) {
           var _a;
-          e.trash();
-          const itemJurnal = (_a = e.field("Item jurnal barang")) == null ? void 0 : _a[0];
+          const itemJurnal = (_a = lib_item_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
           if (itemJurnal) {
             lib_item_jurnal_barang_default.helper.deleteEntry(itemJurnal);
           }
+          e.trash();
         }
       };
       events7 = {
@@ -459,7 +459,8 @@ var _ = (() => {
           lib_jurnal_barang_default.helper.deleteEntry(
             (_b = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0]) != null ? _b : void 0
           );
-          lib_item_pembelian_default.lib().linksTo(e).forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v));
+          const items = lib_item_pembelian_default.lib().linksTo(e);
+          items.forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v));
           e.trash();
         }
       };

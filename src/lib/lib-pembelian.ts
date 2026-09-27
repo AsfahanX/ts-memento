@@ -23,10 +23,8 @@ const helper = {
       libJurnalBarang.lib().linksTo(e)?.[0] ?? undefined,
     );
 
-    libItemPembelian
-      .lib()
-      .linksTo(e)
-      .forEach((v) => libItemPembelian.helper.deleteEntry(v));
+    const items = libItemPembelian.lib().linksTo(e);
+    items.forEach((v) => libItemPembelian.helper.deleteEntry(v));
     e.trash();
   },
 };

@@ -16,17 +16,18 @@ export type ItemPembelian = {
   "Harga Satuan": Field.Currency;
   "Gambar utama"?: Field.Image;
 
-  "Item jurnal barang"?: Field.LinkToEntry<ItemJurnalBarang>;
+  // "Item jurnal barang"?: Field.LinkToEntry<ItemJurnalBarang>;
 };
 
 const helper = {
   deleteEntry(e: Entry<ItemPembelian>) {
-    e.trash();
-
-    const itemJurnal = e.field("Item jurnal barang")?.[0];
+    // const itemJurnal = e.field("Item jurnal barang")?.[0];
+    const itemJurnal = libItemJurnalBarang.lib().linksTo(e)?.[0];
     if (itemJurnal) {
       libItemJurnalBarang.helper.deleteEntry(itemJurnal);
     }
+
+    e.trash();
   },
 };
 
