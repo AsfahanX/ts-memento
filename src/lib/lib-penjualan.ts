@@ -14,14 +14,14 @@ import libPenjualan from "./lib-penjualan";
 
 export type Penjualan = {
   Tanggal: Field.Date;
-  Konsumen: Field.LinkToEntry;
+  Konsumen?: Field.LinkToEntry;
   Keterangan: Field.Text;
-  Catatan: Field.Text;
+  Catatan?: Field.Text;
   // 'Status': Field.SingleChoice<"Draft" | "Dikirim" | "Dibatalkan" | "Selesai">;
-  "Gambar utama": Field.Image;
-  Garansi: Field.Integer;
+  "Gambar utama"?: Field.Image;
+  Garansi?: Field.Integer;
 
-  Gudang: Field.LinkToEntry<Gudang>;
+  Gudang?: Field.LinkToEntry<Gudang>;
 };
 
 const libAccessor = createLibAccessor<Penjualan>(
@@ -130,24 +130,26 @@ const helper = {
     itemPembelian.recalc();
     pembelian.recalc();
 
-    const jurnalbarang = libJurnalBarang.lib().create({
-      Jenis: "Pembelian",
-      Tanggal: tanggal,
-      Keterangan: pembelian.name,
-      "Pesanan pembelian": [pembelian],
-      "Dibuat oleh sistem": true,
-    });
-    const itemJurnalBarang = libItemJurnalBarang.lib().create({
-      "Jurnal barang": [jurnalbarang],
-      "Item pembelian": [itemPembelian],
-      Barang: barang,
-      Kuantitas: jumlah,
-      "Gambar utama": gambar,
-      Gudang: this.gudangDefault() ? [this.gudangDefault()] : undefined,
-      Jenis: "Masuk",
-    });
+    if (barang) {
+      const jurnalbarang = libJurnalBarang.lib().create({
+        Jenis: "Pembelian",
+        Tanggal: tanggal,
+        Keterangan: pembelian.name,
+        "Pesanan pembelian": [pembelian],
+        "Dibuat oleh sistem": true,
+      });
+      const itemJurnalBarang = libItemJurnalBarang.lib().create({
+        "Jurnal barang": [jurnalbarang],
+        "Item pembelian": [itemPembelian],
+        Barang: barang,
+        Kuantitas: jumlah,
+        "Gambar utama": gambar,
+        Gudang: this.gudangDefault() ? [this.gudangDefault()] : undefined,
+        Jenis: "Masuk",
+      });
+      libStokBarang.helper.enqueueStockUpdate(barang);
+    }
 
-    libStokBarang.helper.enqueueStockUpdate(barang);
     return pembelian;
   },
 };
@@ -184,26 +186,25 @@ const actions = {
     buatDariTeks() {
       const penjualan = libPenjualan.lib().create({
         Tanggal: new Date(),
+        Keterangan: arg("Judul") as string,
       });
 
-      const items = (arg("teks") as string)
+      (arg("teks") as string)
         .split("\n")
+        .filter((v) => v.trim().length > 0)
         .map((v) => {
-          // const tokens = v.trim().split(" ", 2);
-          const result = v.trim().split(/^(.+)\s(\d+)$/);
-          // let harga =
-          //   tokens.length > 1 ? parseFloat(tokens[1]) * 1000 : undefined;
+          const tokens = v.trim().split(/^(.+)\s(\d+)$/);
           return {
-            Catatan: (result?.length > 1 ? result[1] : result[0]).trim(),
+            Catatan: (tokens?.length > 1 ? tokens[1] : tokens[0]).trim(),
             "Harga Satuan":
-              result.length > 1 ? parseFloat(result[2]) * 1000 : 0,
+              tokens.length > 1 ? parseFloat(tokens[2]) * 1000 : 0,
           };
         })
         .forEach((v) => {
           libItemPenjualan.lib().create({
-            ...v,
             "Pesanan Penjualan": [penjualan],
             Kuantitas: 1,
+            ...v,
           });
         });
     },

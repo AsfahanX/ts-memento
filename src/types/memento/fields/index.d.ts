@@ -126,7 +126,7 @@ export namespace Field {
   type Integer = number;
   type Currency = number;
   type Boolean = boolean;
-  type Date = string;
+  type Date = globalThis.Date | string;
   type Time = string;
   type DateTime = string;
   type Image = JSImage[];

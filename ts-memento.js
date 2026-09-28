@@ -597,23 +597,25 @@ var _ = (() => {
           });
           itemPembelian.recalc();
           pembelian.recalc();
-          const jurnalbarang = lib_jurnal_barang_default.lib().create({
-            Jenis: "Pembelian",
-            Tanggal: tanggal,
-            Keterangan: pembelian.name,
-            "Pesanan pembelian": [pembelian],
-            "Dibuat oleh sistem": true
-          });
-          const itemJurnalBarang = lib_item_jurnal_barang_default.lib().create({
-            "Jurnal barang": [jurnalbarang],
-            "Item pembelian": [itemPembelian],
-            Barang: barang,
-            Kuantitas: jumlah,
-            "Gambar utama": gambar,
-            Gudang: this.gudangDefault() ? [this.gudangDefault()] : void 0,
-            Jenis: "Masuk"
-          });
-          lib_stok_barang_default.helper.enqueueStockUpdate(barang);
+          if (barang) {
+            const jurnalbarang = lib_jurnal_barang_default.lib().create({
+              Jenis: "Pembelian",
+              Tanggal: tanggal,
+              Keterangan: pembelian.name,
+              "Pesanan pembelian": [pembelian],
+              "Dibuat oleh sistem": true
+            });
+            const itemJurnalBarang = lib_item_jurnal_barang_default.lib().create({
+              "Jurnal barang": [jurnalbarang],
+              "Item pembelian": [itemPembelian],
+              Barang: barang,
+              Kuantitas: jumlah,
+              "Gambar utama": gambar,
+              Gudang: this.gudangDefault() ? [this.gudangDefault()] : void 0,
+              Jenis: "Masuk"
+            });
+            lib_stok_barang_default.helper.enqueueStockUpdate(barang);
+          }
           return pembelian;
         }
       };
@@ -645,19 +647,20 @@ var _ = (() => {
         library: {
           buatDariTeks() {
             const penjualan = lib_penjualan_default.lib().create({
-              Tanggal: /* @__PURE__ */ new Date()
+              Tanggal: /* @__PURE__ */ new Date(),
+              Keterangan: arg("Judul")
             });
-            const items = arg("teks").split("\n").map((v) => {
-              const result = v.trim().split(/^(.+)\s(\d+)$/);
+            arg("teks").split("\n").filter((v) => v.trim().length > 0).map((v) => {
+              const tokens = v.trim().split(/^(.+)\s(\d+)$/);
               return {
-                Catatan: ((result == null ? void 0 : result.length) > 1 ? result[1] : result[0]).trim(),
-                "Harga Satuan": result.length > 1 ? parseFloat(result[2]) * 1e3 : 0
+                Catatan: ((tokens == null ? void 0 : tokens.length) > 1 ? tokens[1] : tokens[0]).trim(),
+                "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[2]) * 1e3 : 0
               };
             }).forEach((v) => {
-              lib_item_penjualan_default.lib().create(__spreadProps(__spreadValues({}, v), {
+              lib_item_penjualan_default.lib().create(__spreadValues({
                 "Pesanan Penjualan": [penjualan],
                 Kuantitas: 1
-              }));
+              }, v));
             });
           }
         }

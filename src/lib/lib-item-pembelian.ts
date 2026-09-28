@@ -11,7 +11,7 @@ export type ItemPembelian = {
   // Nama: Field.Text;
   "Pesanan pembelian": Field.LinkToEntry<Pembelian>;
   Catatan: Field.Text;
-  Barang: Field.LinkToEntry<Barang>;
+  Barang?: Field.LinkToEntry<Barang>;
   Kuantitas: Field.Integer;
   "Harga Satuan": Field.Currency;
   "Gambar utama"?: Field.Image;
