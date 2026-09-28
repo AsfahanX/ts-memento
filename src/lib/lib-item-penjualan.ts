@@ -8,11 +8,11 @@ import libStokBarang from "./lib-stok-barang";
 
 export type ItemPenjualan = {
   "Pesanan Penjualan": Field.LinkToEntry<Penjualan>;
-  Barang: Field.LinkToEntry<Barang>;
+  Barang?: Field.LinkToEntry<Barang>;
   Kuantitas: Field.Integer;
   "Harga Satuan": Field.Currency;
-  Diskon: Field.Currency;
-  Subtotal: Field.Calculation<Field.Integer>;
+  Diskon?: Field.Currency;
+  Subtotal?: Field.Calculation<Field.Integer>;
   Catatan: Field.Text;
   "Gambar utama"?: Field.Image;
   "Harga pokok penjualan"?: Field.Currency;

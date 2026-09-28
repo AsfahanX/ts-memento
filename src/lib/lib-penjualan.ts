@@ -10,6 +10,7 @@ import libPembelian from "./lib-pembelian";
 import libItemPembelian from "./lib-item-pembelian";
 import libStokBarang from "./lib-stok-barang";
 import libGudang from "./lib-gudang";
+import libPenjualan from "./lib-penjualan";
 
 export type Penjualan = {
   Tanggal: Field.Date;
@@ -22,6 +23,10 @@ export type Penjualan = {
 
   Gudang: Field.LinkToEntry<Gudang>;
 };
+
+const libAccessor = createLibAccessor<Penjualan>(
+  "WCN6aFtvRkxPUig1PitlPHdJNiE",
+).lib;
 
 const helper = {
   _gudangDefault: null as Entry<Gudang> | null,
@@ -175,10 +180,37 @@ const actions = {
       libStokBarang.helper.startQueuedStockUpdate();
     },
   },
+  library: {
+    buatDariTeks() {
+      const penjualan = libPenjualan.lib().create({
+        Tanggal: new Date(),
+      });
+
+      const items = (arg("teks") as string)
+        .split("\n")
+        .map((v) => {
+          const tokens = v.trim().split(" ", 2);
+          // let harga =
+          //   tokens.length > 1 ? parseFloat(tokens[1]) * 1000 : undefined;
+          return {
+            Catatan: tokens[0],
+            "Harga Satuan":
+              tokens.length > 1 ? parseFloat(tokens[1]) * 1000 : 0,
+          };
+        })
+        .forEach((v) => {
+          libItemPenjualan.lib().create({
+            ...v,
+            "Pesanan Penjualan": [penjualan],
+            Kuantitas: 1,
+          });
+        });
+    },
+  },
 } satisfies ActionHandlers<Penjualan>;
 
 export default {
-  ...createLibAccessor("WCN6aFtvRkxPUig1PitlPHdJNiE"),
+  lib: libAccessor,
   helper,
   events,
   actions,

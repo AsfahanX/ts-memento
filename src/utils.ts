@@ -35,10 +35,11 @@ export function withProgress<T>(
   const id = title;
   const total = items.length;
 
-  message(title);
+  // message(title);
   for (let i = 0; i < items.length; i++) {
     callback?.(items[i], i);
     showNotif(id, title, `${i + 1} of ${total}`);
   }
   showNotif(id, "Finisehd " + title, `${total} of ${total}`);
+  message(`Finished ${title}. ${total} of ${total}`);
 }

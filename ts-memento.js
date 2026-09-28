@@ -153,12 +153,12 @@ var _ = (() => {
     title != null ? title : title = "Calculating";
     const id = title;
     const total = items.length;
-    message(title);
     for (let i = 0; i < items.length; i++) {
       callback == null ? void 0 : callback(items[i], i);
       showNotif(id, title, `${i + 1} of ${total}`);
     }
     showNotif(id, "Finisehd " + title, `${total} of ${total}`);
+    message(`Finished ${title}. ${total} of ${total}`);
   }
   var init_utils = __esm({
     "src/utils.ts"() {
@@ -502,7 +502,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-penjualan.ts
-  var helper8, events9, actions9, lib_penjualan_default;
+  var libAccessor2, helper8, events9, actions9, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_helper();
@@ -513,6 +513,10 @@ var _ = (() => {
       init_lib_item_pembelian();
       init_lib_stok_barang();
       init_lib_gudang();
+      init_lib_penjualan();
+      libAccessor2 = createLibAccessor(
+        "WCN6aFtvRkxPUig1PitlPHdJNiE"
+      ).lib;
       helper8 = {
         _gudangDefault: null,
         gudangDefault() {
@@ -637,13 +641,33 @@ var _ = (() => {
             pembelians.forEach((v) => lib_pembelian_default.helper.deleteEntry(v));
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
+        },
+        library: {
+          buatDariTeks() {
+            const penjualan = lib_penjualan_default.lib().create({
+              Tanggal: /* @__PURE__ */ new Date()
+            });
+            const items = arg("teks").split("\n").map((v) => {
+              const tokens = v.trim().split(" ", 2);
+              return {
+                Catatan: tokens[0],
+                "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[1]) * 1e3 : 0
+              };
+            }).forEach((v) => {
+              lib_item_penjualan_default.lib().create(__spreadProps(__spreadValues({}, v), {
+                "Pesanan Penjualan": [penjualan],
+                Kuantitas: 1
+              }));
+            });
+          }
         }
       };
-      lib_penjualan_default = __spreadProps(__spreadValues({}, createLibAccessor("WCN6aFtvRkxPUig1PitlPHdJNiE")), {
+      lib_penjualan_default = {
+        lib: libAccessor2,
         helper: helper8,
         events: events9,
         actions: actions9
-      });
+      };
     }
   });
 
