@@ -805,6 +805,8 @@ var _ = (() => {
       Object.assign(exports, {
         libGudang: lib_gudang_default,
         libBarang: lib_barang_default,
+        libPembelian: lib_pembelian_default,
+        libItemPembelian: lib_item_pembelian_default,
         libPenjualan: lib_penjualan_default,
         libItemPenjualan: lib_item_penjualan_default,
         libJurnalBarang: lib_jurnal_barang_default,

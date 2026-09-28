@@ -18,6 +18,8 @@ import {
   libRakitan,
   libItemRakitan,
   libStokBarang,
+  libPembelian,
+  libItemPembelian,
 } from "@/lib";
 import { recalculateEntries, withProgress } from "./utils";
 import libItemPenjualan from "./lib/lib-item-penjualan";
@@ -25,6 +27,8 @@ import libItemPenjualan from "./lib/lib-item-penjualan";
 Object.assign(this as unknown as object, {
   libGudang,
   libBarang,
+  libPembelian,
+  libItemPembelian,
   libPenjualan,
   libItemPenjualan,
   libJurnalBarang,
