@@ -20,11 +20,12 @@ export type ItemPembelian = {
 };
 
 const helper = {
-  deleteEntry(e: Entry<ItemPembelian>) {
-    // const itemJurnal = e.field("Item jurnal barang")?.[0];
-    const itemJurnal = libItemJurnalBarang.lib().linksTo(e)?.[0];
-    if (itemJurnal) {
-      libItemJurnalBarang.helper.deleteEntry(itemJurnal);
+  deleteEntry(e: Entry<ItemPembelian>, deleteRelatedJurnal?: boolean) {
+    if (deleteRelatedJurnal) {
+      const itemJurnal = libItemJurnalBarang.lib().linksTo(e)?.[0];
+      if (itemJurnal) {
+        libItemJurnalBarang.helper.deleteEntry(itemJurnal);
+      }
     }
 
     e.trash();

@@ -7,14 +7,11 @@ import libStokBarang from "./lib-stok-barang";
 import libJurnalBarang, { type JurnalBarang } from "./lib-jurnal-barang";
 
 export type Pembelian = {
-  // Nama: Field.Text;
   "Pesanan Penjualan": Field.LinkToEntry<Penjualan>;
   Deskripsi: Field.Text;
   _Thumbnail?: Field.Image;
   Tanggal: Field.Date;
   "Baris nomor"?: Field.Integer;
-
-  // "Jurnal barang"?: Field.LinkToEntry<JurnalBarang>;
 };
 
 const helper = {
@@ -24,7 +21,7 @@ const helper = {
     );
 
     const items = libItemPembelian.lib().linksTo(e);
-    items.forEach((v) => libItemPembelian.helper.deleteEntry(v));
+    items.forEach((v) => libItemPembelian.helper.deleteEntry(v, false));
     e.trash();
   },
 };

@@ -139,19 +139,3 @@ export namespace Field {
   type Lookup<L, F extends keyof L> = L[F];
   type Barcode = string;
 }
-
-// export type Text = string;
-// export type Integer = number;
-// export type Currency = number;
-// export type Boolean = boolean;
-// export type Date = string;
-// export type Time = string;
-// export type DateTime = string;
-// export type Image = JSImage[];
-// export type Calculation<T extends Integer | Date | DateTime | string> = T;
-// export type Javascript<T> = T;
-// export type SingleChoice<T> = T;
-// export type MultipleChoice<T> = T;
-// export type LinkToEntry<T = unknown> = Entry<T>[];
-// export type Lookup<L, F extends keyof L> = L[F];
-// export type Barcode = string;

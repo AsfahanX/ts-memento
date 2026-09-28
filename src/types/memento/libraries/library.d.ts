@@ -80,6 +80,11 @@ export interface Library<T> {
   /** Library notes (as specified in the library structure) */
   notes: string;
 
+  createByIds(): unknown;
+  pendingAction(): unknown;
+  prevEntry(): unknown;
+  syncGoogleSheet(): unknown;
+
   /**
    * Create a new entry in the library with specified field values.
    * @param values Key-value pairs where keys are field names and values are field values

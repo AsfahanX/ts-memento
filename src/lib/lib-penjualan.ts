@@ -31,6 +31,17 @@ const helper = {
     }
     return helper._gudangDefault;
   },
+
+  deleteEntry(e: Entry<Penjualan>) {
+    libJurnalBarang.helper.deleteEntry(
+      libJurnalBarang.lib().linksTo(e)?.[0] ?? undefined,
+    );
+
+    const items = libItemPenjualan.lib().linksTo(e);
+    items.forEach((v) => libItemPenjualan.helper.deleteEntry(v, false));
+    e.trash();
+  },
+
   buatJurnal(e?: Entry<Penjualan>) {
     e ??= entry();
     let jurnal = libJurnalBarang.lib().linksTo(e)?.[0];
@@ -136,7 +147,15 @@ const helper = {
   },
 };
 
-const events = {} satisfies EventHandlers<Penjualan>;
+const events = {
+  entry: {
+    deleted(e) {
+      e ??= entry();
+      helper.deleteEntry(e);
+      libStokBarang.helper.startQueuedStockUpdate();
+    },
+  },
+} satisfies EventHandlers<Penjualan>;
 const actions = {
   entry: {
     buatPembelian(e?: Entry<Penjualan>) {

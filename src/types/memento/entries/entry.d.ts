@@ -26,6 +26,18 @@ export interface Entry<T> {
   title: string;
 
   attr(name: string): unknown;
+  favorite: boolean;
+  fieldById(): unknown;
+  files(): unknown;
+  firstEntry(): unknown;
+  lastEntry(): unknown;
+  linksFrom(): unknown;
+  meta(): unknown;
+  obtain(): unknown;
+  pendingAction(): unknown;
+  remind(): unknown;
+  setAttr(name: string, value: unknown): void;
+  setById(): unknown;
 
   /**
    * Get the value of a specified field.
@@ -175,8 +187,6 @@ export interface Entry<T> {
    * @see https://scripts.mementodatabase.com/script_api/entry/#setname-value
    */
   set<K extends keyof T>(name: K, value: T[K] | null): void;
-
-  setAttr(name: string, value: unknown): void;
 
   /**
    * Display the entry in the user interface.

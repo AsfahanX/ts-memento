@@ -3,6 +3,8 @@ import type { Barang } from "./lib-barang";
 import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
 import { createLibAccessor } from "./lib-helper";
 import type { Penjualan } from "./lib-penjualan";
+import libItemJurnalBarang from "./lib-item-jurnal-barang";
+import libStokBarang from "./lib-stok-barang";
 
 export type ItemPenjualan = {
   "Pesanan Penjualan": Field.LinkToEntry<Penjualan>;
@@ -19,6 +21,16 @@ export type ItemPenjualan = {
 };
 
 const helper = {
+  deleteEntry(e: Entry<ItemPenjualan>, deleteRelatedJurnal?: boolean) {
+    if (deleteRelatedJurnal) {
+      const itemJurnal = libItemJurnalBarang.lib().linksTo(e)?.[0];
+      if (itemJurnal) {
+        libItemJurnalBarang.helper.deleteEntry(itemJurnal);
+      }
+    }
+
+    e.trash();
+  },
   updateGambar(e?: Entry<ItemPenjualan>) {
     e ??= entry();
     const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
@@ -33,6 +45,11 @@ const events = {
   entry: {
     updated(e) {
       helper.updateGambar(e);
+    },
+    deleted(e) {
+      e ??= entry();
+      helper.deleteEntry(e);
+      libStokBarang.helper.startQueuedStockUpdate();
     },
   },
 } satisfies EventHandlers<ItemPenjualan>;

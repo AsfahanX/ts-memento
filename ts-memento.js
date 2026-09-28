@@ -348,7 +348,19 @@ var _ = (() => {
   var init_lib_item_penjualan = __esm({
     "src/lib/lib-item-penjualan.ts"() {
       init_lib_helper();
+      init_lib_item_jurnal_barang();
+      init_lib_stok_barang();
       helper4 = {
+        deleteEntry(e, deleteRelatedJurnal) {
+          var _a;
+          if (deleteRelatedJurnal) {
+            const itemJurnal = (_a = lib_item_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
+            if (itemJurnal) {
+              lib_item_jurnal_barang_default.helper.deleteEntry(itemJurnal);
+            }
+          }
+          e.trash();
+        },
         updateGambar(e) {
           var _a, _b, _c;
           e != null ? e : e = entry();
@@ -364,6 +376,11 @@ var _ = (() => {
         entry: {
           updated(e) {
             helper4.updateGambar(e);
+          },
+          deleted(e) {
+            e != null ? e : e = entry();
+            helper4.deleteEntry(e);
+            lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
@@ -418,11 +435,13 @@ var _ = (() => {
       init_lib_item_jurnal_barang();
       init_lib_stok_barang();
       helper6 = {
-        deleteEntry(e) {
+        deleteEntry(e, deleteRelatedJurnal) {
           var _a;
-          const itemJurnal = (_a = lib_item_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
-          if (itemJurnal) {
-            lib_item_jurnal_barang_default.helper.deleteEntry(itemJurnal);
+          if (deleteRelatedJurnal) {
+            const itemJurnal = (_a = lib_item_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
+            if (itemJurnal) {
+              lib_item_jurnal_barang_default.helper.deleteEntry(itemJurnal);
+            }
           }
           e.trash();
         }
@@ -460,7 +479,7 @@ var _ = (() => {
             (_b = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0]) != null ? _b : void 0
           );
           const items = lib_item_pembelian_default.lib().linksTo(e);
-          items.forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v));
+          items.forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v, false));
           e.trash();
         }
       };
@@ -502,6 +521,15 @@ var _ = (() => {
             helper8._gudangDefault = (_a = lib_gudang_default.lib().find("[TS] - Stok \u{1F535}")) == null ? void 0 : _a[0];
           }
           return helper8._gudangDefault;
+        },
+        deleteEntry(e) {
+          var _a, _b;
+          lib_jurnal_barang_default.helper.deleteEntry(
+            (_b = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0]) != null ? _b : void 0
+          );
+          const items = lib_item_penjualan_default.lib().linksTo(e);
+          items.forEach((v) => lib_item_penjualan_default.helper.deleteEntry(v, false));
+          e.trash();
         },
         buatJurnal(e) {
           var _a;
@@ -585,7 +613,15 @@ var _ = (() => {
           return pembelian;
         }
       };
-      events9 = {};
+      events9 = {
+        entry: {
+          deleted(e) {
+            e != null ? e : e = entry();
+            helper8.deleteEntry(e);
+            lib_stok_barang_default.helper.startQueuedStockUpdate();
+          }
+        }
+      };
       actions9 = {
         entry: {
           buatPembelian(e) {

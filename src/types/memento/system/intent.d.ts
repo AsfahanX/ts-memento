@@ -15,6 +15,14 @@ type MimeType = "text/plain" | "image/jpeg";
  * @see https://scripts.mementodatabase.com/script_api/system/#intent-object
  */
 export interface Intent {
+  action(action: IntentAction): this;
+  extraArrayInt(): this;
+  extraBool(): this;
+  extraDouble(): this;
+  extraInt(): this;
+  extraUri(): this;
+  packageName(name: string): this;
+
   /**
    * Sets the data URI for the intent.
    * @param uri URI for the data (e.g., “tel:”, “mailto:”, file path)
@@ -57,7 +65,7 @@ export interface Intent {
    * i.mimeType("text/plain");
    * @see https://scripts.mementodatabase.com/script_api/system/#mimetypemime
    */
-  mimeType(mime): this;
+  mimeType(mime: MimeType): this;
 
   /**
    * Executes the intent, sending it to the Android system.

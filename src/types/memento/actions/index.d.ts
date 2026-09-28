@@ -1,5 +1,11 @@
 import { Entry } from "../entries";
 
-export function arg(): unknown;
+/**
+ * @see https://scripts.mementodatabase.com/scripts/actions/#arguments
+ */
+export function arg(name: string): unknown;
 
-export function selectedEntries(): Entry[];
+/**
+ * @see https://scripts.mementodatabase.com/scripts/actions/#bulk-context
+ */
+export function selectedEntries<T>(): Entry<T>[];
