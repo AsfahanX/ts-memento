@@ -189,13 +189,14 @@ const actions = {
       const items = (arg("teks") as string)
         .split("\n")
         .map((v) => {
-          const tokens = v.trim().split(" ", 2);
+          // const tokens = v.trim().split(" ", 2);
+          const result = v.trim().split(/^(.+)\s(\d+)$/);
           // let harga =
           //   tokens.length > 1 ? parseFloat(tokens[1]) * 1000 : undefined;
           return {
-            Catatan: tokens[0],
+            Catatan: (result?.length > 1 ? result[1] : result[0]).trim(),
             "Harga Satuan":
-              tokens.length > 1 ? parseFloat(tokens[1]) * 1000 : 0,
+              result.length > 1 ? parseFloat(result[2]) * 1000 : 0,
           };
         })
         .forEach((v) => {

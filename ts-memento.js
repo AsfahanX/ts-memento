@@ -648,10 +648,10 @@ var _ = (() => {
               Tanggal: /* @__PURE__ */ new Date()
             });
             const items = arg("teks").split("\n").map((v) => {
-              const tokens = v.trim().split(" ", 2);
+              const result = v.trim().split(/^(.+)\s(\d+)$/);
               return {
-                Catatan: tokens[0],
-                "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[1]) * 1e3 : 0
+                Catatan: ((result == null ? void 0 : result.length) > 1 ? result[1] : result[0]).trim(),
+                "Harga Satuan": result.length > 1 ? parseFloat(result[2]) * 1e3 : 0
               };
             }).forEach((v) => {
               lib_item_penjualan_default.lib().create(__spreadProps(__spreadValues({}, v), {
