@@ -570,10 +570,11 @@ var _ = (() => {
           const items = lib_item_pembelian_default.lib().linksTo(e);
           const firstItem = items == null ? void 0 : items[0];
           let gambar = e.images("Gambar utama");
-          if (!gambar && firstItem) {
+          if (!gambar.length && firstItem) {
             gambar = (_b = (_a = firstItem.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama");
           }
           e.set("Gambar utama akhir", gambar);
+          const images = judul.field;
           let judul = e.field("Judul");
           if (!judul && firstItem) {
             judul = firstItem.name;

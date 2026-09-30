@@ -49,12 +49,12 @@ const helper = {
     const firstItem = items?.[0];
 
     let gambar = e.images("Gambar utama");
-    if (!gambar && firstItem) {
+    if (!gambar.length && firstItem) {
       gambar = firstItem.field("Barang")?.[0]?.images("Gambar utama");
     }
     // const firstItemImage = firstItem?.field("Barang")?.[0]?.field("Gambar utama");
     e.set("Gambar utama akhir", gambar);
-
+    const images = judul.field;
     let judul = e.field("Judul");
     if (!judul && firstItem) {
       judul = firstItem.name;
