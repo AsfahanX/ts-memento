@@ -101,13 +101,13 @@ var _ = (() => {
         updateStockBalance(e) {
           var _a, _b;
           e != null ? e : e = entry();
-          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
-          if (!barang) {
+          let barang2 = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
+          if (!barang2) {
             return;
           }
           this.gudangs().forEach((gudang) => {
             let result = sql(
-              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
+              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang2.id}' AND j.Gudang = '${gudang.id}' `
             );
             result = result.asInt();
             result = result == 0 ? null : result;
@@ -243,13 +243,13 @@ var _ = (() => {
         updateStockBalance(e) {
           var _a, _b;
           e != null ? e : e = entry();
-          let barang = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
-          if (!barang) {
+          let barang2 = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
+          if (!barang2) {
             return;
           }
           this.gudangs().forEach((gudang) => {
             let result = sql(
-              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang.id}' AND j.Gudang = '${gudang.id}' `
+              `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang2.id}' AND j.Gudang = '${gudang.id}' `
             );
             result = result.asInt();
             result = result == 0 ? null : result;
@@ -434,6 +434,7 @@ var _ = (() => {
       init_lib_helper();
       init_lib_item_jurnal_barang();
       init_lib_stok_barang();
+      init_lib_pembelian();
       helper6 = {
         deleteEntry(e, deleteRelatedJurnal) {
           var _a;
@@ -444,10 +445,77 @@ var _ = (() => {
             }
           }
           e.trash();
+        },
+        updateGambar(e) {
+          var _a, _b, _c;
+          e != null ? e : e = entry();
+          const gbr = (_c = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama")) == null ? void 0 : _c[0];
+          if (gbr) {
+            e.set("Gambar utama", [gbr]);
+          } else {
+            e.set("Gambar utama", null);
+          }
         }
       };
       events7 = {
         entry: {
+          // created(e) {
+          //   e ??= entry();
+          //   helper.updateGambar(e);
+          //   const barang = e.field("Barang")?.[0];
+          //   if (barang) {
+          //     let itemJurnal = libItemJurnalBarang.lib().linksTo(e)?.[0];
+          //     if (itemJurnal) {
+          //       throw new Error(
+          //         `Item jurnal barang sudah ada untuk item pembelian dengan id: ${e.id}`,
+          //       );
+          //     }
+          //     itemJurnal = libItemJurnalBarang.lib().create({
+          //       "Jurnal barang": [jurnalbarang],
+          //       "Item pembelian": [e],
+          //       Barang: [barang],
+          //       Kuantitas: e.field("Kuantitas"),
+          //       "Gambar utama": barang.images("Gambar utama"),
+          //       Gudang: this.gudangDefault() ? [this.gudangDefault()] : undefined,
+          //       Jenis: "Masuk",
+          //     });
+          //   }
+          //   libStokBarang.helper.startQueuedStockUpdate();
+          // },
+          updated(e) {
+            var _a, _b;
+            e != null ? e : e = entry();
+            helper6.updateGambar(e);
+            const obj = {
+              "Item pembelian": [e],
+              // "Jurnal barang": [j],
+              Kuantitas: e.field("Kuantitas"),
+              Barang: e.field("Barang"),
+              "Nilai stok": e.field("Subtotal"),
+              "Gambar utama": e.field("Gambar utama"),
+              Gudang: this.gudangDefault() ? [this.gudangDefault()] : void 0
+            };
+            let ij = (_a = lib_item_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0];
+            if (ij) {
+              ij.set("Kuantitas", e.field("Kuantitas"));
+              ij.set("Barang", e.field("Barang"));
+              ij.set("Nilai stok", e.field("Subtotal"));
+            } else {
+              const pembelian = (_b = e.field("Pesanan pembelian")) == null ? void 0 : _b[0];
+              if (!pembelian) throw new Error("Item pembelian tidak memiliki parent");
+              const j = lib_pembelian_default.helper.findOrCreateJurnal(pembelian);
+              ij = lib_item_jurnal_barang_default.lib().create({
+                "Item pembelian": [e],
+                "Jurnal barang": [j],
+                Kuantitas: e.field("Kuantitas"),
+                Barang: e.field("Barang"),
+                "Nilai stok": e.field("Subtotal"),
+                "Gambar utama": barang.images("Gambar utama"),
+                Gudang: this.gudangDefault() ? [this.gudangDefault()] : void 0
+              });
+            }
+            lib_stok_barang_default.helper.startQueuedStockUpdate();
+          },
           deleted(e) {
             e != null ? e : e = entry();
             helper6.deleteEntry(e);
@@ -465,13 +533,16 @@ var _ = (() => {
   });
 
   // src/lib/lib-pembelian.ts
-  var helper7, events8, actions8, lib_pembelian_default;
+  var libAccessor2, helper7, events8, actions8, lib_pembelian_default;
   var init_lib_pembelian = __esm({
     "src/lib/lib-pembelian.ts"() {
       init_lib_helper();
       init_lib_item_pembelian();
       init_lib_stok_barang();
       init_lib_jurnal_barang();
+      libAccessor2 = createLibAccessor(
+        "UW1DRlZVK1hPZmZWPGt5UkJ0ZiE"
+      ).lib;
       helper7 = {
         deleteEntry(e) {
           var _a, _b;
@@ -481,10 +552,34 @@ var _ = (() => {
           const items = lib_item_pembelian_default.lib().linksTo(e);
           items.forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v, false));
           e.trash();
+        },
+        updateGambar(e) {
+          var _a, _b, _c, _d;
+          const firstItem = (_a = lib_item_pembelian_default.lib().linksTo(e)) == null ? void 0 : _a[0];
+          const gbr = (_d = (_c = (_b = firstItem == null ? void 0 : firstItem.field("Barang")) == null ? void 0 : _b[0]) == null ? void 0 : _c.field("Gambar utama")) != null ? _d : null;
+          e.set("Gambar utama", gbr);
+        },
+        findOrCreateJurnal(e) {
+          var _a, _b;
+          return (_b = (_a = lib_jurnal_barang_default.lib().linksTo(e)) == null ? void 0 : _a[0]) != null ? _b : lib_jurnal_barang_default.lib().create({
+            "Pesanan pembelian": [e],
+            Jenis: "Pembelian",
+            Tanggal: e.field("Tanggal"),
+            Keterangan: e.name,
+            "Dibuat oleh sistem": true
+          });
         }
       };
       events8 = {
         entry: {
+          created(e) {
+            e != null ? e : e = entry();
+            helper7.updateGambar(e);
+          },
+          updated(e) {
+            e != null ? e : e = entry();
+            helper7.updateGambar(e);
+          },
           deleted(e) {
             e != null ? e : e = entry();
             helper7.deleteEntry(e);
@@ -493,16 +588,17 @@ var _ = (() => {
         }
       };
       actions8 = {};
-      lib_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("UW1DRlZVK1hPZmZWPGt5UkJ0ZiE")), {
+      lib_pembelian_default = {
+        lib: libAccessor2,
         helper: helper7,
         events: events8,
         actions: actions8
-      });
+      };
     }
   });
 
   // src/lib/lib-penjualan.ts
-  var libAccessor2, helper8, events9, actions9, lib_penjualan_default;
+  var libAccessor3, helper8, events9, actions9, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_helper();
@@ -514,7 +610,7 @@ var _ = (() => {
       init_lib_stok_barang();
       init_lib_gudang();
       init_lib_penjualan();
-      libAccessor2 = createLibAccessor(
+      libAccessor3 = createLibAccessor(
         "WCN6aFtvRkxPUig1PitlPHdJNiE"
       ).lib;
       helper8 = {
@@ -548,12 +644,12 @@ var _ = (() => {
           });
           const items = lib_item_penjualan_default.lib().linksTo(e).map((item, i) => {
             var _a2;
-            const barang = (_a2 = item.field("Barang")) == null ? void 0 : _a2[0];
-            if (!barang) return void 0;
+            const barang2 = (_a2 = item.field("Barang")) == null ? void 0 : _a2[0];
+            if (!barang2) return void 0;
             return {
               "Jurnal barang": [jurnal],
-              Barang: [barang],
-              "Gambar barang": barang.field("Gambar utama"),
+              Barang: [barang2],
+              "Gambar barang": barang2.field("Gambar utama"),
               Kuantitas: item.field("Kuantitas"),
               "Nilai stok": item.field("Total harga pokok penjualan")
             };
@@ -572,13 +668,13 @@ var _ = (() => {
             return null;
           }
           let catatan = e.field("Catatan");
-          let barang = e.field("Barang");
+          let barang2 = e.field("Barang");
           let harga = e.field("Harga Satuan");
           let jumlah = e.field("Kuantitas");
           let gambar = e.field("Gambar utama");
           let tanggal = penjualan[0].field("Tanggal");
-          if (barang && barang.length > 0) {
-            if (barang[0].field("Jenis") == "Jasa") return null;
+          if (barang2 && barang2.length > 0) {
+            if (barang2[0].field("Jenis") == "Jasa") return null;
           }
           let pembelian = lib_pembelian_default.lib().create({
             "Pesanan Penjualan": penjualan,
@@ -590,14 +686,14 @@ var _ = (() => {
           let itemPembelian = lib_item_pembelian_default.lib().create({
             "Pesanan pembelian": [pembelian],
             Catatan: catatan,
-            Barang: barang,
+            Barang: barang2,
             Kuantitas: jumlah,
             "Gambar utama": gambar,
             "Harga Satuan": harga
           });
           itemPembelian.recalc();
           pembelian.recalc();
-          if (barang) {
+          if (barang2) {
             const jurnalbarang = lib_jurnal_barang_default.lib().create({
               Jenis: "Pembelian",
               Tanggal: tanggal,
@@ -608,13 +704,13 @@ var _ = (() => {
             const itemJurnalBarang = lib_item_jurnal_barang_default.lib().create({
               "Jurnal barang": [jurnalbarang],
               "Item pembelian": [itemPembelian],
-              Barang: barang,
+              Barang: barang2,
               Kuantitas: jumlah,
               "Gambar utama": gambar,
               Gudang: this.gudangDefault() ? [this.gudangDefault()] : void 0,
               Jenis: "Masuk"
             });
-            lib_stok_barang_default.helper.enqueueStockUpdate(barang);
+            lib_stok_barang_default.helper.enqueueStockUpdate(barang2);
           }
           return pembelian;
         }
@@ -666,7 +762,7 @@ var _ = (() => {
         }
       };
       lib_penjualan_default = {
-        lib: libAccessor2,
+        lib: libAccessor3,
         helper: helper8,
         events: events9,
         actions: actions9
@@ -735,8 +831,8 @@ var _ = (() => {
               }
               let items = lib_item_rakitan_default.lib().linksTo(e).map((item, i) => {
                 var _a, _b, _c;
-                const barang = (_a = item.field("Barang")) == null ? void 0 : _a[0];
-                if (!barang) return void 0;
+                const barang2 = (_a = item.field("Barang")) == null ? void 0 : _a[0];
+                if (!barang2) return void 0;
                 return {
                   "Jurnal barang": [jurnal],
                   Barang: item.field("Barang"),
