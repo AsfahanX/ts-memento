@@ -566,14 +566,12 @@ var _ = (() => {
         //   // }
         // },
         recalcEx(e) {
-          var _a, _b, _c, _d;
+          var _a, _b;
           const items = lib_item_pembelian_default.lib().linksTo(e);
           const firstItem = items == null ? void 0 : items[0];
-          log(firstItem);
           let gambar = e.images("Gambar utama");
           if (!gambar.length && firstItem) {
-            log((_b = (_a = firstItem.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.name);
-            gambar = (_d = (_c = firstItem.field("Barang")) == null ? void 0 : _c[0]) == null ? void 0 : _d.images("Gambar utama");
+            gambar = (_b = (_a = firstItem == null ? void 0 : firstItem.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama");
           }
           e.set("Gambar utama akhir", gambar);
           let judul = e.field("Judul");

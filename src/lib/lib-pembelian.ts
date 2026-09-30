@@ -47,12 +47,10 @@ const helper = {
   recalcEx(e: Entry<Pembelian>) {
     const items = libItemPembelian.lib().linksTo(e);
     const firstItem = items?.[0];
-    log(firstItem);
 
     let gambar = e.images("Gambar utama");
     if (!gambar.length && firstItem) {
-      log(firstItem.field("Barang")?.[0]?.name);
-      gambar = firstItem.field("Barang")?.[0]?.images("Gambar utama");
+      gambar = firstItem?.field("Barang")?.[0]?.images("Gambar utama");
     }
     e.set("Gambar utama akhir", gambar);
 
