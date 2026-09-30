@@ -553,11 +553,35 @@ var _ = (() => {
           items.forEach((v) => lib_item_pembelian_default.helper.deleteEntry(v, false));
           e.trash();
         },
-        updateGambar(e) {
-          var _a, _b, _c, _d;
-          const firstItem = (_a = lib_item_pembelian_default.lib().linksTo(e)) == null ? void 0 : _a[0];
-          const gbr = (_d = (_c = (_b = firstItem == null ? void 0 : firstItem.field("Barang")) == null ? void 0 : _b[0]) == null ? void 0 : _c.field("Gambar utama")) != null ? _d : null;
-          e.set("Gambar utama", gbr);
+        // updateGambar(e: Entry<Pembelian>) {
+        //   // e ??= entry();
+        //   // const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
+        //   const firstItem = libItemPembelian.lib().linksTo(e)?.[0];
+        //   const gbr = firstItem?.field("Barang")?.[0]?.field("Gambar utama") ?? null;
+        //   e.set("Gambar utama", gbr);
+        //   // if (gbr) {
+        //   //   e.set("Gambar utama", [gbr]);
+        //   // } else {
+        //   //   e.set("Gambar utama", null);
+        //   // }
+        // },
+        recalcEx(e) {
+          var _a, _b;
+          const items = lib_item_pembelian_default.lib().linksTo(e);
+          const firstItem = items == null ? void 0 : items[0];
+          let gambar = e.images("Gambar utama");
+          if (!gambar && firstItem) {
+            gambar = (_b = (_a = firstItem.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.images("Gambar utama");
+          }
+          e.set("Gambar utama akhir", gambar);
+          let judul = e.field("Judul");
+          if (!judul && firstItem) {
+            judul = firstItem.name;
+            if (items.length > 1) {
+              judul += `dan ${items.length - 1} item lainnya`;
+            }
+          }
+          e.set("Judul akhir", judul);
         },
         findOrCreateJurnal(e) {
           var _a, _b;
@@ -574,11 +598,11 @@ var _ = (() => {
         entry: {
           created(e) {
             e != null ? e : e = entry();
-            helper7.updateGambar(e);
+            helper7.recalcEx(e);
           },
           updated(e) {
             e != null ? e : e = entry();
-            helper7.updateGambar(e);
+            helper7.recalcEx(e);
           },
           deleted(e) {
             e != null ? e : e = entry();
