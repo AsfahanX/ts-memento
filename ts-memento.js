@@ -651,15 +651,6 @@ var _ = (() => {
         "WCN6aFtvRkxPUig1PitlPHdJNiE"
       ).lib;
       helper8 = {
-        quickCreate() {
-          return ui().layout([
-            ui().edit("").tag("name"),
-            ui().button("Create").action(function() {
-              lib().create({ Keterangan: ui().findByTag("name").text });
-              return true;
-            })
-          ]);
-        },
         _gudangDefault: null,
         gudangDefault() {
           var _a;
@@ -759,6 +750,25 @@ var _ = (() => {
             lib_stok_barang_default.helper.enqueueStockUpdate(barang2);
           }
           return pembelian;
+        },
+        buatDariTeks(title, text) {
+          const penjualan = lib_penjualan_default.lib().create({
+            Tanggal: /* @__PURE__ */ new Date(),
+            Keterangan: title
+          });
+          text.split("\n").filter((v) => v.trim().length > 0).map((v) => {
+            const tokens = v.trim().split(/^(.+)\s(\d+)$/);
+            return {
+              Catatan: ((tokens == null ? void 0 : tokens.length) > 1 ? tokens[1] : tokens[0]).trim(),
+              "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[2]) * 1e3 : 0
+            };
+          }).forEach((v) => {
+            lib_item_penjualan_default.lib().create(__spreadValues({
+              "Pesanan Penjualan": [penjualan],
+              Kuantitas: 1
+            }, v));
+          });
+          return penjualan;
         }
       };
       events9 = {

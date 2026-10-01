@@ -1,9 +1,12 @@
 /**
  * @see https://scripts.mementodatabase.com/script_api/ui/
  * @see https://www.streamlinehq.com/icons/nova-line
+ * @example
+ * 'nova:add-circle-1.png'
  */
 
-export type IconCode = string;
+export type IconCode =
+  `nova:${keyof typeof import("@/types/memento/ui/nova.json")}`;
 
 /**
  * The ui() method is a JavaScript API provided by Memento Database that grants access to a framework of methods and objects for creating user interfaces (UIs) within Memento widget scripts or dialog boxes in other scripts.

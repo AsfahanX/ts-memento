@@ -29,17 +29,6 @@ const libAccessor = createLibAccessor<Penjualan>(
 ).lib;
 
 const helper = {
-  quickCreate() {
-    return ui().layout([
-      ui().edit("").tag("name"),
-      ui()
-        .button("Create")
-        .action(function () {
-          lib().create({ Keterangan: ui().findByTag("name").text });
-          return true;
-        }),
-    ]);
-  },
   _gudangDefault: null as Entry<Gudang> | null,
   gudangDefault() {
     if (!helper._gudangDefault) {
@@ -163,6 +152,33 @@ const helper = {
 
     return pembelian;
   },
+
+  buatDariTeks(title: string, text: string) {
+    const penjualan = libPenjualan.lib().create({
+      Tanggal: new Date(),
+      Keterangan: title,
+    });
+
+    text
+      .split("\n")
+      .filter((v) => v.trim().length > 0)
+      .map((v) => {
+        const tokens = v.trim().split(/^(.+)\s(\d+)$/);
+        return {
+          Catatan: (tokens?.length > 1 ? tokens[1] : tokens[0]).trim(),
+          "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[2]) * 1000 : 0,
+        };
+      })
+      .forEach((v) => {
+        libItemPenjualan.lib().create({
+          "Pesanan Penjualan": [penjualan],
+          Kuantitas: 1,
+          ...v,
+        });
+      });
+
+    return penjualan;
+  },
 };
 
 const events = {
@@ -221,6 +237,28 @@ const actions = {
     },
   },
 } satisfies ActionHandlers<Penjualan>;
+
+const widgets = {
+  quickCreate() {
+    return ui().layout([
+      ui().text("Judul:"),
+      ui().edit("").tag("judul"),
+      ui().text("Items:"),
+      ui().edit("").tag("items"),
+      ui()
+        .button("Buat dari teks")
+        .icon("nova:add-circle-1.png")
+        .action(function () {
+          helper.buatDariTeks(
+            ui().findByTag("judul").text,
+            ui().findByTag("items").text,
+          );
+          // lib().create({ Keterangan: ui().findByTag("name").text });
+          return true;
+        }),
+    ]);
+  },
+};
 
 export default {
   lib: libAccessor,
