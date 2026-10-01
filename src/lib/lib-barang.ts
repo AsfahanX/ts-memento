@@ -10,6 +10,8 @@ export type Barang = {
   Nama: Field.Text;
   "Nama tampilan": Field.Text;
   "Gambar utama": Field.Image;
+
+  "Stok gudang"?: Field.LinkToEntry<Gudang>;
 };
 
 const helper = {

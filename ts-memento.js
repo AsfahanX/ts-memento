@@ -241,19 +241,29 @@ var _ = (() => {
           });
         },
         updateStockBalance(e) {
-          var _a, _b;
+          var _a, _b, _c;
           e != null ? e : e = entry();
           let barang2 = (_b = (_a = e.field("Barang")) == null ? void 0 : _a[0]) != null ? _b : void 0;
           if (!barang2) {
             return;
           }
-          this.gudangs().forEach((gudang) => {
+          const gudangs = this.gudangs().map((gudang) => {
             let result = sql(
               `SELECT SUM(j."_Perubahan kuantitas") as total FROM "Item Jurnal Barang" j JOIN "Master Barang" b ON j.Barang = b.id WHERE j.removed = 0 AND j.Barang = '${barang2.id}' AND j.Gudang = '${gudang.id}' `
             );
             result = result.asInt();
             result = result == 0 ? null : result;
             e.set(gudang.name, result);
+            return { gudang, result };
+          }).filter(({ result }) => !!result);
+          barang2.set(
+            "Stok gudang",
+            gudangs.map(({ gudang }) => gudang)
+          );
+          (_c = barang2.field("Stok gudang")) == null ? void 0 : _c.forEach((v) => {
+            var _a2;
+            const result = (_a2 = gudangs.find(({ gudang }) => gudang.id === v.id)) == null ? void 0 : _a2.result;
+            if (result) v.setAttr("Kuantitas", result);
           });
         },
         updateStok(barangs) {

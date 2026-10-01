@@ -105,21 +105,35 @@ const helper = {
     if (!barang) {
       return;
     }
+    // const stokGudangs = barang.field("Stok gudang");
 
-    this.gudangs().forEach((gudang) => {
-      let result = sql(
-        'SELECT SUM(j."_Perubahan kuantitas") as total ' +
-          'FROM "Item Jurnal Barang" j ' +
-          'JOIN "Master Barang" b ' +
-          "ON j.Barang = b.id " +
-          "WHERE j.removed = 0 " +
-          `AND j.Barang = '${barang.id}' ` +
-          `AND j.Gudang = '${gudang.id}' `,
-      );
-      result = result.asInt();
-      result = result == 0 ? null : result;
+    const gudangs = this.gudangs()
+      .map((gudang) => {
+        let result = sql(
+          'SELECT SUM(j."_Perubahan kuantitas") as total ' +
+            'FROM "Item Jurnal Barang" j ' +
+            'JOIN "Master Barang" b ' +
+            "ON j.Barang = b.id " +
+            "WHERE j.removed = 0 " +
+            `AND j.Barang = '${barang.id}' ` +
+            `AND j.Gudang = '${gudang.id}' `,
+        );
+        result = result.asInt();
+        result = result == 0 ? null : result;
 
-      e.set(gudang.name, result);
+        e.set(gudang.name, result);
+        return { gudang, result };
+      })
+      .filter(({ result }) => !!result);
+
+    barang.set(
+      "Stok gudang",
+      gudangs.map(({ gudang }) => gudang),
+    );
+
+    barang.field("Stok gudang")?.forEach((v) => {
+      const result = gudangs.find(({ gudang }) => gudang.id === v.id)?.result;
+      if (result) v.setAttr("Kuantitas", result);
     });
   },
 
