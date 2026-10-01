@@ -265,4 +265,5 @@ export default {
   helper,
   events,
   actions,
+  widgets,
 } satisfies LibHelper<Penjualan>;

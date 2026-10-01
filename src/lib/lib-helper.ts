@@ -1,4 +1,4 @@
-import type { Entry, Library } from "@/types/memento";
+import type { Entry, Library, UIObject } from "@/types/memento";
 
 type LibAccessor<T> = {
   lib(): Library<T>;
@@ -27,6 +27,7 @@ export type LibHelper<T> = LibAccessor<T> & {
   helper?: object;
   events?: EventHandlers<T>;
   actions?: ActionHandlers<T>;
+  widgets?: Record<string, () => UIObject>;
 };
 
 export const createLibAccessor = <T>(id: string): LibAccessor<T> => {

@@ -635,7 +635,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-penjualan.ts
-  var libAccessor3, helper8, events9, actions9, lib_penjualan_default;
+  var libAccessor3, helper8, events9, actions9, widgets, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_helper();
@@ -817,11 +817,29 @@ var _ = (() => {
           }
         }
       };
+      widgets = {
+        quickCreate() {
+          return ui().layout([
+            ui().text("Judul:"),
+            ui().edit("").tag("judul"),
+            ui().text("Items:"),
+            ui().edit("").tag("items"),
+            ui().button("Buat dari teks").icon("nova:add-circle-1.png").action(function() {
+              helper8.buatDariTeks(
+                ui().findByTag("judul").text,
+                ui().findByTag("items").text
+              );
+              return true;
+            })
+          ]);
+        }
+      };
       lib_penjualan_default = {
         lib: libAccessor3,
         helper: helper8,
         events: events9,
-        actions: actions9
+        actions: actions9,
+        widgets
       };
     }
   });
