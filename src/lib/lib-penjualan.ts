@@ -30,7 +30,7 @@ const libAccessor = createLibAccessor<Penjualan>(
 
 const helper = {
   quickCreate() {
-    ui().layout([
+    return ui().layout([
       ui().edit("").tag("name"),
       ui()
         .button("Create")

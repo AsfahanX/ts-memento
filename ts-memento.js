@@ -652,7 +652,7 @@ var _ = (() => {
       ).lib;
       helper8 = {
         quickCreate() {
-          ui().layout([
+          return ui().layout([
             ui().edit("").tag("name"),
             ui().button("Create").action(function() {
               lib().create({ Keterangan: ui().findByTag("name").text });
