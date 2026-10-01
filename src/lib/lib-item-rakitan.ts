@@ -10,7 +10,7 @@ export type ItemRakitan = {
   // 'Jurnal barang': Field.LinkToEntry<LibJurnalBarang>;
   //     'Gudang': Field.LinkToEntry<LibGudang>;
   //     'Perubahan kuantitas': Field.Integer
-  "Gambar utama": Field.Image;
+  Gambar: Field.Image;
 };
 
 const helper = {};
@@ -20,9 +20,9 @@ const events = {
       e ??= entry();
       const gbr = e.field("Barang")?.[0]?.images("Gambar utama")?.[0];
       if (gbr) {
-        e.set("Gambar utama", [gbr]);
+        e.set("Gambar", [gbr]);
       } else {
-        e.set("Gambar utama", null);
+        e.set("Gambar", null);
       }
     },
   },
