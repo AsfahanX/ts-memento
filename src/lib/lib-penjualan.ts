@@ -29,6 +29,17 @@ const libAccessor = createLibAccessor<Penjualan>(
 ).lib;
 
 const helper = {
+  quickCreate() {
+    ui().layout([
+      ui().edit("").tag("name"),
+      ui()
+        .button("Create")
+        .action(function () {
+          lib().create({ Keterangan: ui().findByTag("name").text });
+          return true;
+        }),
+    ]);
+  },
   _gudangDefault: null as Entry<Gudang> | null,
   gudangDefault() {
     if (!helper._gudangDefault) {
