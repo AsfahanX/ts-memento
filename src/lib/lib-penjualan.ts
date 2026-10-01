@@ -10,7 +10,6 @@ import libPembelian from "./lib-pembelian";
 import libItemPembelian from "./lib-item-pembelian";
 import libStokBarang from "./lib-stok-barang";
 import libGudang from "./lib-gudang";
-import libPenjualan from "./lib-penjualan";
 
 export type Penjualan = {
   Tanggal: Field.Date;
@@ -154,7 +153,7 @@ const helper = {
   },
 
   buatDariTeks(title: string, text: string) {
-    const penjualan = libPenjualan.lib().create({
+    const penjualan = libAccessor().create({
       Tanggal: new Date(),
       Keterangan: title,
     });
@@ -211,7 +210,7 @@ const actions = {
   },
   library: {
     buatDariTeks() {
-      const penjualan = libPenjualan.lib().create({
+      const penjualan = libAccessor().create({
         Tanggal: new Date(),
         Keterangan: arg("Judul") as string,
       });

@@ -646,7 +646,6 @@ var _ = (() => {
       init_lib_item_pembelian();
       init_lib_stok_barang();
       init_lib_gudang();
-      init_lib_penjualan();
       libAccessor3 = createLibAccessor(
         "WCN6aFtvRkxPUig1PitlPHdJNiE"
       ).lib;
@@ -752,7 +751,7 @@ var _ = (() => {
           return pembelian;
         },
         buatDariTeks(title, text) {
-          const penjualan = lib_penjualan_default.lib().create({
+          const penjualan = libAccessor3().create({
             Tanggal: /* @__PURE__ */ new Date(),
             Keterangan: title
           });
@@ -798,7 +797,7 @@ var _ = (() => {
         },
         library: {
           buatDariTeks() {
-            const penjualan = lib_penjualan_default.lib().create({
+            const penjualan = libAccessor3().create({
               Tanggal: /* @__PURE__ */ new Date(),
               Keterangan: arg("Judul")
             });
@@ -971,7 +970,6 @@ var _ = (() => {
     "src/main.ts"(exports) {
       init_lib();
       init_utils();
-      init_lib_item_penjualan();
       Object.assign(exports, {
         libGudang: lib_gudang_default,
         libBarang: lib_barang_default,
