@@ -125,7 +125,7 @@ const helper = {
         return { gudang, result };
       })
       .filter(({ result }) => !!result);
-
+    log(`gudangs length: ${gudangs.length}`);
     barang.set(
       "Stok gudang",
       gudangs.map(({ gudang }) => gudang),
@@ -133,6 +133,7 @@ const helper = {
 
     barang.field("Stok gudang")?.forEach((v) => {
       const result = gudangs.find(({ gudang }) => gudang.id === v.id)?.result;
+      log(`result: ${result}`);
       if (result) v.setAttr("Kuantitas", result);
     });
   },

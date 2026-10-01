@@ -256,6 +256,7 @@ var _ = (() => {
             e.set(gudang.name, result);
             return { gudang, result };
           }).filter(({ result }) => !!result);
+          log(`gudangs length: ${gudangs.length}`);
           barang2.set(
             "Stok gudang",
             gudangs.map(({ gudang }) => gudang)
@@ -263,6 +264,7 @@ var _ = (() => {
           (_c = barang2.field("Stok gudang")) == null ? void 0 : _c.forEach((v) => {
             var _a2;
             const result = (_a2 = gudangs.find(({ gudang }) => gudang.id === v.id)) == null ? void 0 : _a2.result;
+            log(`result: ${result}`);
             if (result) v.setAttr("Kuantitas", result);
           });
         },
