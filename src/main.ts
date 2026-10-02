@@ -10,6 +10,9 @@
  */
 
 import {
+  libAkun,
+  libJurnal,
+  libItemJurnal,
   libBarang,
   libGudang,
   libItemJurnalBarang,
@@ -26,6 +29,9 @@ import { withProgress } from "./utils";
 // import libItemPenjualan from "./lib/lib-item-penjualan";
 
 Object.assign(this as unknown as object, {
+  libAkun,
+  libJurnal,
+  libItemJurnal,
   libGudang,
   libBarang,
   libPembelian,

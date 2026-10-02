@@ -46,16 +46,27 @@ var _ = (() => {
   });
 
   // src/lib/lib-akun.ts
-  var libAccessor;
+  var libAccessor, helper, events, actions, widgets, lib_akun_default;
   var init_lib_akun = __esm({
     "src/lib/lib-akun.ts"() {
       init_lib_helper();
       libAccessor = createLibAccessor("LUspPFBocGZsVj5tc0RNOU9VLU8").lib;
+      helper = {};
+      events = {};
+      actions = {};
+      widgets = {};
+      lib_akun_default = {
+        lib: libAccessor,
+        helper,
+        events,
+        actions,
+        widgets
+      };
     }
   });
 
   // src/lib/lib-jurnal.ts
-  var libAccessor2;
+  var libAccessor2, helper2, events2, actions2, widgets2, lib_jurnal_default;
   var init_lib_jurnal = __esm({
     "src/lib/lib-jurnal.ts"() {
       init_lib_helper();
@@ -63,40 +74,84 @@ var _ = (() => {
       libAccessor2 = createLibAccessor(
         "SmpxUWFTSUEhPj5XckZUTSp6Y0M"
       ).lib;
+      helper2 = {};
+      events2 = {};
+      actions2 = {
+        library: {
+          quickCreate() {
+            dialog().view(widgets2.quickCreate()).show();
+          }
+        }
+      };
+      widgets2 = {
+        quickCreate() {
+          const akuns = lib_akun_default.lib().entries();
+          const choices = akuns.map(({ name }) => name);
+          return ui().layout([
+            ui().text("Jumlah"),
+            ui().edit(),
+            ui().text("Akun debit"),
+            ui().choiceBox(0, choices),
+            ui().text("Akun kredit"),
+            ui().choiceBox(0, choices),
+            ui().button("").icon("nova:add-circle-1.png").action(() => {
+              return true;
+            })
+          ]);
+        }
+      };
+      lib_jurnal_default = {
+        lib: libAccessor2,
+        helper: helper2,
+        events: events2,
+        actions: actions2,
+        widgets: widgets2
+      };
     }
   });
 
   // src/lib/lib-item-jurnal.ts
-  var libAccessor3;
+  var libAccessor3, helper3, events3, actions3, widgets3, lib_item_jurnal_default;
   var init_lib_item_jurnal = __esm({
     "src/lib/lib-item-jurnal.ts"() {
       init_lib_helper();
       libAccessor3 = createLibAccessor(
         "UnAlRnV3bHBPUlFXS1VyME9vRUY"
       ).lib;
+      helper3 = {};
+      events3 = {};
+      actions3 = {};
+      widgets3 = {};
+      lib_item_jurnal_default = {
+        lib: libAccessor3,
+        helper: helper3,
+        events: events3,
+        actions: actions3,
+        widgets: widgets3
+      };
     }
   });
 
   // src/lib/lib-gudang.ts
-  var events, actions, lib_gudang_default;
+  var events4, actions4, lib_gudang_default;
   var init_lib_gudang = __esm({
     "src/lib/lib-gudang.ts"() {
       init_lib_helper();
-      events = {};
-      actions = {};
+      events4 = {};
+      actions4 = {};
       lib_gudang_default = __spreadProps(__spreadValues({}, createLibAccessor("XSNaUEFQbWdzWHBnJXVdNXZUTlE")), {
-        events,
-        actions
+        events: events4,
+        actions: actions4
       });
     }
   });
 
   // src/lib/lib-barang.ts
-  var helper, events2, actions2, lib_barang_default;
+  var helper4, events5, actions5, lib_barang_default;
   var init_lib_barang = __esm({
     "src/lib/lib-barang.ts"() {
       init_lib_helper();
-      helper = {
+      helper4 = {
         // _gudangs: null as Entry<Gudang>[] | null,
         // gudangs() {
         //   if (this._gudangs) return this._gudangs;
@@ -168,12 +223,12 @@ var _ = (() => {
         //   });
         // },
       };
-      events2 = {};
-      actions2 = {};
+      events5 = {};
+      actions5 = {};
       lib_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("QFQxY0BKVWQ0elJkKTY5SSU6cUM")), {
-        helper,
-        events: events2,
-        actions: actions2
+        helper: helper4,
+        events: events5,
+        actions: actions5
       });
     }
   });
@@ -210,7 +265,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-stok-barang.ts
-  var libAccessor4, helper2, events3, actions3, lib_stok_barang_default;
+  var libAccessor4, helper5, events6, actions6, lib_stok_barang_default;
   var init_lib_stok_barang = __esm({
     "src/lib/lib-stok-barang.ts"() {
       init_lib_helper();
@@ -220,7 +275,7 @@ var _ = (() => {
       libAccessor4 = createLibAccessor(
         "RUNQRCkxQUk6JmhzOilQVjNJV28"
       ).lib;
-      helper2 = {
+      helper5 = {
         _queuedItems: {},
         enqueueStockUpdate(barangs) {
           barangs.forEach((v) => this._queuedItems[v.id] = true);
@@ -311,25 +366,25 @@ var _ = (() => {
           });
         }
       };
-      events3 = {};
-      actions3 = {};
+      events6 = {};
+      actions6 = {};
       lib_stok_barang_default = {
         lib: libAccessor4,
-        helper: helper2,
-        events: events3,
-        actions: actions3
+        helper: helper5,
+        events: events6,
+        actions: actions6
       };
     }
   });
 
   // src/lib/lib-item-jurnal-barang.ts
-  var helper3, events4, actions4, lib_item_jurnal_barang_default;
+  var helper6, events7, actions7, lib_item_jurnal_barang_default;
   var init_lib_item_jurnal_barang = __esm({
     "src/lib/lib-item-jurnal-barang.ts"() {
       init_utils();
       init_lib_helper();
       init_lib_stok_barang();
-      helper3 = {
+      helper6 = {
         updateGambar(e) {
           var _a, _b, _c;
           e != null ? e : e = entry();
@@ -348,26 +403,26 @@ var _ = (() => {
           lib_stok_barang_default.helper.enqueueStockUpdate(e.field("Barang"));
         }
       };
-      events4 = {
+      events7 = {
         entry: {
           created(e) {
             e != null ? e : e = entry();
-            helper3.updateGambar(e);
+            helper6.updateGambar(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate(e.field("Barang"));
           },
           updated(e) {
             e != null ? e : e = entry();
-            helper3.updateGambar(e);
+            helper6.updateGambar(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate(e.field("Barang"));
           },
           deleted(e) {
             e != null ? e : e = entry();
-            helper3.deleteEntry(e);
+            helper6.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
-      actions4 = {
+      actions7 = {
         entry: {
           recalculate() {
           }
@@ -375,27 +430,27 @@ var _ = (() => {
         library: {
           recalculate() {
             recalculateEntries(lib(), (e) => {
-              helper3.updateGambar(e);
+              helper6.updateGambar(e);
             });
           }
         }
       };
       lib_item_jurnal_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("I2lTWGc0UFFxcTUxdi1kOUc6Rk0")), {
-        helper: helper3,
-        events: events4,
-        actions: actions4
+        helper: helper6,
+        events: events7,
+        actions: actions7
       });
     }
   });
 
   // src/lib/lib-item-penjualan.ts
-  var helper4, events5, actions5, lib_item_penjualan_default;
+  var helper7, events8, actions8, lib_item_penjualan_default;
   var init_lib_item_penjualan = __esm({
     "src/lib/lib-item-penjualan.ts"() {
       init_lib_helper();
       init_lib_item_jurnal_barang();
       init_lib_stok_barang();
-      helper4 = {
+      helper7 = {
         deleteEntry(e, deleteRelatedJurnal) {
           var _a;
           if (deleteRelatedJurnal) {
@@ -417,37 +472,37 @@ var _ = (() => {
           }
         }
       };
-      events5 = {
+      events8 = {
         entry: {
           updated(e) {
-            helper4.updateGambar(e);
+            helper7.updateGambar(e);
           },
           deleted(e) {
             e != null ? e : e = entry();
-            helper4.deleteEntry(e);
+            helper7.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
-      actions5 = {
+      actions8 = {
         bulk: {}
       };
       lib_item_penjualan_default = __spreadProps(__spreadValues({}, createLibAccessor("RE4pK2hXUllyUlNtd1VRWjJrVG0")), {
-        helper: helper4,
-        events: events5,
-        actions: actions5
+        helper: helper7,
+        events: events8,
+        actions: actions8
       });
     }
   });
 
   // src/lib/lib-jurnal-barang.ts
-  var helper5, events6, actions6, lib_jurnal_barang_default;
+  var helper8, events9, actions9, lib_jurnal_barang_default;
   var init_lib_jurnal_barang = __esm({
     "src/lib/lib-jurnal-barang.ts"() {
       init_lib_helper();
       init_lib_item_jurnal_barang();
       init_lib_stok_barang();
-      helper5 = {
+      helper8 = {
         deleteEntry(e) {
           if (!e) return;
           const items = lib_item_jurnal_barang_default.lib().linksTo(e);
@@ -455,32 +510,32 @@ var _ = (() => {
           e.trash();
         }
       };
-      events6 = {
+      events9 = {
         entry: {
           deleted(e) {
-            helper5.deleteEntry(e != null ? e : entry());
+            helper8.deleteEntry(e != null ? e : entry());
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
-      actions6 = {};
+      actions9 = {};
       lib_jurnal_barang_default = __spreadProps(__spreadValues({}, createLibAccessor("UHoqKEhMPDJkNyoteTllK3dFWlk")), {
-        helper: helper5,
-        events: events6,
-        actions: actions6
+        helper: helper8,
+        events: events9,
+        actions: actions9
       });
     }
   });
 
   // src/lib/lib-item-pembelian.ts
-  var helper6, events7, actions7, lib_item_pembelian_default;
+  var helper9, events10, actions10, lib_item_pembelian_default;
   var init_lib_item_pembelian = __esm({
     "src/lib/lib-item-pembelian.ts"() {
       init_lib_helper();
       init_lib_item_jurnal_barang();
       init_lib_stok_barang();
       init_lib_pembelian();
-      helper6 = {
+      helper9 = {
         deleteEntry(e, deleteRelatedJurnal) {
           var _a;
           if (deleteRelatedJurnal) {
@@ -502,7 +557,7 @@ var _ = (() => {
           }
         }
       };
-      events7 = {
+      events10 = {
         entry: {
           // created(e) {
           //   e ??= entry();
@@ -530,7 +585,7 @@ var _ = (() => {
           updated(e) {
             var _a, _b;
             e != null ? e : e = entry();
-            helper6.updateGambar(e);
+            helper9.updateGambar(e);
             const obj = {
               "Item pembelian": [e],
               // "Jurnal barang": [j],
@@ -563,22 +618,22 @@ var _ = (() => {
           },
           deleted(e) {
             e != null ? e : e = entry();
-            helper6.deleteEntry(e);
+            helper9.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
-      actions7 = {};
+      actions10 = {};
       lib_item_pembelian_default = __spreadProps(__spreadValues({}, createLibAccessor("KjxrIzRHVy0qQE1VM1I1MVsoNFk")), {
-        helper: helper6,
-        events: events7,
-        actions: actions7
+        helper: helper9,
+        events: events10,
+        actions: actions10
       });
     }
   });
 
   // src/lib/lib-pembelian.ts
-  var libAccessor5, helper7, events8, actions8, lib_pembelian_default;
+  var libAccessor5, helper10, events11, actions11, lib_pembelian_default;
   var init_lib_pembelian = __esm({
     "src/lib/lib-pembelian.ts"() {
       init_lib_helper();
@@ -588,7 +643,7 @@ var _ = (() => {
       libAccessor5 = createLibAccessor(
         "UW1DRlZVK1hPZmZWPGt5UkJ0ZiE"
       ).lib;
-      helper7 = {
+      helper10 = {
         deleteEntry(e) {
           var _a, _b;
           lib_jurnal_barang_default.helper.deleteEntry(
@@ -639,29 +694,29 @@ var _ = (() => {
           });
         }
       };
-      events8 = {
+      events11 = {
         entry: {
           created(e) {
             e != null ? e : e = entry();
-            helper7.recalcEx(e);
+            helper10.recalcEx(e);
           },
           updated(e) {
             e != null ? e : e = entry();
-            helper7.recalcEx(e);
+            helper10.recalcEx(e);
           },
           deleted(e) {
             e != null ? e : e = entry();
-            helper7.deleteEntry(e);
+            helper10.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
-      actions8 = {};
+      actions11 = {};
       lib_pembelian_default = {
         lib: libAccessor5,
-        helper: helper7,
-        events: events8,
-        actions: actions8
+        helper: helper10,
+        events: events11,
+        actions: actions11
       };
     }
   });
@@ -682,7 +737,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-penjualan.ts
-  var libAccessor6, helper8, events9, actions9, widgets, lib_penjualan_default;
+  var libAccessor6, helper11, events12, actions12, widgets4, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_helper();
@@ -697,14 +752,14 @@ var _ = (() => {
       libAccessor6 = createLibAccessor(
         "WCN6aFtvRkxPUig1PitlPHdJNiE"
       ).lib;
-      helper8 = {
+      helper11 = {
         _gudangDefault: null,
         gudangDefault() {
           var _a;
-          if (!helper8._gudangDefault) {
-            helper8._gudangDefault = (_a = lib_gudang_default.lib().find("[TS] - Stok \u{1F535}")) == null ? void 0 : _a[0];
+          if (!helper11._gudangDefault) {
+            helper11._gudangDefault = (_a = lib_gudang_default.lib().find("[TS] - Stok \u{1F535}")) == null ? void 0 : _a[0];
           }
-          return helper8._gudangDefault;
+          return helper11._gudangDefault;
         },
         deleteEntry(e) {
           var _a, _b;
@@ -814,21 +869,21 @@ var _ = (() => {
           return penjualan;
         }
       };
-      events9 = {
+      events12 = {
         entry: {
           deleted(e) {
             e != null ? e : e = entry();
-            helper8.deleteEntry(e);
+            helper11.deleteEntry(e);
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           }
         }
       };
-      actions9 = {
+      actions12 = {
         entry: {
           buatPembelian(e) {
             e != null ? e : e = entry();
             const items = lib_item_penjualan_default.lib().linksTo(e);
-            items.forEach((item) => helper8.createPembelian(item));
+            items.forEach((item) => helper11.createPembelian(item));
             if (items) message(items.length + " pembelian berhasil dibuat");
             lib_stok_barang_default.helper.startQueuedStockUpdate();
           },
@@ -841,11 +896,11 @@ var _ = (() => {
         },
         library: {
           buatDariTeks() {
-            helper8.buatDariTeks(arg("Judul"), arg("teks"));
+            helper11.buatDariTeks(arg("Judul"), arg("teks"));
           }
         }
       };
-      widgets = {
+      widgets4 = {
         quickCreate() {
           return ui().layout([
             ui().text("Judul:"),
@@ -853,7 +908,7 @@ var _ = (() => {
             ui().text("Items:"),
             ui().edit("").tag("items"),
             ui().button("Buat dari teks").icon("nova:add-circle-1.png").action(function() {
-              helper8.buatDariTeks(
+              helper11.buatDariTeks(
                 ui().findByTag("judul").text,
                 ui().findByTag("items").text
               );
@@ -864,21 +919,21 @@ var _ = (() => {
       };
       lib_penjualan_default = {
         lib: libAccessor6,
-        helper: helper8,
-        events: events9,
-        actions: actions9,
-        widgets
+        helper: helper11,
+        events: events12,
+        actions: actions12,
+        widgets: widgets4
       };
     }
   });
 
   // src/lib/lib-item-rakitan.ts
-  var helper9, events10, actions10, lib_item_rakitan_default;
+  var helper12, events13, actions13, lib_item_rakitan_default;
   var init_lib_item_rakitan = __esm({
     "src/lib/lib-item-rakitan.ts"() {
       init_lib_helper();
-      helper9 = {};
-      events10 = {
+      helper12 = {};
+      events13 = {
         entry: {
           updated(e) {
             var _a, _b, _c;
@@ -892,17 +947,17 @@ var _ = (() => {
           }
         }
       };
-      actions10 = {};
+      actions13 = {};
       lib_item_rakitan_default = __spreadProps(__spreadValues({}, createLibAccessor("JVBtMUppVGxvUCFYbFNlOyhOQGY")), {
-        helper: helper9,
-        events: events10,
-        actions: actions10
+        helper: helper12,
+        events: events13,
+        actions: actions13
       });
     }
   });
 
   // src/lib/lib-rakitan.ts
-  var helper10, events11, actions11, lib_rakitan_default;
+  var helper13, events14, actions14, lib_rakitan_default;
   var init_lib_rakitan = __esm({
     "src/lib/lib-rakitan.ts"() {
       init_lib_gudang();
@@ -910,9 +965,9 @@ var _ = (() => {
       init_lib_item_jurnal_barang();
       init_lib_item_rakitan();
       init_lib_jurnal_barang();
-      helper10 = {};
-      events11 = {};
-      actions11 = {
+      helper13 = {};
+      events14 = {};
+      actions14 = {
         entry: {
           buatJurnalBarang(e) {
             e != null ? e : e = entry();
@@ -970,9 +1025,9 @@ var _ = (() => {
         }
       };
       lib_rakitan_default = __spreadProps(__spreadValues({}, createLibAccessor("JTlxbXJ3OEsjYXp2UEJzdWhNKm0")), {
-        helper: helper10,
-        events: events11,
-        actions: actions11
+        helper: helper13,
+        events: events14,
+        actions: actions14
       });
     }
   });
@@ -1003,6 +1058,9 @@ var _ = (() => {
       init_lib();
       init_utils();
       Object.assign(exports, {
+        libAkun: lib_akun_default,
+        libJurnal: lib_jurnal_default,
+        libItemJurnal: lib_item_jurnal_default,
         libGudang: lib_gudang_default,
         libBarang: lib_barang_default,
         libPembelian: lib_pembelian_default,
