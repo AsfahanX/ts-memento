@@ -65,42 +65,19 @@ var _ = (() => {
     }
   });
 
-  // src/lib/lib-jurnal.ts
-  var libAccessor2, helper2, events2, actions2, widgets2, lib_jurnal_default;
-  var init_lib_jurnal = __esm({
-    "src/lib/lib-jurnal.ts"() {
+  // src/lib/lib-item-jurnal.ts
+  var libAccessor2, helper2, events2, actions2, widgets2, lib_item_jurnal_default;
+  var init_lib_item_jurnal = __esm({
+    "src/lib/lib-item-jurnal.ts"() {
       init_lib_helper();
-      init_lib_akun();
       libAccessor2 = createLibAccessor(
-        "SmpxUWFTSUEhPj5XckZUTSp6Y0M"
+        "UnAlRnV3bHBPUlFXS1VyME9vRUY"
       ).lib;
       helper2 = {};
       events2 = {};
-      actions2 = {
-        library: {
-          quickCreate() {
-            dialog().view(widgets2.quickCreate()).show();
-          }
-        }
-      };
-      widgets2 = {
-        quickCreate() {
-          const akuns = lib_akun_default.lib().entries();
-          const choices = akuns.map(({ name }) => name);
-          return ui().layout([
-            ui().text("Jumlah"),
-            ui().edit(),
-            ui().text("Akun debit"),
-            ui().choiceBox(0, choices),
-            ui().text("Akun kredit"),
-            ui().choiceBox(0, choices),
-            ui().button("").icon("nova:add-circle-1.png").action(() => {
-              return true;
-            })
-          ]);
-        }
-      };
-      lib_jurnal_default = {
+      actions2 = {};
+      widgets2 = {};
+      lib_item_jurnal_default = {
         lib: libAccessor2,
         helper: helper2,
         events: events2,
@@ -110,19 +87,67 @@ var _ = (() => {
     }
   });
 
-  // src/lib/lib-item-jurnal.ts
-  var libAccessor3, helper3, events3, actions3, widgets3, lib_item_jurnal_default;
-  var init_lib_item_jurnal = __esm({
-    "src/lib/lib-item-jurnal.ts"() {
+  // src/lib/lib-jurnal.ts
+  var libAccessor3, helper3, events3, actions3, widgets3, lib_jurnal_default;
+  var init_lib_jurnal = __esm({
+    "src/lib/lib-jurnal.ts"() {
       init_lib_helper();
+      init_lib_akun();
+      init_lib_item_jurnal();
       libAccessor3 = createLibAccessor(
-        "UnAlRnV3bHBPUlFXS1VyME9vRUY"
+        "SmpxUWFTSUEhPj5XckZUTSp6Y0M"
       ).lib;
       helper3 = {};
       events3 = {};
-      actions3 = {};
-      widgets3 = {};
-      lib_item_jurnal_default = {
+      actions3 = {
+        library: {
+          quickCreate() {
+            dialog().view(widgets3.quickCreate()).show();
+          }
+        }
+      };
+      widgets3 = {
+        quickCreate() {
+          const akuns = lib_akun_default.lib().entries();
+          const choices = akuns.map(({ name }) => name);
+          const uiEditAmount = ui().edit("");
+          const uiChoicesAkunDebit = ui().choiceBox(0, choices);
+          const uiChoicesAkunKredit = ui().choiceBox(0, choices);
+          return ui().layout([
+            ui().text("Jumlah"),
+            uiEditAmount,
+            ui().text("Akun debit"),
+            uiChoicesAkunDebit,
+            ui().text("Akun kredit"),
+            uiChoicesAkunKredit,
+            ui().button(" Buat jurnal").icon("nova:add-circle-1.png").action(() => {
+              const amount = parseFloat(uiEditAmount.text);
+              const akunDebit = akuns[uiChoicesAkunDebit.selected];
+              const akunKredit = akuns[uiChoicesAkunKredit.selected];
+              const jurnal = libAccessor3().create({
+                Jenis: "Jurnal manual",
+                Tanggal: /* @__PURE__ */ new Date(),
+                Judul: `Jurnal manual ${(/* @__PURE__ */ new Date()).toLocaleString()}`
+              });
+              lib_item_jurnal_default.lib().create({
+                Jurnal: [jurnal],
+                Posisi: "Debit",
+                Akun: [akunDebit],
+                Jumlah: amount
+              });
+              lib_item_jurnal_default.lib().create({
+                Jurnal: [jurnal],
+                Posisi: "Kredit",
+                Akun: [akunKredit],
+                Jumlah: amount
+              });
+              jurnal.show();
+              return true;
+            })
+          ]);
+        }
+      };
+      lib_jurnal_default = {
         lib: libAccessor3,
         helper: helper3,
         events: events3,
