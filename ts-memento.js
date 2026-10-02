@@ -634,6 +634,21 @@ var _ = (() => {
     }
   });
 
+  // src/lib/util.ts
+  function createItemsFromParagraph(text) {
+    return text.split("\n").filter((v) => v.trim().length > 0).map((v) => {
+      const tokens = v.trim().split(/^(.+)\s(\d+)$/);
+      return {
+        name: ((tokens == null ? void 0 : tokens.length) > 1 ? tokens[1] : tokens[0]).trim(),
+        amount: tokens.length > 1 ? parseFloat(tokens[2]) * 1e3 : 0
+      };
+    });
+  }
+  var init_util = __esm({
+    "src/lib/util.ts"() {
+    }
+  });
+
   // src/lib/lib-penjualan.ts
   var libAccessor3, helper8, events9, actions9, widgets, lib_penjualan_default;
   var init_lib_penjualan = __esm({
@@ -646,6 +661,7 @@ var _ = (() => {
       init_lib_item_pembelian();
       init_lib_stok_barang();
       init_lib_gudang();
+      init_util();
       libAccessor3 = createLibAccessor(
         "WCN6aFtvRkxPUig1PitlPHdJNiE"
       ).lib;
@@ -755,17 +771,13 @@ var _ = (() => {
             Tanggal: /* @__PURE__ */ new Date(),
             Keterangan: title
           });
-          text.split("\n").filter((v) => v.trim().length > 0).map((v) => {
-            const tokens = v.trim().split(/^(.+)\s(\d+)$/);
-            return {
-              Catatan: ((tokens == null ? void 0 : tokens.length) > 1 ? tokens[1] : tokens[0]).trim(),
-              "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[2]) * 1e3 : 0
-            };
-          }).forEach((v) => {
-            lib_item_penjualan_default.lib().create(__spreadValues({
+          createItemsFromParagraph(text).forEach((v) => {
+            lib_item_penjualan_default.lib().create({
               "Pesanan Penjualan": [penjualan],
-              Kuantitas: 1
-            }, v));
+              Kuantitas: 1,
+              Catatan: v.name,
+              "Harga Satuan": v.amount
+            });
           });
           return penjualan;
         }
@@ -797,22 +809,7 @@ var _ = (() => {
         },
         library: {
           buatDariTeks() {
-            const penjualan = libAccessor3().create({
-              Tanggal: /* @__PURE__ */ new Date(),
-              Keterangan: arg("Judul")
-            });
-            arg("teks").split("\n").filter((v) => v.trim().length > 0).map((v) => {
-              const tokens = v.trim().split(/^(.+)\s(\d+)$/);
-              return {
-                Catatan: ((tokens == null ? void 0 : tokens.length) > 1 ? tokens[1] : tokens[0]).trim(),
-                "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[2]) * 1e3 : 0
-              };
-            }).forEach((v) => {
-              lib_item_penjualan_default.lib().create(__spreadValues({
-                "Pesanan Penjualan": [penjualan],
-                Kuantitas: 1
-              }, v));
-            });
+            helper8.buatDariTeks(arg("Judul"), arg("teks"));
           }
         }
       };

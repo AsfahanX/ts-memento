@@ -10,6 +10,7 @@ import libPembelian from "./lib-pembelian";
 import libItemPembelian from "./lib-item-pembelian";
 import libStokBarang from "./lib-stok-barang";
 import libGudang from "./lib-gudang";
+import { createItemsFromParagraph } from "./util";
 
 export type Penjualan = {
   Tanggal: Field.Date;
@@ -158,23 +159,14 @@ const helper = {
       Keterangan: title,
     });
 
-    text
-      .split("\n")
-      .filter((v) => v.trim().length > 0)
-      .map((v) => {
-        const tokens = v.trim().split(/^(.+)\s(\d+)$/);
-        return {
-          Catatan: (tokens?.length > 1 ? tokens[1] : tokens[0]).trim(),
-          "Harga Satuan": tokens.length > 1 ? parseFloat(tokens[2]) * 1000 : 0,
-        };
-      })
-      .forEach((v) => {
-        libItemPenjualan.lib().create({
-          "Pesanan Penjualan": [penjualan],
-          Kuantitas: 1,
-          ...v,
-        });
+    createItemsFromParagraph(text).forEach((v) => {
+      libItemPenjualan.lib().create({
+        "Pesanan Penjualan": [penjualan],
+        Kuantitas: 1,
+        Catatan: v.name,
+        "Harga Satuan": v.amount,
       });
+    });
 
     return penjualan;
   },
@@ -189,6 +181,7 @@ const events = {
     },
   },
 } satisfies EventHandlers<Penjualan>;
+
 const actions = {
   entry: {
     buatPembelian(e?: Entry<Penjualan>) {
@@ -210,29 +203,7 @@ const actions = {
   },
   library: {
     buatDariTeks() {
-      const penjualan = libAccessor().create({
-        Tanggal: new Date(),
-        Keterangan: arg("Judul") as string,
-      });
-
-      (arg("teks") as string)
-        .split("\n")
-        .filter((v) => v.trim().length > 0)
-        .map((v) => {
-          const tokens = v.trim().split(/^(.+)\s(\d+)$/);
-          return {
-            Catatan: (tokens?.length > 1 ? tokens[1] : tokens[0]).trim(),
-            "Harga Satuan":
-              tokens.length > 1 ? parseFloat(tokens[2]) * 1000 : 0,
-          };
-        })
-        .forEach((v) => {
-          libItemPenjualan.lib().create({
-            "Pesanan Penjualan": [penjualan],
-            Kuantitas: 1,
-            ...v,
-          });
-        });
+      helper.buatDariTeks(arg("Judul") as string, arg("teks") as string);
     },
   },
 } satisfies ActionHandlers<Penjualan>;
@@ -252,7 +223,7 @@ const widgets = {
             ui().findByTag("judul").text,
             ui().findByTag("items").text,
           );
-          // lib().create({ Keterangan: ui().findByTag("name").text });
+
           return true;
         }),
     ]);
