@@ -45,6 +45,38 @@ var _ = (() => {
     }
   });
 
+  // src/lib/lib-akun.ts
+  var libAccessor;
+  var init_lib_akun = __esm({
+    "src/lib/lib-akun.ts"() {
+      init_lib_helper();
+      libAccessor = createLibAccessor("LUspPFBocGZsVj5tc0RNOU9VLU8").lib;
+    }
+  });
+
+  // src/lib/lib-jurnal.ts
+  var libAccessor2;
+  var init_lib_jurnal = __esm({
+    "src/lib/lib-jurnal.ts"() {
+      init_lib_helper();
+      init_lib_akun();
+      libAccessor2 = createLibAccessor(
+        "SmpxUWFTSUEhPj5XckZUTSp6Y0M"
+      ).lib;
+    }
+  });
+
+  // src/lib/lib-item-jurnal.ts
+  var libAccessor3;
+  var init_lib_item_jurnal = __esm({
+    "src/lib/lib-item-jurnal.ts"() {
+      init_lib_helper();
+      libAccessor3 = createLibAccessor(
+        "UnAlRnV3bHBPUlFXS1VyME9vRUY"
+      ).lib;
+    }
+  });
+
   // src/lib/lib-gudang.ts
   var events, actions, lib_gudang_default;
   var init_lib_gudang = __esm({
@@ -178,14 +210,14 @@ var _ = (() => {
   });
 
   // src/lib/lib-stok-barang.ts
-  var libAccessor, helper2, events3, actions3, lib_stok_barang_default;
+  var libAccessor4, helper2, events3, actions3, lib_stok_barang_default;
   var init_lib_stok_barang = __esm({
     "src/lib/lib-stok-barang.ts"() {
       init_lib_helper();
       init_lib_gudang();
       init_lib_barang();
       init_utils();
-      libAccessor = createLibAccessor(
+      libAccessor4 = createLibAccessor(
         "RUNQRCkxQUk6JmhzOilQVjNJV28"
       ).lib;
       helper2 = {
@@ -197,7 +229,7 @@ var _ = (() => {
           var _a, _b;
           if (barangs) this.enqueueStockUpdate(barangs);
           const ids = Object.keys(this._queuedItems);
-          const entries = libAccessor().entries().filter((v) => {
+          const entries = libAccessor4().entries().filter((v) => {
             var _a2, _b2;
             return ids.includes((_b2 = (_a2 = v.field("Barang")) == null ? void 0 : _a2[0]) == null ? void 0 : _b2.id);
           });
@@ -225,19 +257,19 @@ var _ = (() => {
         _gudangs: null,
         gudangs() {
           if (this._gudangs) return this._gudangs;
-          let fieldNames = libAccessor().fields();
+          let fieldNames = libAccessor4().fields();
           this._gudangs = lib_gudang_default.lib().entries().filter((v) => fieldNames == null ? void 0 : fieldNames.includes(v.name));
           return this._gudangs;
         },
         createIfMissing(barangs) {
           barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
-          let entries = libAccessor().entries().map((v) => {
+          let entries = libAccessor4().entries().map((v) => {
             var _a, _b;
             return (_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id;
           });
           let missings = barangs.filter((v) => !entries.includes(v.id));
           return missings.map(
-            (v) => libAccessor().create({
+            (v) => libAccessor4().create({
               Barang: [v],
               "Gambar utama": v.field("Gambar utama")
             })
@@ -247,7 +279,7 @@ var _ = (() => {
           barangs != null ? barangs : barangs = lib_barang_default.lib().entries();
           this.createIfMissing(barangs);
           let ids = barangs.map((v) => v.id);
-          return libAccessor().entries().filter((v) => {
+          return libAccessor4().entries().filter((v) => {
             var _a, _b;
             return ids.includes((_b = (_a = v.field("Barang")) == null ? void 0 : _a[0]) == null ? void 0 : _b.id);
           });
@@ -282,7 +314,7 @@ var _ = (() => {
       events3 = {};
       actions3 = {};
       lib_stok_barang_default = {
-        lib: libAccessor,
+        lib: libAccessor4,
         helper: helper2,
         events: events3,
         actions: actions3
@@ -546,14 +578,14 @@ var _ = (() => {
   });
 
   // src/lib/lib-pembelian.ts
-  var libAccessor2, helper7, events8, actions8, lib_pembelian_default;
+  var libAccessor5, helper7, events8, actions8, lib_pembelian_default;
   var init_lib_pembelian = __esm({
     "src/lib/lib-pembelian.ts"() {
       init_lib_helper();
       init_lib_item_pembelian();
       init_lib_stok_barang();
       init_lib_jurnal_barang();
-      libAccessor2 = createLibAccessor(
+      libAccessor5 = createLibAccessor(
         "UW1DRlZVK1hPZmZWPGt5UkJ0ZiE"
       ).lib;
       helper7 = {
@@ -626,7 +658,7 @@ var _ = (() => {
       };
       actions8 = {};
       lib_pembelian_default = {
-        lib: libAccessor2,
+        lib: libAccessor5,
         helper: helper7,
         events: events8,
         actions: actions8
@@ -650,7 +682,7 @@ var _ = (() => {
   });
 
   // src/lib/lib-penjualan.ts
-  var libAccessor3, helper8, events9, actions9, widgets, lib_penjualan_default;
+  var libAccessor6, helper8, events9, actions9, widgets, lib_penjualan_default;
   var init_lib_penjualan = __esm({
     "src/lib/lib-penjualan.ts"() {
       init_lib_helper();
@@ -662,7 +694,7 @@ var _ = (() => {
       init_lib_stok_barang();
       init_lib_gudang();
       init_util();
-      libAccessor3 = createLibAccessor(
+      libAccessor6 = createLibAccessor(
         "WCN6aFtvRkxPUig1PitlPHdJNiE"
       ).lib;
       helper8 = {
@@ -767,7 +799,7 @@ var _ = (() => {
           return pembelian;
         },
         buatDariTeks(title, text) {
-          const penjualan = libAccessor3().create({
+          const penjualan = libAccessor6().create({
             Tanggal: /* @__PURE__ */ new Date(),
             Keterangan: title
           });
@@ -831,7 +863,7 @@ var _ = (() => {
         }
       };
       lib_penjualan_default = {
-        lib: libAccessor3,
+        lib: libAccessor6,
         helper: helper8,
         events: events9,
         actions: actions9,
@@ -948,6 +980,9 @@ var _ = (() => {
   // src/lib/index.ts
   var init_lib = __esm({
     "src/lib/index.ts"() {
+      init_lib_akun();
+      init_lib_jurnal();
+      init_lib_item_jurnal();
       init_lib_stok_barang();
       init_lib_penjualan();
       init_lib_item_penjualan();
