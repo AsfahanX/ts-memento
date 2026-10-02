@@ -124,6 +124,7 @@ export interface JSImage {
 export namespace Field {
   type Text = string;
   type Integer = number;
+  type RealNumber = number;
   type Currency = number;
   type Boolean = boolean;
   type Date = globalThis.Date | string;
