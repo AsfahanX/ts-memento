@@ -1,4 +1,4 @@
-import type { Field } from "@/types/memento";
+import type { Entry, Field } from "@/types/memento";
 import type { ActionHandlers, EventHandlers, LibHelper } from "./lib-helper";
 import { createLibAccessor } from "./lib-helper";
 import { createItemsFromParagraph } from "./util";
@@ -19,8 +19,21 @@ const libAccessor = createLibAccessor<Jurnal>(
   "SmpxUWFTSUEhPj5XckZUTSp6Y0M",
 ).lib;
 
-const helper = {};
-const events = {} satisfies EventHandlers<Jurnal>;
+const helper = {
+  deleteEntry(e: Entry<Jurnal>) {
+    const items = libItemJurnal.lib().linksTo(e);
+    items.forEach((v) => v.trash());
+  },
+};
+
+const events = {
+  entry: {
+    deleted(e) {
+      helper.deleteEntry(e ?? entry());
+    },
+  },
+} satisfies EventHandlers<Jurnal>;
+
 const actions = {
   library: {
     quickCreate() {
@@ -28,6 +41,7 @@ const actions = {
     },
   },
 } satisfies ActionHandlers<Jurnal>;
+
 const widgets = {
   quickCreate() {
     const akuns = libAkun.lib().entries();
@@ -53,7 +67,7 @@ const widgets = {
           const jurnal = libAccessor().create({
             Jenis: "Jurnal manual",
             Tanggal: new Date(),
-            Judul: `Jurnal manual ${new Date().toLocaleString()}`,
+            Judul: `Jurnal manual ${new Date().toISOString()}`,
           });
 
           libItemJurnal.lib().create({

@@ -97,8 +97,19 @@ var _ = (() => {
       libAccessor3 = createLibAccessor(
         "SmpxUWFTSUEhPj5XckZUTSp6Y0M"
       ).lib;
-      helper3 = {};
-      events3 = {};
+      helper3 = {
+        deleteEntry(e) {
+          const items = lib_item_jurnal_default.lib().linksTo(e);
+          items.forEach((v) => v.trash());
+        }
+      };
+      events3 = {
+        entry: {
+          deleted(e) {
+            helper3.deleteEntry(e != null ? e : entry());
+          }
+        }
+      };
       actions3 = {
         library: {
           quickCreate() {
@@ -127,7 +138,7 @@ var _ = (() => {
               const jurnal = libAccessor3().create({
                 Jenis: "Jurnal manual",
                 Tanggal: /* @__PURE__ */ new Date(),
-                Judul: `Jurnal manual ${(/* @__PURE__ */ new Date()).toLocaleString()}`
+                Judul: `Jurnal manual ${(/* @__PURE__ */ new Date()).toISOString()}`
               });
               lib_item_jurnal_default.lib().create({
                 Jurnal: [jurnal],
