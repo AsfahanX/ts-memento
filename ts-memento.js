@@ -1036,6 +1036,9 @@ var _ = (() => {
         libRakitan: lib_rakitan_default,
         libItemRakitan: lib_item_rakitan_default,
         libStokBarang: lib_stok_barang_default,
+        helloWorld() {
+          message("halo 7 Oktober 2026");
+        },
         formatRupiah(nominal) {
           if (typeof nominal !== "number" || nominal <= 0) {
             return null;
